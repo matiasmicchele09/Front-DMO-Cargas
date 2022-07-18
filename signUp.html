@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Registrarse en DMO</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+
+</head>
+
+<body>
+
+    <div class="card-form">
+        <h3>Registrate en DMO-Cargas</h3>
+        <hr>
+        <form action="" autocomplete="off" id="formRegistro">
+            <div class="form-group">
+                <label for="">Nombre</label><input type="text" class="nombre form-control" id="nom_usuario" name="nom_usuario">
+            </div>
+            <div class="form-group">
+                <label for="">Apellido</label><input type="text" class="apellido form-control" id="ape_usuario" name="ape_usuario">
+            </div>
+            <div class="form-group">
+                <label for="">Fecha de Nacimiento</label><input type="date" class="fec_nac form-control" id="fec_nac_usuario" name="fec_nac_usuario">
+            </div>
+            <div class="form-group">
+                <label for="">Nro. Documento</label><input type="text" class="nro_doc form-control" id="nro_doc_usuario" name="nro_doc_usuario">
+            </div>
+            <!-- <div class="form-group">
+                <label for="" class="form-check-label"><input type="radio" class="form-check-input" id="check_hombre_usuario">Masculino</label>
+                <label for="" class="form-check-label"><input type="radio" class="form-check-input">Femenino</label>
+            </div> -->
+            <div class="form-group">
+                <label for="">Email</label><input type="email" class="email form-control" id="email_usuario" name="email_usuario">
+            </div>
+            <div class="form-group">
+                <label for="">Contraseña</label><input type="password" class="password form-control" id="pass_usuario" name="pass_usuario">
+            </div>
+        </form>
+        <input type="submit" name="" id="btn-enviaFormulario" class="btn mt-3 mb-3">
+
+        <p>¿Ya tienes una cuenta? <a href="signIn.html">Iniciar Sesión</a></p>
+        <hr>
+
+        <p>Al registrarse acepta nuestros Términos y Condiciones, y también nuestra política de Privacidad</p>
+        <p class="terminos"><a href="terms_conds.html">Términos y condiciones</a> | <a href="#">Política de privacidad</a></p>
+    </div>
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
+    <script src="./signUp.js"></script>
+</body>
+
+</html>
