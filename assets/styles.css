@@ -1,3 +1,8 @@
+* {
+    box-sizing: border-box;
+}
+
+
 /*Sign Up - Lo pongo aca por ahora, despues veo si le creo un style por separado*/
 
 .card-form {
@@ -9,14 +14,102 @@
     margin-top: 2%;
 }
 
-.card-form .btn {
+.form__grupo-btn-enviar .form_btn {
+    height: 50px;
+    background-color: #3f8ede;
     color: #FAFAFA;
     width: 100%;
-    background-color: #0be400;
+}
+
+.form__label {
+    display: block;
+    font-weight: 700;
+    padding: 5px;
+    cursor: pointer;
 }
 
 
-/* NavBar */
+/* Lo tuve que poner así porque sino me aparecian uno abajo del otro*/
+
+.form__label_tipo_persona {
+    font-weight: 700;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.form__grupo_input {
+    position: relative;
+}
+
+.form__input_error {
+    font-size: 12px;
+    margin-bottom: 0px;
+    display: none;
+}
+
+.form__input_error_activo {
+    display: block;
+    color: #BB2929;
+    font-weight: 700;
+}
+
+.form__validacion_estado {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 100;
+    /* Esto solo para asegurarnos que quede por encima de otros elementos */
+    opacity: 0;
+    /* Esto para que no se muestre, que se muestre solo cuando haya error */
+}
+
+.form__mensaje_error {
+    height: 45px;
+    line-height: 45px;
+    margin-top: 10px;
+    background-color: #ec3e3e;
+    padding: 0 15px;
+    border-radius: 5px;
+    display: none;
+}
+
+.form__mensaje_error_activo {
+    display: block;
+}
+
+.form__mensaje_exito {
+    display: none;
+}
+
+.form__mensaje_exito_activo {
+    display: block;
+}
+
+
+/* ------------------------------------- Estilos para Validación ------------------------------------- */
+
+
+/* Supongo estas clases las pone con JS */
+
+.formulario_grupo_correcto .form__validacion_estado {
+    color: #1ED12D;
+    opacity: 1;
+}
+
+.formulario_grupo_incorrecto .form__validacion_estado {
+    color: #BB2929;
+    opacity: 1;
+}
+
+.formulario_grupo_incorrecto .form__input {
+    /*color: #BB2929;*/
+    border: 3px solid #BB2929;
+    ;
+    opacity: 1;
+}
+
+
+/* ------------------------------------- NavBar ------------------------------------- */
 
 .navigation {
     padding-left: 10%;
@@ -40,7 +133,7 @@ ul li .bNav:hover {
 }
 
 
-/* Sección Uno - login */
+/* ------------------------------------- Sección Uno - login ------------------------------------- */
 
 .seccionUno {
     text-align: center;
@@ -160,7 +253,7 @@ ul li .bNav:hover {
 @media screen and (max-width:300px) {}
 
 
-/* Sección Dos - Información  */
+/* ------------------------------------- Sección Dos - Información ------------------------------------- */
 
 .seccionDos .barraTitulo {
     background-color: #241F74;
@@ -213,7 +306,7 @@ ul li .bNav:hover {
 }
 
 
-/* Sección Tres - Contacto */
+/* ------------------------------------- Sección Tres - Contacto ------------------------------------- */
 
 .seccionTres {
     position: relative;

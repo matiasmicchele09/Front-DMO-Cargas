@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
-
+    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -17,36 +17,80 @@
     <div class="card-form">
         <h3>Registrate en DMO-Cargas</h3>
         <hr>
-        <form action="" autocomplete="off" id="formRegistro">
-            <div class="form-group">
-                <label for="">Nombre</label><input type="text" class="nombre form-control" id="nom_usuario" name="nom_usuario">
+        <form action="" autocomplete="off" id="form_Registro">
+
+            <!-- Grupo: Razon Social -->
+            <div class="formulario_grupo" id="grupo__razon_social">
+                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
+                <label for="razon_social" class="form__label">Razón Social/Nombre y Apellido</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="razon_social" name="razon_social">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La Razón Social solo acepta letras y no puede estar vacío</p>
             </div>
-            <div class="form-group">
-                <label for="">Apellido</label><input type="text" class="apellido form-control" id="ape_usuario" name="ape_usuario">
+
+            <!-- Grupo: CUIT/CUIL -->
+            <div class="formulario_grupo" id="grupo__cuit_cuil">
+                <label for="cuit_cuil" class="form__label">CUIT/CUIL</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="cuit_cuil" name="cuit_cuil">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">EL CUIT/CUIL debe contener 11 números</p>
             </div>
-            <div class="form-group">
-                <label for="">Fecha de Nacimiento</label><input type="date" class="fec_nac form-control" id="fec_nac_usuario" name="fec_nac_usuario">
+
+            <!-- Grupo: Tipo Persona -->
+
+            <div class="formulario_grupo mt-2 mb-2" id="grupo__tipo_persona">
+                <label for="" class="form__label_tipo_persona"><input type="radio" class="" id="tipo_persona_fisica" name="tipo_persona" value="1"> Persona Física </label>
+                <label for="" class="form__label_tipo_persona"><input type="radio" class="" id="tipo_persona_juridica" name="tipo_persona" value="2"> Persona Jurídica</label>
+                <p class="form__input_error">Debe elegir un tipo de persona</p>
             </div>
-            <div class="form-group">
-                <label for="">Nro. Documento</label><input type="text" class="nro_doc form-control" id="nro_doc_usuario" name="nro_doc_usuario">
+
+            <!-- Grupo: Email -->
+            <div class="formulario_grupo" id="grupo__email">
+                <label for="email" class="form__label">Email</label>
+                <div class="form__grupo_input">
+                    <input type="email" class="form__input form-control" id="email" name="email">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">El mail es inválido</p>
             </div>
-            <!-- <div class="form-group">
-                <label for="" class="form-check-label"><input type="radio" class="form-check-input" id="check_hombre_usuario">Masculino</label>
-                <label for="" class="form-check-label"><input type="radio" class="form-check-input">Femenino</label>
-            </div> -->
-            <div class="form-group">
-                <label for="">Email</label><input type="email" class="email form-control" id="email_usuario" name="email_usuario">
+
+            <!-- Grupo: Contraseña -->
+            <div class="formulario_grupo" id="grupo__password">
+                <label for="password" class="form__label">Contraseña</label>
+                <div class="form__grupo_input">
+                    <input type="password" class="form__input form-control" id="password" name="password">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La contraseña debe tener al menos 4 dígitos</p>
             </div>
-            <div class="form-group">
-                <label for="">Contraseña</label><input type="password" class="password form-control" id="pass_usuario" name="pass_usuario">
+
+            <!-- Grupo: Terminos y Condiciones -->
+            <div class="formulario__grupo" id="grupo__terminos">
+                <label class="form__label">
+					<input class="formulario__checkbox" type="checkbox" name="terminos" id="terminos">
+					Acepto los Términos y Condiciones
+				</label>
+                <p class="form__input_error">Debe aceptar nuestros Términos y Condiciones</p>
+            </div>
+
+            <div class="form__mensaje_error" id="form__mensaje_error">
+                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
+            </div>
+
+            <!-- El mensaje de error le di estilos con CSS, a este de éxito lo hice con bootstrap. Para probar nomas.
+            Si no tendría que hacer como en el de error que hice un div para encasillar al parrafo -->
+            <div class="formulario_grupo form__grupo-btn-enviar">
+                <button type="submit" name="" id="btn-enviaFormulario" class="btn form_btn mt-3 mb-3">Enviar</button>
+                <p class="form__mensaje_exito alert alert-success" id="form__mensaje_exito"><i class="fa-solid fa-circle-check"></i> ¡Formulario enviado exitosamente! Redirigiendo...</p>
             </div>
         </form>
-        <input type="submit" name="" id="btn-enviaFormulario" class="btn mt-3 mb-3">
 
         <p>¿Ya tienes una cuenta? <a href="signIn.html">Iniciar Sesión</a></p>
         <hr>
-
-        <p>Al registrarse acepta nuestros Términos y Condiciones, y también nuestra política de Privacidad</p>
         <p class="terminos"><a href="terms_conds.html">Términos y condiciones</a> | <a href="#">Política de privacidad</a></p>
     </div>
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
