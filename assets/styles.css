@@ -73,6 +73,20 @@
     display: none;
 }
 
+.form__mensaje_error_advertencia {
+    height: 45px;
+    line-height: 45px;
+    margin-top: 10px;
+    background-color: #f3f706;
+    padding: 0 15px;
+    border-radius: 5px;
+    display: none;
+}
+
+.form__mensaje_error_advertencia_activo {
+    display: block;
+}
+
 .form__mensaje_error_activo {
     display: block;
 }

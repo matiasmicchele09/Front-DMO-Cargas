@@ -89,7 +89,7 @@ formularioRegistro.addEventListener('submit', (event) => {
         document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
         document.getElementById('form__mensaje_exito').classList.add('form__mensaje_exito_activo')
 
-        fetch('http://localhost:3000/signUp', {
+        fetch('http://localhost:3000/register', {
             method: 'POST',
             body: registroFormData,
         });
@@ -99,7 +99,7 @@ formularioRegistro.addEventListener('submit', (event) => {
         }, 3000);
 
         setTimeout(() => {
-            window.location.href = './signIn.html';
+            window.location.href = './logIn.html';
         }, 3000);
 
     } else {
