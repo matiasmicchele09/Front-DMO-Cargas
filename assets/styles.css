@@ -1,8 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
-
 /*Sign Up - Lo pongo aca por ahora, despues veo si le creo un style por separado*/
 
 .card-form {
@@ -541,4 +536,28 @@ div .cardText {
 .nosotros .tipoCard {
     border-color: #241F74;
     border: solid;
+}
+
+
+/* ------------------------------------- NavBar userPage ------------------------------------- */
+
+
+/* ------------------------------------- LogIn NavBar ------------------------------------- */
+
+.headerUserPage {
+    background-color: #241F74;
+}
+
+.headerUserPage .a-cargas {
+    color: #FFFFFF;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.headerUserPage li .a-perfil {
+    color: #FFFFFF;
+    cursor: pointer;
+    /*top right bottom left*/
+    margin: 0 10px 0px 10px;
+    font-weight: bold;
 }
