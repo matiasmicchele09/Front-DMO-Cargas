@@ -42,11 +42,21 @@
             </div>
 
             <!-- Grupo: Tipo Persona -->
-
-            <div class="formulario_grupo mt-2 mb-2" id="grupo__tipo_persona">
+            <!-- Lo dejo comentado pero ya no lo uso. Me parece un dato "innecesario" ya que se puede extraer
+            directamente del CUIT si, por ejemplo, quisiera hacer un conteo de cuantas personas fisicas o juridicas hay
+            <div class="formulario_grupo mt-2 mb-2 d-none" id="grupo__tipo_persona">
                 <label for="" class="form__label_tipo_persona"><input type="radio" class="" id="tipo_persona_fisica" name="tipo_persona" value="1"> Persona Física </label>
                 <label for="" class="form__label_tipo_persona"><input type="radio" class="" id="tipo_persona_juridica" name="tipo_persona" value="2"> Persona Jurídica</label>
                 <p class="form__input_error">Debe elegir un tipo de persona</p>
+            </div> -->
+
+            <!-- Grupo: Tipo Usuario -->
+
+            <div class="formulario_grupo mt-2 mb-2" id="grupo__tipo_usuario">
+                <label for="" class="form__label_tipo_usuario"><input type="radio" class="" id="tipo_usuario_transportista" name="tipo_usuario" value="1"> Transportista </label>
+                <label for="" class="form__label_tipo_usuario"><input type="radio" class="" id="tipo_usuario_dador_carga" name="tipo_usuario" value="2"> Dador de Carga </label>
+                <p class="form__input_error">Debe elegir un tipo de usuario</p>
+                <p class="form__input_error_transportista">Un Transportista solo puede ser una persona Física. Reingrese su CUIT</p>
             </div>
 
             <!-- Grupo: Email -->

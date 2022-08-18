@@ -10,13 +10,36 @@
     <link rel="stylesheet" href="./assets/normalize.css">
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
+    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="my_profile m-5">
+    <header class="p-3 mb-3 border-bottom headerUserPage">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <ul class="nav col-12  mb-2 mb-md-0">
+                <li class="mt-2"><i class="fa-solid fa-house icon-fontawesome" style="color: #FFFFFF; cursor: pointer"></i><a class="a-perfil nav-link d-inline">Panel</a></li>
+                <li style="margin-left: auto;">
+                    <li>
+                        <a class=""><img src="./assets/img/sin_foto.png" alt="sin-foto-usuario" width="32" height="32" class="rounded-circle mt-1"></a>
+                    </li>
+                    <li><a class="a-perfil nav-link">Mi Perfil</a></li>
+                    <li><button type="button" class="btn btn-danger btn-salir ">Salir</button></li>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <p class="parr_volver"><i class="fa-solid fa-circle-left"></i><a class="nav-link d-inline" style="margin-left: 10px;">Volver</a></p>
     </div>
-    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
-    <script src="./my_profile.js"></script>
+
+    <div class="container my_profile">
+        <form action="" autocomplete="off" id="form_profile">
+        </form>
+    </div>
+
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
+    <script src="./my_profile.js "></script>
 
 </body>
 

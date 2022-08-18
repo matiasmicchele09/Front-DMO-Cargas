@@ -26,7 +26,15 @@
 
 /* Lo tuve que poner así porque sino me aparecian uno abajo del otro*/
 
-.form__label_tipo_persona {
+
+/* .form__label_tipo_persona {
+    font-weight: 700;
+    padding: 5px;
+    cursor: pointer;
+}
+ */
+
+.form__label_tipo_usuario {
     font-weight: 700;
     padding: 5px;
     cursor: pointer;
@@ -42,7 +50,19 @@
     display: none;
 }
 
+.form__input_error_transportista {
+    font-size: 12px;
+    margin-bottom: 0px;
+    display: none;
+}
+
 .form__input_error_activo {
+    display: block;
+    color: #BB2929;
+    font-weight: 700;
+}
+
+.form__input_error_transportista_activo {
     display: block;
     color: #BB2929;
     font-weight: 700;
@@ -539,10 +559,9 @@ div .cardText {
 }
 
 
-/* ------------------------------------- NavBar userPage ------------------------------------- */
-
-
-/* ------------------------------------- LogIn NavBar ------------------------------------- */
+/*--------------------------------------------------------------------------------------------
+------------------------------------- Dashboard ---------------------------------------------- 
+--------------------------------------------------------------------------------------------*/
 
 .headerUserPage {
     background-color: #241F74;
@@ -558,6 +577,83 @@ div .cardText {
     color: #FFFFFF;
     cursor: pointer;
     /*top right bottom left*/
-    margin: 0 10px 0px 10px;
+    /* margin: 0 10px 0px 0px; */
     font-weight: bold;
+}
+
+.dashboard {
+    background-color: #c7c7c7;
+}
+
+.icon-fontawesome {
+    /*color: #FFFFFF;    */
+    margin-left: auto;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+------------------------------------- My Profile --------------------------------------------- 
+--------------------------------------------------------------------------------------------*/
+
+.my_profile {
+    background-color: #D0D3D4;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, .5);
+    max-width: 500px;
+    margin: auto;
+}
+
+.parr_volver {
+    /*top right bottom left*/
+    margin: 0 0 0 20px;
+    font-size: x-large;
+    cursor: pointer;
+}
+
+.form_grupo_input {
+    margin: 5px 0 5px 0;
+}
+
+.form_grupo label {
+    font-weight: bold;
+}
+
+.btn_edit_profile {
+    background-color: #2471A3;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin: 20px 10px 0 0;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.btn_edit_profile:hover {
+    background-color: #1d5b85;
+}
+
+.btn_cancel_profile {
+    background-color: #707980;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin: 20px 10px 0 0;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.btn_cancel_profile:hover {
+    background-color: #555c61;
+}
+
+.btn_save_profile {
+    background-color: #dc3545;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin: 20px 10px 0 0;
+    width: 150px;
+    border-radius: 5px;
+}
+
+.btn_save_profile:hover {
+    background-color: #a82633;
 }

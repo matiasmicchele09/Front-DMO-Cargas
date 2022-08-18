@@ -2,7 +2,6 @@
 
 const formularioRegistro = document.getElementById("form_Registro");
 const inputs = document.querySelectorAll('#form_Registro input'); //me devuelve un arreglo de todos los inputs dentro del formulario
-//const btn_enviarFormulario = document.getElementById('btn-enviaFormulario');
 
 const expresiones = {
     //usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
@@ -21,7 +20,7 @@ const campos = {
 
 const validarFormulario = (e) => {
     //e.target.name la e es solo un parametro, se podría llamar de cualer manera.
-    //esta linea es para validar correctamente el campo, que sea el que queremos validar
+    //esta linea es para validar correctamente el campo que sea el que queremos validar
     //nos da el name del input
     switch (e.target.name) {
         case "razon_social":
@@ -65,10 +64,11 @@ inputs.forEach((input) => {
 formularioRegistro.addEventListener('submit', (event) => {
     event.preventDefault();
 
-
     const terminos = document.getElementById('terminos');
-    const fisica = document.getElementById('tipo_persona_fisica');
-    const juridica = document.getElementById('tipo_persona_juridica');
+    const CUIT = document.getElementById('cuit_cuil');
+    var es_fisica_y_transportista = true;
+    const transportista = document.getElementById('tipo_usuario_transportista');
+    const dador_carga = document.getElementById('tipo_usuario_dador_carga');
 
     if (terminos.checked == false) {
         document.querySelector('#grupo__terminos .form__input_error').classList.add('form__input_error_activo');
@@ -76,13 +76,22 @@ formularioRegistro.addEventListener('submit', (event) => {
         document.querySelector('#grupo__terminos .form__input_error').classList.remove('form__input_error_activo');
     }
 
-    if (fisica.checked == false && juridica.checked == false) {
-        document.querySelector('#grupo__tipo_persona .form__input_error').classList.add('form__input_error_activo');
+    if (transportista.checked == false && dador_carga.checked == false) {
+        document.querySelector('#grupo__tipo_usuario .form__input_error').classList.add('form__input_error_activo');
     } else {
-        document.querySelector('#grupo__tipo_persona .form__input_error').classList.remove('form__input_error_activo');
+        document.querySelector('#grupo__tipo_usuario .form__input_error').classList.remove('form__input_error_activo');
     }
 
-    if (campos.razon_social && campos.cuit_cuil && campos.email && campos.password && terminos.checked && (fisica.checked || juridica.checked)) {
+    //Filtro para que si una persona elige "transportista" entonces sea física
+    if (transportista.checked == true && CUIT.value.substring(0, 1) == '3') {
+        document.querySelector('#grupo__tipo_usuario .form__input_error_transportista').classList.add('form__input_error_transportista_activo');
+        es_fisica_y_transportista = false;
+    } else {
+        document.querySelector('#grupo__tipo_usuario .form__input_error_transportista').classList.remove('form__input_error_transportista_activo');
+        es_fisica_y_transportista = true;
+    }
+
+    if (campos.razon_social && campos.cuit_cuil && campos.email && campos.password && terminos.checked && (transportista.checked || dador_carga.checked) && es_fisica_y_transportista) {
 
         let registroFormData = new FormData(formularioRegistro);
 
