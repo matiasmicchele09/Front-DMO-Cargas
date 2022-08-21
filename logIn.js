@@ -27,6 +27,8 @@ form_logueo.addEventListener('submit', (e) => {
                         document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
                     }, 4000);
                 } else {
+                    //console.log(data[0].cod_usuario);
+                    let cod_usuario = data[0].cod_usuario;
 
                     document.getElementById('form__mensaje_exito').classList.add('form__mensaje_exito_activo');
 
@@ -34,7 +36,7 @@ form_logueo.addEventListener('submit', (e) => {
                     sessionStorage.setItem("initialized_session", "true");
 
                     setTimeout(() => {
-                        window.location.href = `./dashboard.html?user=${email.value}`;
+                        window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
                     }, 2000);
 
                 }

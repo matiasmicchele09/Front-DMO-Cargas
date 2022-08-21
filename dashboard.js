@@ -1,5 +1,5 @@
 const getURL = new URLSearchParams(window.location.search),
-    user = getURL.get('user');
+    cod_usuario = getURL.get('cod_usuario');
 
 var initialized_session = 'false';
 
@@ -9,7 +9,7 @@ if (initialized_session == 'true') {
 
     document.addEventListener('DOMContentLoaded', (event) => {
         event.preventDefault();
-        fetch(`http://localhost:3000/dashboard/${user}`, {
+        fetch(`http://localhost:3000/dashboard/${cod_usuario}`, {
                 method: 'GET',
             })
             .then(res => res.json())
@@ -18,6 +18,8 @@ if (initialized_session == 'true') {
 
                 let div = document.querySelector(".dashboard");
                 let btn_perfil = document.querySelector(".a-perfil");
+                let btn_mis_camiones = document.querySelector(".a-mis-camiones");
+                let btn_logOut = document.querySelector(".btn-salir");
                 let h3 = document.createElement('h3');
                 let h4 = document.createElement('h4');
 
@@ -30,20 +32,40 @@ if (initialized_session == 'true') {
                 div.appendChild(h3);
                 div.appendChild(h4);
 
-                btn_perfil.addEventListener('click', () => {
-                    window.location.href = `./my_profile.html?user=${data[0].email}`;
-                })
+                btn_mis_camiones.addEventListener('click', () => {
+                    window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
+                });
 
-                let btn_logOut = document.querySelector(".btn-salir");
+                btn_perfil.addEventListener('click', () => {
+                    window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+                });
 
                 btn_logOut.addEventListener('click', (event) => {
                     event.preventDefault();
+                    Swal.fire({
+                        position: 'center',
+                        title: 'CERRANDO SESIÓN...',
+                        text: '¡Hasta Pronto!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
                     sessionStorage.removeItem("initialized_session");
-                    window.location.href = './index.html';
-                })
+                    setTimeout(() => {
+                        window.location.href = './index.html';
+                    }, 1500);
+                });
             })
     })
 } else {
-    alert("No ha Iniciado Sesión")
-    window.location.href = './index.html';
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: '¡No ha iniciado sesión!',
+        showConfirmButton: false,
+        timer: 1500
+    })
+    setTimeout(() => {
+        window.location.href = './index.html';
+    }, 1500);
 }

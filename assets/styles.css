@@ -107,6 +107,13 @@
 }
 
 .form__mensaje_exito {
+    height: 45px;
+    line-height: 45px;
+    margin-top: 10px;
+    background-color: #2fe76d;
+    padding: 0 15px;
+    border-radius: 5px;
+    display: none;
     display: none;
 }
 
@@ -133,20 +140,73 @@
 .formulario_grupo_incorrecto .form__input {
     /*color: #BB2929;*/
     border: 3px solid #BB2929;
-    ;
     opacity: 1;
 }
 
 
-/* ------------------------------------- NavBar ------------------------------------- */
+/* ---------------------------------------------------------------------------------- 
+   ------------------------------------- NavBar ------------------------------------- 
+   ---------------------------------------------------------------------------------- */
+
+.navbar-navigation {
+    background-color: #E6E6E6;
+}
+
+.a-dashboard {
+    color: #241F74;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    display: inline;
+}
+
+.a-dashboard:hover {
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline;
+}
+
+.a-mis-camiones {
+    color: #241F74;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    display: inline;
+}
+
+.a-mis-camiones:hover {
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline;
+}
+
+.a-perfil {
+    color: #241F74;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.a-perfil:hover {
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.icon-fontawesome {
+    color: #241F74;
+    cursor: pointer;
+    margin-left: 10px;
+}
 
 .navigation {
-    padding-left: 10%;
     color: #241F74;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     font-style: italic;
     font-size: 28px;
+    margin-left: 25px;
+}
+
+.navigation:hover {
+    color: #FFFFFF;
 }
 
 ul li .aNav:hover {
@@ -573,21 +633,8 @@ div .cardText {
     cursor: pointer;
 }
 
-.headerUserPage li .a-perfil {
-    color: #FFFFFF;
-    cursor: pointer;
-    /*top right bottom left*/
-    /* margin: 0 10px 0px 0px; */
-    font-weight: bold;
-}
-
 .dashboard {
     background-color: #c7c7c7;
-}
-
-.icon-fontawesome {
-    /*color: #FFFFFF;    */
-    margin-left: auto;
 }
 
 
@@ -602,13 +649,23 @@ div .cardText {
     box-shadow: 10px 10px 10px rgba(0, 0, 0, .5);
     max-width: 500px;
     margin: auto;
+    margin-top: 20px;
 }
 
 .parr_volver {
     /*top right bottom left*/
+    color: #241F74;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    margin-left: 20px;
     margin: 0 0 0 20px;
     font-size: x-large;
     cursor: pointer;
+}
+
+.parr_volver:hover {
+    /*top right bottom left*/
+    color: #FFFFFF;
 }
 
 .form_grupo_input {

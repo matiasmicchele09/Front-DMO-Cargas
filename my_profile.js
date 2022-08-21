@@ -1,70 +1,56 @@
 const getURL = new URLSearchParams(window.location.search),
-    user = getURL.get('user');
+    cod_usuario = getURL.get('cod_usuario');
 const formularioPerfil = document.getElementById("form_profile");
 var initialized_session = 'false';
-
 
 initialized_session = sessionStorage.getItem("initialized_session");
 
 if (initialized_session == 'true') {
 
 
-    fetch(`http://localhost:3000/my_profile/${user}`, {
+    fetch(`http://localhost:3000/my_profile/${cod_usuario}`, {
             method: 'GET',
         })
         .then(res => res.json())
         .then(data => {
             console.log(data[0]);
             let datosUsuario = data[0];
+            let btn_logOut = document.querySelector(".btn-salir");
+
             for (let obj in datosUsuario) {
 
-                let divGrupo = document.createElement('div'),
-                    divInput = document.createElement('div');
+                if (`${obj}` != "cod_usuario" && `${obj}` != "tipo_usuario") {
+                    let divGrupo = document.createElement('div'),
+                        divInput = document.createElement('div');
 
-                divGrupo.classList.add("form_grupo");
-                divInput.classList.add("form_grupo_input");
+                    divGrupo.classList.add("form_grupo");
+                    divInput.classList.add("form_grupo_input");
 
-                let label = document.createElement('label'),
-                    input = document.createElement('input');
+                    let label = document.createElement('label'),
+                        input = document.createElement('input');
 
-                input.setAttribute("type", 'text');
-                input.classList.add("form-control");
-                input.setAttribute("id", `${obj}`);
-                input.setAttribute("name", `${obj}`);
-
-
-                label.innerHTML = `${obj}`.toUpperCase().replace('_', ' ');
-
-                /* if (datosUsuario[obj] == "null") {
-                    input.value = "Sin Datos"; //debira poner esto pero no estaría pasando
-                } else {
-                    input.value = `${datosUsuario[obj]}`;
-                } */
-
-                if (`${obj}` == "fec_nacim") {
-                    input.type = "date"
-                }
-
-                input.value = `${datosUsuario[obj]}`;
-
-                if (`${obj}` == "tipo_usuario") {
-                    if (datosUsuario[obj] == "1") {
-                        input.value = "Transportista";
-                    } else {
-                        input.value = "Dador de Carga";
+                    input.setAttribute("type", 'text');
+                    input.classList.add("form-control");
+                    input.setAttribute("id", `${obj}`);
+                    input.setAttribute("name", `${obj}`);
+                    label.innerHTML = `${obj}`.toUpperCase().replace('_', ' ');
+                    if (`${obj}` == "fec_nacim") {
+                        input.type = "date"
                     }
-                }
 
-                if (`${obj}` == "fec_nacim") {
-                    let fecha = `${datosUsuario[obj]}`.substring(0, 10);
-                    input.value = fecha;
-                }
+                    input.value = `${datosUsuario[obj]}`;
 
-                divGrupo.appendChild(label);
-                divInput.appendChild(input);
-                input.disabled = true;
-                divGrupo.appendChild(divInput);
-                formularioPerfil.appendChild(divGrupo);
+                    if (`${obj}` == "fec_nacim") {
+                        let fecha = `${datosUsuario[obj]}`.substring(0, 10);
+                        input.value = fecha;
+                    }
+
+                    divGrupo.appendChild(label);
+                    divInput.appendChild(input);
+                    input.disabled = true;
+                    divGrupo.appendChild(divInput);
+                    formularioPerfil.appendChild(divGrupo);
+                }
             }
 
             let btn_back = document.querySelector(".parr_volver"),
@@ -88,6 +74,24 @@ if (initialized_session == 'true') {
             formularioPerfil.appendChild(btn_cancel);
             formularioPerfil.appendChild(btn_save);
 
+            //Botón Salir
+            btn_logOut.addEventListener('click', (event) => {
+                event.preventDefault();
+                Swal.fire({
+                    position: 'center',
+                    title: 'CERRANDO SESIÓN...',
+                    text: '¡Hasta Pronto!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+                sessionStorage.removeItem("initialized_session");
+                setTimeout(() => {
+                    window.location.href = './index.html';
+                }, 1500);
+
+            })
+
             //Botón Volver
             btn_back.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -103,11 +107,27 @@ if (initialized_session == 'true') {
                 });
 
                 if (isAvailable == true) {
-                    alert('Tiene cambios sin guardar')
-                } else {
-                    window.location.href = `./dashboard.html?user=${user}`;
-                }
+                    Swal.fire({
+                        title: '¡Hay cambios sin guardar!',
+                        text: 'Si sale de la página no se guardarán',
+                        icon: 'warning',
+                        showDenyButton: true,
+                        showConfirmButton: false,
+                        showCancelButton: true,
+                        denyButtonText: `Salir`,
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true,
+                        allowOutsideClick: false,
 
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isDenied) {
+                            window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
+                        }
+                    })
+                } else {
+                    window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
+                }
             })
 
             //Botón Editar
@@ -145,20 +165,46 @@ if (initialized_session == 'true') {
                 });
 
                 if (isAvailable == false) {
-                    alert('guardando cambios');
 
                     let registroFormData = new FormData(formularioPerfil);
                     fetch('http://localhost:3000/update_profile', {
                         method: 'POST',
                         body: registroFormData,
                     });
-                    window.location.href = `./dashboard.html?user=${user}`;
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: '¡Guardando Cambios!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    setTimeout(() => {
+                        window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
+                    }, 1500);
                 } else {
-                    alert('No ha modificado nada')
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'question',
+                        title: '¡No ha modificado nada!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
                 }
             })
         })
 } else {
-    alert("No ha Iniciado Sesión")
-    window.location.href = './index.html';
+    //Me parece que estas alertas no la tira porque al estar atada al CDN entonces si no carga el html no 
+    //va a cargar el CDN. Tengo que ver como hacer.
+    //Sino ya fue lo dejo sin nada y listo. En ninguna app que recuerde te salta un cartel con eso.
+    //Simplemente muestra que no esta cargado nada porque no esta en su sesion
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: '¡No ha iniciado sesión!',
+        showConfirmButton: false,
+        timer: 1500
+    })
+    setTimeout(() => {
+        window.location.href = './index.html';
+    }, 1500);
 }

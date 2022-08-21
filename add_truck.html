@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Agregar Camión</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="./assets/normalize.css">
+    <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-navigation">
+        <!--navbar-navigation la cree yo, esta en styles.css-->
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item mt-1">
+                    <p class="parr_volver"><i class="fa-solid fa-circle-left"></i><a class="nav-link d-inline" style="margin-left: 10px; color: #241F74;">Volver</a></p>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container add_truck">
+        <form action="" autocomplete="off" id="form_truck">
+
+            <!-- Grupo: Patente -->
+            <div class="formulario_grupo" id="grupo__patente">
+                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
+                <label for="patente" class="form__label">Patente</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="patente" name="patente">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La Razón Social solo acepta letras y no puede estar vacío</p>
+            </div>
+
+            <!-- Grupo: Marca -->
+            <div class="formulario_grupo" id="grupo__marca">
+                <label for="marca" class="form__label">Marca</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="marca" name="marca">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">EL CUIT/CUIL debe contener 11 números</p>
+            </div>
+
+            <!-- Grupo: Modelo -->
+            <div class="formulario_grupo" id="grupo__modelo">
+                <label for="modelo" class="form__label">Modelo</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="modelo" name="modelo">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">El mail es inválido</p>
+            </div>
+
+            <!-- Grupo: Año -->
+            <div class="formulario_grupo" id="grupo__anio">
+                <label for="anio" class="form__label">Año</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="anio" name="anio">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La contraseña debe tener al menos 4 dígitos</p>
+            </div>
+
+            <div class="form__mensaje_error" id="form__mensaje_error">
+                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
+            </div>
+
+            <!-- Grupo: Tipo Camion -->
+            <div class="formulario_grupo" id="grupo__tipo_camion">
+                <label for="selectCamion" class="form__label">Tipo Camión</label>
+                <div class="form__grupo_input">
+                    <select name="selectCamion" id="selectCamion">
+                        
+                    </select>
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La contraseña debe tener al menos 4 dígitos</p>
+            </div>
+
+            <!-- Grupo: Tipo Carrocería -->
+            <div class="formulario_grupo" id="grupo__tipo_camion">
+                <label for="selectCarroceria" class="form__label">Tipo Carrocería</label>
+                <div class="form__grupo_input">
+                    <select name="selectCarroceria" id="selectCarroceria">
+                        
+                    </select>
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La contraseña debe tener al menos 4 dígitos</p>
+            </div>
+
+
+
+
+            <!--       ME FALTA UN SELECT PARA EL TIPO DE CAMION. PREVIAMENTE TENGO QUE CARGAR LOS TIPOS DE CAMION
+            Y PREVIAMENTE TENGO QUE DEFINIR CUALES SON JAJAJA LA PUTA MADRE    -->
+
+
+
+
+
+            <!-- El mensaje de error le di estilos con CSS, a este de éxito lo hice con bootstrap. Para probar nomas.
+            Si no tendría que hacer como en el de error que hice un div para encasillar al parrafo -->
+            <div class="formulario_grupo form__grupo-btn-enviar">
+                <button type="submit" name="" id="btn-enviaFormulario" class="btn form_btn mt-3 mb-3">Enviar</button>
+                <p class="form__mensaje_exito alert alert-success" id="form__mensaje_exito"><i class="fa-solid fa-circle-check"></i> ¡Formulario enviado exitosamente! Redirigiendo...</p>
+            </div>
+        </form>
+
+
+    </div>
+
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
+    <script src="./add_truck.js "></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>
