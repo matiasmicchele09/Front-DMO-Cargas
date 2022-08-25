@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Agregar Camión</title>
+    <title>Editar Camión</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -25,8 +25,8 @@
         </div>
     </nav>
 
-    <div class="container add_truck">
-        <form action="" autocomplete="off" id="form_truck">
+    <div class="container edit_truck">
+        <form action="" autocomplete="off" id="form_edit_truck">
 
             <!-- Grupo: Usuario -->
             <div class="formulario_grupo" id="grupo__usuario">
@@ -79,10 +79,6 @@
                 <p class="form__input_error">El Año debe ser un número</p>
             </div>
 
-            <div class="form__mensaje_error" id="form__mensaje_error">
-                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
-            </div>
-
             <!-- Grupo: Tipo Camion -->
             <div class="formulario_grupo" id="">
                 <label for="selectCamion" class="form__label">Tipo Camión</label>
@@ -101,8 +97,12 @@
                 </div>
             </div>
 
+            <div class="form__mensaje_error" id="form__mensaje_error">
+                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
+            </div>
+
             <div class="formulario_grupo form__grupo-btn-agregar">
-                <button type="submit" name="" id="btn-agregaCamion" class="btn form_btn mt-3 mb-3 btn-agregaCamion">Agregar Camión</button>
+                <button type="submit" name="" id="btn-guardarCambiosCamion" class="btn form_btn mt-3 mb-3 btn-guardarCambiosCamion">Guardar Cambios</button>
             </div>
         </form>
 
@@ -110,7 +110,7 @@
     </div>
 
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
-    <script src="./add_truck.js "></script>
+    <script src="./edit_truck.js "></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

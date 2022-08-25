@@ -14,58 +14,45 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navigation navbar-brand" href="#">D.M.O Cargas</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="navigation navbar-brand" href="#">D.M.O Cargas</a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: #241F74" href="quienes-somos.html">¿Quienes Somos?</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: #241F74" href="#contacto">Contacto</a>
+                    </li>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 ">
-                <li class="nav-item active">
-                    <a class="bNav nav-link" href="quienes-somos.html">¿Quienes Somos?</a>
-                </li>
-                <li class="nav-item">
-                    <a class="bNav nav-link active" href="#contacto">Contacto</a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item active">
-                    <a class="aNav nav-link" href="logIn.html">Ingresá</a>
-                </li>
-                <li class="nav-item">
-                    <a class="aNav nav-link active" href="register.html">Registrate</a>
-                </li>
-            </ul>
+                </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin-left:auto">
+                    <li class="nav-item"><a href="logIn.html" class="btn btnDador">Ingresar</a></li>
+                    <li class="nav-item"><a href="register.html" class="btn btnTranspor">Registrate</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
+
     <!-- Sección Uno - Login -->
     <section class="seccionUno d-flex">
         <img class="img" src="assets/img/section-login.png" alt="imagen Section One">
-
         <div class="contenedor">
-            <h5 class="h5Bienvenido text-uppercase text-center font-weight-bold"><b>¡Bienvenidos!</b></h5>
-            <h3 class="subTitulo text-center"><em>Somos tu nueva forma de moverte y mover tu carga</em></h3>
-            <br/>
+            <p class="h5Bienvenido text-uppercase text-center font-weight-bold"><b>¡Bienvenidos!</b></p>
+            <p class="subTitulo text-center"><em>Somos tu nueva forma de moverte y mover tu carga</em></p>
             <p class="parrafo text-center">Ahora puedes ser más eficiente en tu negocio. Traslada tus cargas a traves de nuestro sistema de oferta y demanda, simplificando las transacciones y los procesos.</p>
-            <br/>
-
-            <a href="#" class="btn btnDador">Soy dador de carga</a>
-            <a href="#" class="btn btnTranspor">Soy Transportista</a>
-            <p class="parrafo text-center font-weight-bold mb-0 mt-5">¿Aun no te has registrado? Haz click <a href="register.html"><u>Aquí</u></a>.</p>
+            <p class="parrafo text-center font-weight-bold mb-0">¿Aun no te has registrado? Haz click <a href="register.html"><u>Aquí</u></a>.</p>
         </div>
-
     </section>
 
     <!-- Sección Dos - Información -->
     <section class="seccionDos">
         <div class="barraTitulo d-flex justify-content-center">
-
-            <p class="text-center m-5 text-white font-weight-bold">¿Eres transportista?</p>
-
+            <p class="text-center m-5 font-weight-bold">¿Eres transportista?</p>
         </div>
 
         <div class="container containerCards d-flex text-center">
@@ -101,9 +88,7 @@
         </div>
 
         <div class="barraTitulo d-flex justify-content-center">
-
-            <p class="text-center m-5 text-white font-weight-bold">¿Eres dador de carga?</p>
-
+            <p class="text-center m-5 font-weight-bold">¿Eres dador de carga?</p>
         </div>
 
         <div class="container containerCards d-flex text-center align-items-center">

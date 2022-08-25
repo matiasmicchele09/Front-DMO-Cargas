@@ -200,25 +200,12 @@
     color: #241F74;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
-    font-style: italic;
     font-size: 28px;
-    margin-left: 25px;
+    margin-left: 50px;
 }
 
 .navigation:hover {
     color: #FFFFFF;
-}
-
-ul li .aNav:hover {
-    color: #241F74;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-}
-
-ul li .bNav:hover {
-    color: #000000;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
 }
 
 
@@ -227,26 +214,27 @@ ul li .bNav:hover {
 .seccionUno {
     text-align: center;
     position: relative;
-    padding-top: 65px;
+    /*padding-top: 65px;*/
 }
 
 .seccionUno img {
     width: 100%;
-    min-height: 500px;
+    min-height: 400px;
 }
 
 .seccionUno .contenedor {
     position: absolute;
     width: 700px;
     height: auto;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica;
     color: #241F74;
     background-color: #FAFAFA;
-    /* opacity: 85%; */
+    opacity: 85%;
     padding: 20px;
     border-radius: 20px;
     margin-left: 70px;
-    margin-top: 25px;
+    margin-top: 10%;
+    border: solid;
 }
 
 .seccionUno .h5Bienvenido {
@@ -258,31 +246,31 @@ ul li .bNav:hover {
     font-weight: bold;
 }
 
-.seccionUno .btnDador {
+.btnDador {
     background: #FAFAFA;
     color: #241F74;
     border-color: #241F74;
 }
 
-.seccionUno .btnDador:hover {
+.btnDador:hover {
     background: #241F74;
     color: #FAFAFA;
 }
 
-.seccionUno .btnTranspor {
+.btnTranspor {
     background: #241F74;
     color: #FAFAFA;
     margin-left: 20px;
 }
 
-.seccionUno .btnTranspor:hover {
+.btnTranspor:hover {
     background: #FAFAFA;
     color: #241F74;
 }
 
 @media screen and (max-width:1500px) {
     .seccionUno .contenedor {
-        top: 10%;
+        margin-top: 10%;
     }
 }
 
@@ -294,26 +282,24 @@ ul li .bNav:hover {
     }
     .seccionUno .contenedor {
         height: auto;
-        width: auto;
+        /* width: auto; */
         margin-left: auto;
         margin-bottom: 20px;
-    }
-}
-
-@media screen and (max-width:700px) {
-    .seccionUno .contenedor {
-        top: 0%;
-        bottom: 0%;
-    }
-}
-
-@media screen and (max-width:500px) {
-    .seccionUno .contenedor {
-        top: 0%;
-        bottom: 0%;
-        border-radius: 0%;
         border: solid;
-        width: 100%;
+    }
+}
+
+@media screen and (max-width:995px) {
+    .navigation {
+        margin-left: 0px;
+    }
+    .seccionUno .contenedor {
+        /*margin-top: 10%;*/
+        /* bottom: 0%; */
+        margin-left: 70px;
+        border-radius: 20px;
+        border: solid;
+        width: 50%;
     }
     .seccionUno .h5Bienvenido {
         font-size: 30px;
@@ -324,13 +310,13 @@ ul li .bNav:hover {
     .seccionUno .parrafo {
         font-size: 10px;
     }
-    .seccionUno .btnDador {
+    .btnDador {
         margin-left: auto;
         margin-right: auto;
         width: 200px;
         display: block;
     }
-    .seccionUno .btnTranspor {
+    .btnTranspor {
         margin-left: auto;
         margin-right: auto;
         margin-top: 10px;
@@ -339,19 +325,30 @@ ul li .bNav:hover {
     }
 }
 
-@media screen and (max-width:300px) {}
+@media screen and (max-width:415px) {
+    .seccionUno .contenedor {
+        padding: 5px;
+        margin-left: 30px;
+    }
+    .seccionUno .h5Bienvenido {
+        font-size: 20px;
+    }
+    .seccionUno .subTitulo {
+        font-size: 20px;
+    }
+}
 
 
 /* ------------------------------------- Sección Dos - Información ------------------------------------- */
 
 .seccionDos .barraTitulo {
-    background-color: #241F74;
+    /*background-color: #241F74;*/
     height: 70px;
     align-items: center;
 }
 
 .seccionDos .containerCards {
-    background-color: #FAFAFA;
+    background-color: #ffffff;
     justify-content: space-around;
 }
 
@@ -360,7 +357,7 @@ ul li .bNav:hover {
     border-radius: 30px;
     border: solid;
     margin: 20px;
-    background-color: #C9CAEE;
+    background-color: #ffffff;
     width: 270px;
     height: 280px;
     flex-grow: 1;
@@ -713,4 +710,90 @@ div .cardText {
 
 .btn_save_profile:hover {
     background-color: #a82633;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+------------------------------------- Add Truck --------------------------------------------- 
+--------------------------------------------------------------------------------------------*/
+
+.add_truck {
+    max-width: 500px;
+}
+
+.form__grupo-btn-agregar .form_btn {
+    height: 50px;
+    background-color: #34bb3f;
+    color: #FAFAFA;
+    width: 100%;
+}
+
+.btn-agregaCamion:hover {
+    background-color: #1ED12D;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+------------------------------------- My Trucks --------------------------------------------- 
+--------------------------------------------------------------------------------------------*/
+
+.th_trucks {
+    color: #241F74;
+}
+
+.btn_edit_camion {
+    background-color: #2471A3;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin: 0 10px 0 0;
+    width: 70px;
+    border-radius: 5px;
+}
+
+.btn_edit_camion:hover {
+    background-color: #1d5b85;
+}
+
+.btn_delete_camion {
+    background-color: #dc3545;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin: 0 10px 0 0;
+    width: 75px;
+    border-radius: 5px;
+}
+
+.btn_delete_camion:hover {
+    background-color: #a82633;
+}
+
+.btn_plus {
+    cursor: pointer;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.icon_btn_plus {
+    margin-right: 10px;
+    color: #34bb3f;
+}
+
+.btn_plus:hover {
+    cursor: pointer;
+    color: #34bb3f;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+------------------------------------- Edit Truck --------------------------------------------- 
+--------------------------------------------------------------------------------------------*/
+
+.edit_truck {
+    max-width: 500px;
+}
+
+.btn-guardarCambiosCamion:hover {
+    background-color: #1ED12D;
 }
