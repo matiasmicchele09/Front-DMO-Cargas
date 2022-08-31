@@ -165,6 +165,14 @@
     display: inline;
 }
 
+.nav-mis-camiones-none {
+    display: none;
+}
+
+.nav-buscar-carga-none {
+    display: none;
+}
+
 .a-mis-camiones {
     color: #241F74;
     font-family: Helvetica, Arial, sans-serif;
@@ -173,6 +181,19 @@
 }
 
 .a-mis-camiones:hover {
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline;
+}
+
+.a-mis-cargas {
+    color: #241F74;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    display: inline;
+}
+
+.a-mis-cargas:hover {
     color: #FFFFFF;
     cursor: pointer;
     display: inline;
@@ -188,6 +209,19 @@
 .a-perfil:hover {
     color: #FFFFFF;
     cursor: pointer;
+}
+
+.a-buscar-cargas {
+    color: #241F74;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    display: inline;
+}
+
+.a-buscar-cargas:hover {
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline;
 }
 
 .icon-fontawesome {
@@ -796,4 +830,22 @@ div .cardText {
 
 .btn-guardarCambiosCamion:hover {
     background-color: #1ED12D;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+------------------------------------- Modal Tipo Carga --------------------------------------- 
+--------------------------------------------------------------------------------------------*/
+
+.btn_modal_tipo_carga {
+    background-color: #241F74;
+    color: #FFFFFF;
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.btn_modal_tipo_carga:hover {
+    background-color: #4136df;
+    /* border: 5px solid #1100fa; */
 }

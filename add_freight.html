@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Agregar Camión</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="./assets/normalize.css">
+    <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-navigation">
+        <!--navbar-navigation la cree yo, esta en styles.css-->
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item mt-1">
+                    <p class="parr_volver"><i class="fa-solid fa-circle-left"></i><a class="nav-link d-inline" style="margin-left: 10px; color: #241F74;">Volver</a></p>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container add_truck">
+        <form action="" autocomplete="off" id="form_truck">
+
+            <!-- Grupo: Usuario -->
+            <div class="formulario_grupo" id="grupo__usuario">
+                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
+                <label for="usuario" class="form__label">Usuario</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="usuario" name="cod_usuario">
+                </div>
+
+            </div>
+
+            <!-- Grupo: Patente -->
+            <div class="formulario_grupo" id="grupo__patente">
+                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
+                <label for="patente" class="form__label">Patente</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="patente" name="patente">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La Patente debe contener solo números y letras. Debe contener 6 o 7 caracteres</p>
+            </div>
+
+            <!-- Grupo: Marca -->
+            <div class="formulario_grupo" id="grupo__marca">
+                <label for="marca" class="form__label">Marca</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="marca" name="marca">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La Marca solo acepta letras</p>
+            </div>
+
+            <!-- Grupo: Modelo -->
+            <div class="formulario_grupo" id="grupo__modelo">
+                <label for="modelo" class="form__label">Modelo</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="modelo" name="modelo">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">El Modelo debe contener números y letras</p>
+            </div>
+
+            <!-- Grupo: Año -->
+            <div class="formulario_grupo" id="grupo__anio">
+                <label for="anio" class="form__label">Año</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="anio" name="anio">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">El Año debe ser un número</p>
+            </div>
+
+            <div class="form__mensaje_error" id="form__mensaje_error">
+                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
+            </div>
+
+            <!-- Grupo: Tipo Camion -->
+            <div class="formulario_grupo" id="">
+                <label for="selectCamion" class="form__label">Tipo Camión</label>
+                <div class="form__grupo_input">
+                    <select name="cod_tipo_camion" id="selectCamion">                        
+                    </select>
+                </div>
+            </div>
+
+            <!-- Grupo: Tipo Carrocería -->
+            <div class="formulario_grupo" id="">
+                <label for="selectCarroceria" class="form__label">Tipo Carrocería</label>
+                <div class="form__grupo_input">
+                    <select name="cod_tipo_carroceria" id="selectCarroceria">                        
+                    </select>
+                </div>
+            </div>
+
+            <div class="formulario_grupo form__grupo-btn-agregar">
+                <button type="submit" name="" id="btn-agregaCamion" class="btn form_btn mt-3 mb-3 btn-agregaCamion">Agregar Carga</button>
+            </div>
+        </form>
+
+
+    </div>
+
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
+    <script src="./add_freight.js "></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

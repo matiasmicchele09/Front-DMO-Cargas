@@ -168,9 +168,10 @@ if (initialized_session == 'true') {
 
                     let registroFormData = new FormData(formularioPerfil);
                     fetch('http://localhost:3000/update_profile', {
-                        method: 'POST',
-                        body: registroFormData,
-                    }).then(
+                            method: 'POST',
+                            body: registroFormData,
+                        })
+                        /*.then(
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -186,7 +187,7 @@ if (initialized_session == 'true') {
                             showConfirmButton: false,
                             timer: 1500
                         }))
-
+*/
                     setTimeout(() => {
                         window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
                     }, 1500);

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Dashboard</title>
+    <title>Buscar Carga</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -27,14 +27,11 @@
                     <li class="nav-item mt-1">
                         <i class="fa-solid fa-house icon-fontawesome"></i><a class="a-dashboard nav-link">Panel</a>
                     </li>
-                    <li class="nav-item mt-1 nav-mis-camiones">
+                    <li class="nav-item mt-1">
                         <i class="fa-solid fa-truck icon-fontawesome"></i><a class="a-mis-camiones nav-link">Mis Camiones</a>
                     </li>
-                    <li class="nav-item mt-1 nav-buscar-carga">
+                    <li class="nav-item mt-1">
                         <i class="fa-solid fa-magnifying-glass icon-fontawesome"></i><a class="a-buscar-cargas nav-link">Buscar Cargas</a>
-                    </li>
-                    <li class="nav-item mt-1 nav-mis-cargas">
-                        <i class="fa-solid fa-truck-ramp-box icon-fontawesome"></i><a class="a-mis-cargas nav-link">Mis Cargas</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
@@ -48,12 +45,16 @@
         </div>
     </nav>
 
-    <div class="dashboard">
+    <div class="search-carga">
         <div class="container">
+            <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
+            <label for="buscar_carga">Buscá tu carga</label>
+            <input type="text" placeholder="Ingresa el nombre de una provincia" class="buscar_carga" id="buscar_carga" name="buscar_carga">
+
         </div>
     </div>
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
-    <script src="./dashboard.js"></script>
+    <script src="./search.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

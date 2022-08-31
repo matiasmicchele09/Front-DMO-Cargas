@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Dashboard</title>
+    <title>Mis Cargas</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -27,12 +27,6 @@
                     <li class="nav-item mt-1">
                         <i class="fa-solid fa-house icon-fontawesome"></i><a class="a-dashboard nav-link">Panel</a>
                     </li>
-                    <li class="nav-item mt-1 nav-mis-camiones">
-                        <i class="fa-solid fa-truck icon-fontawesome"></i><a class="a-mis-camiones nav-link">Mis Camiones</a>
-                    </li>
-                    <li class="nav-item mt-1 nav-buscar-carga">
-                        <i class="fa-solid fa-magnifying-glass icon-fontawesome"></i><a class="a-buscar-cargas nav-link">Buscar Cargas</a>
-                    </li>
                     <li class="nav-item mt-1 nav-mis-cargas">
                         <i class="fa-solid fa-truck-ramp-box icon-fontawesome"></i><a class="a-mis-cargas nav-link">Mis Cargas</a>
                     </li>
@@ -47,15 +41,40 @@
             </div>
         </div>
     </nav>
+    <div class="container">
+        <p class="btn_plus" data-bs-toggle="modal" data-bs-target="#tipoCargaModal"><i class="fa-solid fa-circle-plus icon_btn_plus"></i>Agregar Carga</p>
 
-    <div class="dashboard">
-        <div class="container">
+        <div class="modal fade" id="tipoCargaModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="tipoCargaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tipoCargaModalLabel">Escoga un Tipo de Carga</h5>
+                        <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal_tipo_carga">
+
+                    </div>
+                </div>
+            </div>
         </div>
+        <table class="table">
+            <tbody class="t_body">
+                <tr>
+                    <th class="th_trucks">Cod. Carga</th>
+                    <th class="th_trucks">Tipo Carga</th>
+                    <!-- <th class="th_trucks">Descripción</th>
+                    <th class="th_trucks">Origen</th>
+                    <th class="th_trucks">Destino</th>
+                    <th class="th_trucks">Estado</th>
+                    <th colspan="2"></th> -->
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
-    <script src="./dashboard.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
+    <script src="./my_freights.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
