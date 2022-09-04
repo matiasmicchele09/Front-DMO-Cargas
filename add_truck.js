@@ -66,7 +66,7 @@ initialized_session = sessionStorage.getItem("initialized_session");
 
 if (initialized_session == 'true') {
 
-    let inputUsuario = document.getElementById('usuario');
+    let inputUsuario = document.getElementById('cod_usuario');
     inputUsuario.value = `${cod_usuario}`;
 
 

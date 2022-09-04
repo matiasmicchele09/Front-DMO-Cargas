@@ -71,7 +71,7 @@
 .form__validacion_estado {
     position: absolute;
     right: 10px;
-    bottom: 10px;
+    bottom: 12px;
     z-index: 100;
     /* Esto solo para asegurarnos que quede por encima de otros elementos */
     opacity: 0;
@@ -848,4 +848,67 @@ div .cardText {
 .btn_modal_tipo_carga:hover {
     background-color: #4136df;
     /* border: 5px solid #1100fa; */
+}
+
+
+/*--------------------------------------------------------------------------------------------
+------------------------------------- Agregar Carga ------------------------------------------
+--------------------------------------------------------------------------------------------*/
+
+.selectTipoProducto {
+    width: 50%;
+    padding: 2px;
+}
+
+.form__grupo-btn-agregar-carga {
+    grid-column: span 3;
+}
+
+.form__grupo-btn-agregar-carga .form_btn {
+    height: 50px;
+    background-color: #34bb3f;
+    color: #FAFAFA;
+    width: 100%;
+}
+
+.btn-agregaCarga:hover {
+    background-color: #1ED12D;
+}
+
+.add_freights {
+    max-width: 800px;
+}
+
+.form_req_refrigeracion,
+.form_es_carga_peligrosa,
+.form_es_carga_apilable,
+.form_cant_unit,
+.form_peso_unit_kg,
+.form_peso_total_kg,
+.form_largo_mts,
+.form_ancho_mts,
+.form_alto_mts,
+.form_peso_unit_tn,
+.form_peso_total_tn,
+.form_cant_litros {
+    display: none;
+}
+
+.form_req_refrigeracion_disponible,
+.form_es_carga_peligrosa_disponible,
+.form_es_carga_apilable_disponible {
+    display: inline-block;
+    margin: 10px 10px 15px 0;
+}
+
+.form_cant_unit_disponible,
+.form_peso_unit_kg_disponible,
+.form_peso_total_kg_disponible,
+.form_largo_mts_disponible,
+.form_ancho_mts_disponible,
+.form_alto_mts_disponible,
+.form_peso_unit_tn_disponible,
+.form_peso_total_tn_disponible,
+.form_cant_litros_disponible {
+    max-width: 300px;
 }
