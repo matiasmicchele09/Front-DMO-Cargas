@@ -36,6 +36,7 @@ const campos = {
     prov_destino: false,
     ciudad_destino: false,
     domicilio_destino: false,
+    receptor_carga: false,
     cant_unit: false,
     peso_unit_kg: false,
     peso_total_kg: false,
@@ -313,6 +314,22 @@ if (initialized_session == 'true') {
                 }
             })
 
+            document.getElementById('req_refrigeracion').addEventListener("click", () => {
+                if (document.getElementById('req_refrigeracion').checked) {
+                    document.getElementById('req_refrigeracion').value = true
+                }
+            })
+            document.getElementById('es_carga_peligrosa').addEventListener("click", () => {
+                if (document.getElementById('es_carga_peligrosa').checked) {
+                    document.getElementById('es_carga_peligrosa').value = true
+                }
+            })
+            document.getElementById('es_carga_apilable').addEventListener("click", () => {
+                if (document.getElementById('es_carga_apilable').checked) {
+                    document.getElementById('es_carga_apilable').value = true
+                }
+            })
+
             inputPesoUnitario.addEventListener('keyup', () => {
                 inputPesoUTotal.value = inputCantUnitaria.value * inputPesoUnitario.value;
                 campos.peso_total_kg = true;
@@ -330,7 +347,9 @@ if (initialized_session == 'true') {
         let horaRetiro = document.getElementById("hora_retiro"),
             horaDestino = document.getElementById("hora_destino"),
             fecRetiro = document.getElementById("fec_retiro"),
-            fecDestino = document.getElementById("fec_destino");
+            fecDestino = document.getElementById("fec_destino"),
+            receptor_carga = document.getElementById("receptor_carga");
+
 
 
         if (horaRetiro.value == "") {
@@ -345,12 +364,16 @@ if (initialized_session == 'true') {
         if (fecDestino.value == "") {
             campos.fec_destino = false;
         } else { campos.fec_destino = true; }
+        if (receptor_carga.value == "") {
+            campos.receptor_carga = false;
+        } else { campos.receptor_carga = true; }
+        /* falta que salga el cartel en todos esos campos que definí acá arriba */
 
         if (campos.prov_origen && campos.ciudad_origen && campos.domicilio_origen &&
             campos.hora_retiro && campos.fec_retiro && campos.hora_destino &&
             campos.fec_destino && campos.prov_destino && campos.ciudad_destino &&
-            campos.domicilio_destino && campos.cant_unit && campos.peso_unit_kg &&
-            campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
+            campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
+            campos.peso_unit_kg && campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
             campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros) {
             let registroFormData = new FormData(formAgregarCarga);
 
@@ -371,6 +394,7 @@ if (initialized_session == 'true') {
                 javascript: history.back()
             }, 2500);
         } else {
+            /* aca tendria que hacer que salten los carteles junto con el cartel mayor que se define aca abajo */
             document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo');
             setTimeout(() => {
                 document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')

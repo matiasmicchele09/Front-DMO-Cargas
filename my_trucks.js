@@ -70,8 +70,8 @@ if (initialized_session == 'true') {
                 tableBody.appendChild(tableRow);
 
                 //Botón Eliminar
-                btnDelete.addEventListener("click", () => {
-
+                btnDelete.addEventListener("click", (event) => {
+                    event.preventDefault();
                     Swal.fire({
                         title: '¿Está seguro que desea eliminar este Camión?',
                         icon: 'warning',
@@ -117,7 +117,7 @@ if (initialized_session == 'true') {
 
             });
 
-            
+
 
 
 

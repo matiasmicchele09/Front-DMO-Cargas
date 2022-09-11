@@ -124,6 +124,16 @@
                 <p class="form__input_error">Debe ingresar primero la calle y luego el número</p>
             </div>
 
+            <!-- Grupo: Receptor de Carga -->
+            <div class="formulario_grupo" id="grupo__receptor_carga" style="display: inline-block;">
+                <label for="receptor_carga" class="form__label">Receptor</label>
+                <div class="form__grupo_input">
+                    <input type="text" placeholder="Quién reciba la carga" class="form__input form-control" id="receptor_carga" name="receptor_carga">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">Debe ingresar un Receptor de la Carga</p>
+            </div>
+
             <!-- Grupo: Fecha Llegada -->
             <div class="formulario_grupo" id="grupo__fec_destino" style="display: inline-block;">
                 <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
@@ -195,7 +205,7 @@
             <div class="formulario_grupo form_cant_unit" id="grupo__cant_unit">
                 <label for="cant_unit" class="form__label">Cant. Unitaria</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En Kg" class="form__input form-control" id="cant_unit" name="cant_unit">
+                    <input type="text" placeholder="En Unidades" class="form__input form-control" id="cant_unit" name="cant_unit">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Cantidad solo debe contener números</p>

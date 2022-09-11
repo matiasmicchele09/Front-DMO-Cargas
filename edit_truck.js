@@ -76,6 +76,8 @@ if (initialized_session == 'true') {
                 inputModelo = document.getElementById('modelo'),
                 inputAnio = document.getElementById('anio');
 
+            /* Tal vez para ahorrar un par de lineas de código aca podria hacer:
+            document.getElementById('usuario').value = data[0].cod_usuario; */
             inputUsuario.value = data[0].cod_usuario;
             inputPatente.value = data[0].patente;
             inputMarca.value = data[0].marca;
@@ -121,6 +123,7 @@ if (initialized_session == 'true') {
                 })
 
 
+            // Guardar Cambios 
             formEdicionCamion.addEventListener('submit', (event) => {
                 event.preventDefault();
 

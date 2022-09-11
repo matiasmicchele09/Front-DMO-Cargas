@@ -148,12 +148,12 @@
                         <div class="col-12 col-lg-6 col-xl-6">
                             <label class="font-weight-bold">Nombre/Empresa</label>
                             <input type="text " class="nom form-control" placeholder="Ej. Juan Perez/Rosario SRL" formControlName="nombre" [class.is-invalid]="nombreNoValido">
-                            <small class="text-danger">Nombre inválido</small>
+                            <!-- <small class="text-danger">Nombre inválido</small> -->
                         </div>
                         <div class="col-12 col-lg-6 col-xl-6">
                             <label class="font-weight-bold">Email</label>
                             <input type="email " class="e-mail form-control" placeholder="Ej. jperez@gmail.com" formControlName="correo" [class.is-invalid]="correoNoValido">
-                            <small class="text-danger">Ingresó mal su correo</small>
+                            <!-- <small class="text-danger">Ingresó mal su correo</small> -->
                         </div>
                     </div>
 
@@ -161,17 +161,17 @@
                         <div class="col-12 col-lg-3 col-xl-3">
                             <label class="font-weight-bold">Dirección</label>
                             <input type="text" class="dir form-control" placeholder="Ej. Corrientes 233" formControlName="calleNum" [class.is-invalid]="calleNumNoValida">
-                            <small class="text-danger">Direccion inválida</small>
+                            <!-- <small class="text-danger">Direccion inválida</small> -->
                         </div>
                         <div class="col-12 col-lg-3 col-xl-3">
                             <label class="font-weight-bold">Ciudad</label>
                             <input type="text" class="ciu form-control" placeholder="Ej. Rosario" formControlName="ciudad" [class.is-invalid]="ciudadNoValida">
-                            <small class="text-danger">Ciudad no válida</small>
+                            <!-- <small class="text-danger">Ciudad no válida</small> -->
                         </div>
                         <div class="col-12 col-lg-6 col-xl-6">
                             <label class="font-weight-bold">Teléfono</label>
                             <input type="text " class="tel form-control" placeholder="Ej. 341 - 689752" formControlName="telefono" [class.is-invalid]="telefonoNoValido">
-                            <small class="text-danger">Teléfono inválido</small>
+                            <!-- <small class="text-danger">Teléfono inválido</small> -->
                         </div>
                     </div>
 
@@ -196,12 +196,13 @@
 
     <footer>
         <div class="contenedor d-flex">
-            <p class="terminos"><a href="terms_conds.html">Términos y condiciones</a> | <a href="#">Política de privacidad</a></p>
-            <p class="redes">También encontrarnos en:
-                <a href="https://www.facebook.com" class="facebook"><img src="assets/img/facebook.png" alt="facebook image" width="20px" height="20px"></a>
-                <a href="https://www.instagram.com" class="instagram"><img src="assets/img/instagram.png" alt="instagram image" width="20px" height="20px"></a>
-                <a href="https://www.linkedin.com" class="linkedin"><img src="assets/img/linkedin.png" alt="linkedin image" width="20px" height="20px"></a>
-            </p>
+            <p class="terminos"><a href="terms_conds.html">Términos y condiciones</a>
+                <!--  | <a href="#">Política de privacidad</a></p> -->
+                <p class="redes">También encontrarnos en:
+                    <a href="https://www.facebook.com" class="facebook"><img src="assets/img/facebook.png" alt="facebook image" width="20px" height="20px"></a>
+                    <a href="https://www.instagram.com" class="instagram"><img src="assets/img/instagram.png" alt="instagram image" width="20px" height="20px"></a>
+                    <a href="https://www.linkedin.com" class="linkedin"><img src="assets/img/linkedin.png" alt="linkedin image" width="20px" height="20px"></a>
+                </p>
         </div>
     </footer>
 

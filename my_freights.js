@@ -12,30 +12,26 @@ initialized_session = sessionStorage.getItem("initialized_session");
 
 if (initialized_session == 'true') {
 
+    let btn_dashboard = document.querySelector(".a-dashboard");
+    console.log('aca', cod_usuario);
     fetch(`http://localhost:3000/getCargasUser/${cod_usuario}`, {
             method: 'GET',
         }).then(res => res.json())
         .then(data => {
             console.log(data);
             data.forEach(res => {
-                let btnEdit = document.createElement('button');
-                btnEdit.classList.add("btn_edit_camion")
-                btnEdit.innerHTML = 'Editar';
-                let btnDelete = document.createElement('button');
-                btnDelete.classList.add("btn_delete_camion")
-                btnDelete.innerHTML = 'Eliminar';
                 let btnMas = document.createElement('button');
                 btnMas.classList.add("btn_mas_carga")
                 btnMas.innerHTML = 'Ver más';
-                
+
                 let tableRow = document.createElement('tr');
                 let tableData1 = document.createElement('td');
                 let tableData2 = document.createElement('td');
                 let tableData3 = document.createElement('td');
                 let tableData4 = document.createElement('td');
                 let tableData5 = document.createElement('td');
-                let tableData6 = document.createElement('td');                
-                
+                let tableData6 = document.createElement('td');
+
                 tableData1.innerHTML = `${res.cod_carga}`;
 
                 fetch(`http://localhost:3000/getOneTipoCarga/${res.cod_tipo_carga}`, {
@@ -61,9 +57,9 @@ if (initialized_session == 'true') {
                         //<span class="badge text-bg-danger">Danger</span>
                         tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
                     });
-                
+
                 tableData6.appendChild(btnMas);
-                
+
                 tableRow.appendChild(tableData1);
                 tableRow.appendChild(tableData2);
                 tableRow.appendChild(tableData3);
@@ -72,26 +68,13 @@ if (initialized_session == 'true') {
                 tableRow.appendChild(tableData6);
                 tableBody.appendChild(tableRow);
 
-                btnMas.addEventListener('click', ()=>{
-                    //console.log(tableRow.getAttribute('id'))
-                    //cod_carga=tableRow.getAttribute('id');
-
+                btnMas.addEventListener('click', (event) => {
+                    event.preventDefault();
                     window.location.href = `./view_freights.html?cod_usuario=${cod_usuario}&carga=${res.cod_carga}`;
-                    /* fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
-                        method: 'GET',
-                    }).then(res => res.json())
-                    .then(data => {
-                        console.log(data)
-                    })
-         */
-        
                 })
-                
+
             })
         })
-                
-        
-
 
 
     //Botón de Agregar Camión
@@ -132,6 +115,12 @@ if (initialized_session == 'true') {
         y lo volví a abrir, entonces se empezaban a repetir los 6 tipos de cargas
         PERO NO SE SI ES LO MÁS OPTIMO, TAL VEZ SI TENES MUCHAS CARGAS TARDE EN CARGAR. BUSCAR OTRA FORMA*/
         window.location.reload();
+    })
+
+    //Botón Dashboard
+    btn_dashboard.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
     })
 
     //Botón Salir

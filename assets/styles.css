@@ -173,6 +173,10 @@
     display: none;
 }
 
+.nav-mis-cargas-none {
+    display: none;
+}
+
 .a-mis-camiones {
     color: #241F74;
     font-family: Helvetica, Arial, sans-serif;
@@ -707,7 +711,8 @@ div .cardText {
     font-weight: bold;
 }
 
-.btn_edit_profile {
+.btn_edit_profile,
+.btn_edit_carga {
     background-color: #2471A3;
     color: #FFFFFF;
     cursor: pointer;
@@ -716,11 +721,13 @@ div .cardText {
     border-radius: 5px;
 }
 
-.btn_edit_profile:hover {
+.btn_edit_profile:hover,
+.btn_edit_carga:hover {
     background-color: #1d5b85;
 }
 
-.btn_cancel_profile {
+.btn_cancel_profile,
+.btn_cancel_carga {
     background-color: #707980;
     color: #FFFFFF;
     cursor: pointer;
@@ -729,12 +736,14 @@ div .cardText {
     border-radius: 5px;
 }
 
-.btn_cancel_profile:hover {
+.btn_cancel_profile:hover,
+.btn_cancel_carga:hover {
     background-color: #555c61;
 }
 
-.btn_save_profile {
-    background-color: #dc3545;
+.btn_save_profile,
+.btn_save_carga {
+    background-color: #34bb3f;
     color: #FFFFFF;
     cursor: pointer;
     margin: 20px 10px 0 0;
@@ -742,8 +751,9 @@ div .cardText {
     border-radius: 5px;
 }
 
-.btn_save_profile:hover {
-    background-color: #a82633;
+.btn_save_profile:hover,
+.btn_save_carga:hover {
+    background-color: #289231;
 }
 
 
@@ -788,7 +798,8 @@ div .cardText {
     background-color: #1d5b85;
 }
 
-.btn_delete_camion {
+.btn_delete_camion,
+.btn_delete_carga {
     background-color: #dc3545;
     color: #FFFFFF;
     cursor: pointer;
@@ -797,7 +808,8 @@ div .cardText {
     border-radius: 5px;
 }
 
-.btn_delete_camion:hover {
+.btn_delete_camion:hover,
+.btn_delete_carga:hover {
     background-color: #a82633;
 }
 
@@ -911,4 +923,20 @@ div .cardText {
 .form_peso_total_tn_disponible,
 .form_cant_litros_disponible {
     max-width: 300px;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+------------------------------------- Mis Carga ----------------------------------------------
+--------------------------------------------------------------------------------------------*/
+
+.btn_mas_carga {
+    background-color: #241F74;
+    color: #FFFFFF;
+    width: 75px;
+    border-radius: 5px;
+}
+
+.btn_mas_carga:hover {
+    background-color: #4136df;
 }
