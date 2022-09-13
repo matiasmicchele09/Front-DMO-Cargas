@@ -26,47 +26,36 @@
     </nav>
 
     <div class="container edit_truck">
-        <form action="" autocomplete="off" id="form_edit_truck">
+        <form action="" autocomplete="off" id="form_edit_carroceria">
 
             <!-- Grupo: Usuario -->
-            <div class="formulario_grupo d-none" id="grupo__usuario">
-                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
-                <label for="usuario" class="form__label">Usuario</label>
+            <div class="formulario_grupo d-none" id="grupo__cod_usuario">
+                <label for="cod_usuario" class="form__label">Usuario</label>
                 <div class="form__grupo_input">
-                    <input type="text" class="form__input form-control" id="usuario" name="cod_usuario">
+                    <input type="text" class="form__input form-control" id="cod_usuario" name="cod_usuario">
                 </div>
 
             </div>
 
             <!-- Grupo: Patente -->
-            <div class="formulario_grupo" id="grupo__patente_camion">
+            <div class="formulario_grupo" id="grupo__patente_carroceria">
                 <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
-                <label for="patente_camion" class="form__label">Patente</label>
+                <label for="patente_carroceria" class="form__label">Patente</label>
                 <div class="form__grupo_input">
-                    <input type="text" class="form__input form-control" id="patente_camion" name="patente_camion">
+                    <input type="text" class="form__input form-control" id="patente_carroceria" name="patente_carroceria">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Patente debe contener solo números y letras. Debe contener 6 o 7 caracteres</p>
             </div>
 
-            <!-- Grupo: Marca -->
-            <div class="formulario_grupo" id="grupo__marca">
-                <label for="marca" class="form__label">Marca</label>
+            <!-- Grupo: Cantidad de Ejes -->
+            <div class="formulario_grupo" id="grupo__cant_ejes">
+                <label for="cant_ejes" class="form__label">Cantidad de Ejes</label>
                 <div class="form__grupo_input">
-                    <input type="text" class="form__input form-control" id="marca" name="marca">
+                    <input type="text" class="form__input form-control" id="cant_ejes" name="cant_ejes">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
-                <p class="form__input_error">La Marca solo acepta letras</p>
-            </div>
-
-            <!-- Grupo: Modelo -->
-            <div class="formulario_grupo" id="grupo__modelo">
-                <label for="modelo" class="form__label">Modelo</label>
-                <div class="form__grupo_input">
-                    <input type="text" class="form__input form-control" id="modelo" name="modelo">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">El Modelo debe contener números y letras</p>
+                <p class="form__input_error">La Cantidad de Ejes debe ser numérica</p>
             </div>
 
             <!-- Grupo: Año -->
@@ -79,11 +68,11 @@
                 <p class="form__input_error">El Año debe ser un número</p>
             </div>
 
-            <!-- Grupo: Tipo Camion -->
+            <!-- Grupo: Tipo Carrocería -->
             <div class="formulario_grupo" id="">
-                <label for="selectCamion" class="form__label">Tipo Camión</label>
+                <label for="selectCarroceria" class="form__label">Tipo Carrocería</label>
                 <div class="form__grupo_input">
-                    <select name="cod_tipo_camion" id="selectCamion">                        
+                    <select name="cod_tipo_carroceria" id="selectCarroceria">                        
                     </select>
                 </div>
             </div>
@@ -101,7 +90,7 @@
     </div>
 
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
-    <script src="./edit_truck.js "></script>
+    <script src="./edit_carroceria.js "></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

@@ -1,42 +1,36 @@
 const getURL = new URLSearchParams(window.location.search),
-    patente_camion = getURL.get('patente'),
-    formEdicionCamion = document.getElementById("form_edit_truck"),
-    inputs = document.querySelectorAll('#form_edit_truck input');
+    patente_carroceria = getURL.get('patente'),
+    formEdicionCarroceria = document.getElementById("form_edit_carroceria"),
+    inputs = document.querySelectorAll('#form_edit_carroceria input');
 var initialized_session = 'false';
+let btn_back = document.querySelector(".parr_volver");
 initialized_session = sessionStorage.getItem("initialized_session");
 const expresiones = {
-    patente_camion: /^[a-zA-Z0-9]{6,7}$/, // Letras, numeros, guion y guion_bajo
-    marca: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    modelo: /^[a-zA-Z0-9À-ÿ\s]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.
-    anio: /^\d{4,4}$/, // Supongo así valido que solo sean 4 números    
+    patente_carroceria: /^[a-zA-Z0-9]{6,7}$/, // Letras, numeros, guion y guion_bajo    
+    cant_ejes: /^\d{1,1}$/, // Supongo así valido que solo sean 4 números    
+    anio: /^\d{4,4}$/, // Supongo así valido que solo sean 4 números  
 }
 
 const campos = {
-    patente_camion: true,
-    marca: true,
-    modelo: true,
+    patente_carroceria: true,
+    cant_ejes: true,
     anio: true
 }
 
 const validarFormulario = (e) => {
-    //e.target.name la e es solo un parametro, se podría llamar de cualer manera.
-    //esta linea es para validar correctamente el campo que sea el que queremos validar
-    //nos da el name del input
     switch (e.target.name) {
-        case "patente_camion":
-            validarCampo(expresiones.patente_camion, e.target, 'patente_camion'); //también podría haber pasado solo el e.target en vez de e.target.name
+        case "patente_carroceria":
+            validarCampo(expresiones.patente_carroceria, e.target, 'patente_carroceria'); //también podría haber pasado solo el e.target en vez de e.target.name
             break;
-        case "marca":
-            validarCampo(expresiones.marca, e.target, 'marca');
-            break;
-        case "modelo":
-            validarCampo(expresiones.modelo, e.target, 'modelo');
+        case "cant_ejes":
+            validarCampo(expresiones.cant_ejes, e.target, 'cant_ejes');
             break;
         case "anio":
             validarCampo(expresiones.anio, e.target, 'anio');
             break;
     }
 }
+
 
 const validarCampo = (expresion, input, campo) => {
     if (expresion.test(input.value)) {
@@ -63,55 +57,46 @@ inputs.forEach((input) => {
 
 if (initialized_session == 'true') {
 
-    fetch(`http://localhost:3000/my_truck/${patente_camion}`, {
+    fetch(`http://localhost:3000/mi_carroceria/${patente_carroceria}`, {
             method: 'GET',
         })
         .then(res => res.json())
         .then(data => {
             console.log(data[0])
-            let btn_back = document.querySelector(".parr_volver");
-            let inputUsuario = document.getElementById('usuario'),
-                inputPatente = document.getElementById('patente_camion'),
-                inputMarca = document.getElementById('marca'),
-                inputModelo = document.getElementById('modelo'),
-                inputAnio = document.getElementById('anio');
+            document.getElementById('cod_usuario').value = data[0].cod_usuario;
+            document.getElementById('patente_carroceria').value = data[0].patente_carroceria;
+            document.getElementById('cant_ejes').value = data[0].cant_ejes;
+            document.getElementById('anio').value = data[0].anio;
 
-            /* Tal vez para ahorrar un par de lineas de código aca podria hacer:
-            document.getElementById('usuario').value = data[0].cod_usuario; */
-            inputUsuario.value = data[0].cod_usuario;
-            inputPatente.value = data[0].patente_camion;
-            inputMarca.value = data[0].marca;
-            inputModelo.value = data[0].modelo;
-            inputAnio.value = data[0].anio;
+            const tipo_carroceria = data[0].cod_tipo_carroceria;
 
-            const tipo_camion = data[0].cod_tipo_camion;
-
-            fetch('http://localhost:3000/getAllTypeTruck', {
+            fetch('http://localhost:3000/getCarroceria', {
                     method: 'GET',
                 }).then(res => res.json())
                 .then(data => {
                     for (i in data) {
-                        let select = document.getElementById('selectCamion');
+                        //console.log(data[i]);
+                        let select = document.getElementById('selectCarroceria');
                         let option = document.createElement('option');
-                        option.setAttribute('value', `${data[i].cod_tipo_camion}`)
-                        if (tipo_camion == data[i].cod_tipo_camion) {
+                        option.setAttribute('value', `${data[i].cod_tipo_carroceria}`)
+                        if (tipo_carroceria == data[i].cod_tipo_carroceria) {
                             option.selected = true;
                         }
                         option.innerHTML = `${data[i].descripcion}`;
                         select.appendChild(option);
                     }
-                });
 
+                })
 
             // Guardar Cambios 
-            formEdicionCamion.addEventListener('submit', (event) => {
+            formEdicionCarroceria.addEventListener('submit', (event) => {
                 event.preventDefault();
-                if (campos.patente_camion && campos.marca && campos.modelo && campos.anio) {
+                if (campos.patente_carroceria && campos.cant_ejes && campos.anio) {
 
-                    let registroFormData = new FormData(formEdicionCamion);
+                    let registroFormData = new FormData(formEdicionCarroceria);
 
                     //no se si con el put o post puedo hacer el then catch porque en realidad no devuelven nada. Pero tiene que haber una forma
-                    fetch('http://localhost:3000/update_truck/', {
+                    fetch('http://localhost:3000/update_carroceria/', {
                         method: 'PUT',
                         body: registroFormData,
                     })
@@ -135,12 +120,11 @@ if (initialized_session == 'true') {
                     }, 4000);
                 }
             })
-
-            //Botón Volver
-            btn_back.addEventListener('click', (event) => {
-                event.preventDefault();
-                window.location.href = `./my_trucks.html?cod_usuario=${data[0].cod_usuario}`;
-            })
         })
 
+    //Botón Volver
+    btn_back.addEventListener('click', (event) => {
+        event.preventDefault();
+        javascript: history.back();
+    })
 }

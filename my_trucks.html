@@ -32,6 +32,9 @@
                     <li class="nav-item mt-1 nav-buscar-carga">
                         <i class="fa-solid fa-magnifying-glass icon-fontawesome"></i><a class="a-buscar-cargas nav-link">Buscar Cargas</a>
                     </li>
+                    <li class="nav-item mt-1 nav-manual-usuario">
+                        <i class="fa-solid fa-book icon-fontawesome"></i><a class="a-manual-usuario nav-link">Manual del Usuario</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item"><button type="button" class="btn btn-danger btn-salir" style="margin-right:25px;">Salir</button></li>
@@ -40,17 +43,29 @@
         </div>
     </nav>
 
-    <div class="container">
-        <p class="btn_plus"><i class="fa-solid fa-circle-plus icon_btn_plus"></i>Agregar Camión</p>
+    <div class="container contenedor_camiones">
+        <p class="btn_plus btn_agregar_camion"><i class="fa-solid fa-circle-plus icon_btn_plus"></i>Agregar Camión</p>
+
         <table class="table">
-            <tbody class="t_body">
+            <tbody class="t_body_camion">
                 <tr>
                     <th class="th_trucks">Patente</th>
                     <th class="th_trucks">Marca</th>
                     <th class="th_trucks">Modelo</th>
                     <th class="th_trucks">Año</th>
-                    <th class="th_trucks">Tipo Camion</th>
-                    <th class="th_trucks">Tipo Carrocería</th>
+                    <th class="th_trucks">Camión</th>
+                    <th colspan="2"></th>
+                </tr>
+            </tbody>
+        </table>
+        <p class="btn_plus btn_agregar_carroceria"><i class="fa-solid fa-circle-plus icon_btn_plus"></i>Agregar Carrocería</p>
+        <table class="table">
+            <tbody class="t_body_carroceria">
+                <tr>
+                    <th class="th_trucks">Patente</th>
+                    <th class="th_trucks">Cant. Ejes</th>
+                    <th class="th_trucks">Año</th>
+                    <th class="th_trucks">Carrocería</th>
                     <th colspan="2"></th>
                 </tr>
             </tbody>

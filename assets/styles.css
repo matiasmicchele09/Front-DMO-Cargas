@@ -152,52 +152,27 @@
     background-color: #E6E6E6;
 }
 
-.a-dashboard {
-    color: #241F74;
-    font-family: Helvetica, Arial, sans-serif;
-    cursor: pointer;
-    display: inline;
-}
-
-.a-dashboard:hover {
-    color: #FFFFFF;
-    cursor: pointer;
-    display: inline;
-}
-
-.nav-mis-camiones-none {
-    display: none;
-}
-
-.nav-buscar-carga-none {
-    display: none;
-}
-
+.nav-mis-camiones-none,
+.nav-buscar-carga-none,
 .nav-mis-cargas-none {
     display: none;
 }
 
-.a-mis-camiones {
+.a-mis-camiones,
+.a-mis-cargas,
+.a-buscar-cargas,
+.a-dashboard,
+.a-manual-usuario {
     color: #241F74;
     font-family: Helvetica, Arial, sans-serif;
     cursor: pointer;
     display: inline;
 }
 
-.a-mis-camiones:hover {
-    color: #FFFFFF;
-    cursor: pointer;
-    display: inline;
-}
-
-.a-mis-cargas {
-    color: #241F74;
-    font-family: Helvetica, Arial, sans-serif;
-    cursor: pointer;
-    display: inline;
-}
-
-.a-mis-cargas:hover {
+.a-mis-camiones:hover,
+.a-mis-cargas:hover,
+.a-buscar-cargas:hover,
+.a-dashboard:hover {
     color: #FFFFFF;
     cursor: pointer;
     display: inline;
@@ -213,19 +188,6 @@
 .a-perfil:hover {
     color: #FFFFFF;
     cursor: pointer;
-}
-
-.a-buscar-cargas {
-    color: #241F74;
-    font-family: Helvetica, Arial, sans-serif;
-    cursor: pointer;
-    display: inline;
-}
-
-.a-buscar-cargas:hover {
-    color: #FFFFFF;
-    cursor: pointer;
-    display: inline;
 }
 
 .icon-fontawesome {

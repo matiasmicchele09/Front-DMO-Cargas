@@ -38,11 +38,11 @@
             </div>
 
             <!-- Grupo: Patente -->
-            <div class="formulario_grupo" id="grupo__patente">
+            <div class="formulario_grupo" id="grupo__patente_camion">
                 <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
-                <label for="patente" class="form__label">Patente</label>
+                <label for="patente_camion" class="form__label">Patente</label>
                 <div class="form__grupo_input">
-                    <input type="text" class="form__input form-control" id="patente" name="patente">
+                    <input type="text" class="form__input form-control" id="patente_camion" name="patente_camion">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Patente debe contener solo números y letras. Debe contener 6 o 7 caracteres</p>
@@ -86,16 +86,8 @@
             <div class="formulario_grupo" id="">
                 <label for="selectCamion" class="form__label">Tipo Camión</label>
                 <div class="form__grupo_input">
-                    <select name="cod_tipo_camion" id="selectCamion">                        
-                    </select>
-                </div>
-            </div>
-
-            <!-- Grupo: Tipo Carrocería -->
-            <div class="formulario_grupo" id="">
-                <label for="selectCarroceria" class="form__label">Tipo Carrocería</label>
-                <div class="form__grupo_input">
-                    <select name="cod_tipo_carroceria" id="selectCarroceria">                        
+                    <select name="cod_tipo_camion" id="selectCamion">
+                        <option value="0">Seleccioina un tipo de camión...</option>    
                     </select>
                 </div>
             </div>
