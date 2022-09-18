@@ -49,11 +49,10 @@
     </nav>
 
     <div class="search-carga">
-        <div class="container">
-            <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
-            <label for="buscar_carga">Buscá tu carga</label>
-            <input type="text" placeholder="Ingresa el nombre de una provincia" class="buscar_carga" id="buscar_carga" name="buscar_carga">
-
+        <input type="text" placeholder="Ingresa el nombre de una provincia" class="buscar_carga" id="buscar_carga" name="buscar_carga">
+        <button class="btn_buscar_carga" id="btn_buscar_carga">Buscar</button>
+        <div class="container info_cargas_disponibles">
+            <h2 class="carga_no_encontrada">Su Búsqueda no ha tenido resultados. <br>¡Intente con otra Provincia!</h2>
         </div>
     </div>
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>

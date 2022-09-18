@@ -172,7 +172,8 @@
 .a-mis-camiones:hover,
 .a-mis-cargas:hover,
 .a-buscar-cargas:hover,
-.a-dashboard:hover {
+.a-dashboard:hover,
+.a-manual-usuario:hover {
     color: #FFFFFF;
     cursor: pointer;
     display: inline;
@@ -889,7 +890,7 @@ div .cardText {
 
 
 /*--------------------------------------------------------------------------------------------
-------------------------------------- Mis Carga ----------------------------------------------
+------------------------------------- Mis Cargas ---------------------------------------------
 --------------------------------------------------------------------------------------------*/
 
 .btn_mas_carga {
@@ -902,3 +903,87 @@ div .cardText {
 .btn_mas_carga:hover {
     background-color: #4136df;
 }
+
+.carga_no_encontrada {
+    color: #BB2929;
+    display: none;
+}
+
+.muestra_carga_no_encontrada {
+    display: block;
+}
+
+
+/* ---------------------------------------------------------------------------------- 
+   ------------------------------------- Search ------------------------------------- 
+   ---------------------------------------------------------------------------------- */
+
+.buscar_carga {
+    width: 80%;
+    height: 40px;
+    margin: 20px 0 40px 5%;
+}
+
+.btn_buscar_carga,
+.btn_ver_detalle {
+    background-color: #241F74;
+    color: #FFFFFF;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    margin-left: 2%;
+}
+
+.btn_ver_detalle {
+    margin-bottom: 10px;
+}
+
+.btn_buscar_carga:hover,
+.btn_ver_detalle:hover {
+    background-color: #4136df;
+}
+
+
+/*tengo que lograr que se pongan de a dos, una al lado la otra y cuando es movil se muestre de a una*/
+
+.info_cargas_disponibles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card-carga {
+    box-shadow: 5px 5px 5px 3px #4136df;
+}
+
+.card-carga:hover {
+    background-color: #eceb86;
+}
+
+.cardText1-carga,
+.cardText2-carga {
+    display: inline-block;
+}
+
+.cardBbody-carga {
+    display: flex;
+    justify-content: space-between;
+}
+
+.body2-carga {
+    padding-top: 0;
+    padding-bottom: 10px;
+}
+
+@media screen and (max-width:800px) {
+    .btn_buscar_carga {
+        margin: 2% 0 0 0;
+    }
+}
+
+
+/* @media screen and (max-width:900px) {
+    .card-carga {
+        max-width: 100%;
+    }
+} */
