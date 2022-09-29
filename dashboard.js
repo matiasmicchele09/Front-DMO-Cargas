@@ -15,24 +15,27 @@ if (initialized_session == 'true') {
         .then(data => {
             console.log(data[0]);
 
-            let div = document.querySelector(".dashboard");
-            let btn_perfil = document.querySelector(".a-perfil");
-            let btn_mis_camiones = document.querySelector(".a-mis-camiones");
-            let btn_buscar_carga = document.querySelector(".a-buscar-cargas");
-            let btn_mis_cargas = document.querySelector(".a-mis-cargas");
-            let btn_logOut = document.querySelector(".btn-salir");
-            let h3 = document.createElement('h3');
-            let h4 = document.createElement('h4');
+            let div = document.querySelector(".dashboard"),
+                btn_perfil = document.querySelector(".a-perfil"),
+                btn_mis_camiones = document.querySelector(".a-mis-camiones"),
+                btn_buscar_carga = document.querySelector(".a-buscar-cargas"),
+                btn_my_request = document.querySelector(".a-mis-solicitudes"),
+                btn_mis_cargas = document.querySelector(".a-mis-cargas"),
+                btn_logOut = document.querySelector(".btn-salir"),
+                h3 = document.createElement('h3'),
+                h4 = document.createElement('h4');
 
             h3.innerHTML = `Bienvenido <b>${data[0].razon_social}</b>`;
             if (data[0].tipo_usuario == '1') {
-                let nav_mis_camiones = document.querySelector(".nav-mis-cargas");
-                nav_mis_camiones.classList.add("nav-mis-cargas-none");
+                let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
+                nav_mis_cargas.classList.add("nav-mis-cargas-none");
                 h4.innerHTML = 'Usted está registrado como Transportista'
             } else {
-                let nav_mis_camiones = document.querySelector(".nav-mis-camiones");
+                let nav_mis_camiones = document.querySelector(".nav-mis-camiones"),
+                    nav_buscar_carga = document.querySelector(".nav-buscar-carga"),
+                    nav_mis_solicitudes = document.querySelector(".nav-mis-solicitudes");
                 nav_mis_camiones.classList.add("nav-mis-camiones-none");
-                let nav_buscar_carga = document.querySelector(".nav-buscar-carga");
+                nav_mis_solicitudes.classList.add("nav-mis-solicitudes-none");
                 nav_buscar_carga.classList.add("nav-buscar-carga-none");
                 h4.innerHTML = 'Usted está registrado como Dador de Carga'
             }
@@ -51,7 +54,12 @@ if (initialized_session == 'true') {
 
             //Buscar Cargas - Transportista
             btn_buscar_carga.addEventListener('click', () => {
-                window.location.href = './search.html';
+                window.location.href = `./search.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
+            });
+
+            //Mis Solicitudes
+            btn_my_request.addEventListener('click', () => {
+                window.location.href = `./my_request.html?cod_usuario=${cod_usuario}`; //&tpo_usuario=${data[0].tipo_usuario};
             });
 
             //Mis Cargas - Dador de Carga

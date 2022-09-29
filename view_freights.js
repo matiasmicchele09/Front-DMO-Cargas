@@ -1,8 +1,12 @@
+//import moment from 'moment';
 const getURL = new URLSearchParams(window.location.search),
     cod_usuario = getURL.get('cod_usuario'),
     cod_carga = getURL.get('carga'),
+    tpo_usuario = getURL.get('tpo_usuario'),
     inputs = document.querySelectorAll('#form_freight input'),
     formEdicionCarga = document.getElementById("form_freight");
+//var moment = require('moment');
+
 
 
 let btn_back = document.querySelector(".parr_volver");
@@ -131,12 +135,18 @@ if (initialized_session == 'true') {
         }).then(res => res.json())
         .then(data => {
             console.log(data);
-            let btnEdit = document.querySelector(".btn_edit_carga"),
-                btnCancel = document.querySelector(".btn_cancel_carga"),
-                btnSave = document.querySelector(".btn_save_carga"),
-                btnDelete = document.querySelector(".btn_delete_carga");
+            let btnEdit = document.getElementById("btn_edit_carga"),
+                btnCancel = document.getElementById("btn_cancel_carga"),
+                btnSave = document.getElementById("btn_save_carga"),
+                btnDelete = document.getElementById("btn_delete_carga"),
+                btnRequest = document.getElementById("btn_request_carga");
 
             btnSave.disabled = true;
+
+            /* Lo de la fecha no lo hice como hice mas abajo en la solicitud porque a los dias y meses de un 
+            digito no les agrega el cero delante (01, 02, ...) entonces el input no me lo toma como válido.
+            Creo que hay una biblioteca llamada moment que podes darle el formato correcto a la fecha,
+            pero me hizo renegar asi que no la use */
 
             document.getElementById('prov_origen').value = data[0].prov_origen;
             document.getElementById('ciudad_origen').value = data[0].ciudad_origen;
@@ -179,12 +189,6 @@ if (initialized_session == 'true') {
                         select.appendChild(option);
                         select.disabled = true;
                     })
-
-                    /* select.addEventListener("change", (event) => {
-                        event.preventDefault();
-                        console.log(tipo_producto);
-                    }) */
-
                 })
 
             document.getElementById("grupo__req_refrigeracion").classList.remove("form_req_refrigeracion");
@@ -192,7 +196,6 @@ if (initialized_session == 'true') {
             if (document.getElementById('req_refrigeracion').value != null) {
                 document.getElementById('req_refrigeracion').checked = data[0].req_refrigeracion;
             }
-
 
             document.getElementById("grupo__es_carga_peligrosa").classList.remove("form_es_carga_peligrosa");
             document.getElementById("grupo__es_carga_peligrosa").classList.add("form_es_carga_peligrosa_disponible");
@@ -208,14 +211,11 @@ if (initialized_session == 'true') {
 
             for (i in data) {
 
-
                 if (data[i].cant_unit != 0) {
                     document.getElementById("grupo__cant_unit").classList.remove("form_cant_unit");
                     document.getElementById("grupo__cant_unit").classList.add("form_cant_unit_disponible");
                     document.getElementById('cant_unit').value = data[0].cant_unit;
-                } else {
-                    document.getElementById("cant_unit").value = 0;
-                }
+                } else { document.getElementById("cant_unit").value = 0; }
                 if (data[i].peso_unit_kg != 0) {
                     document.getElementById('grupo__peso_unit_kg').classList.remove("form_peso_unit_kg");
                     document.getElementById('grupo__peso_unit_kg').classList.add("form_peso_unit_kg_disponible");
@@ -260,6 +260,15 @@ if (initialized_session == 'true') {
             inputs.forEach((input) => {
                 input.disabled = true;
             });
+
+            if (tpo_usuario == 1) {
+                btnEdit.classList.add("btn_edit_carga_oculto");
+                btnCancel.classList.add("btn_cancel_carga_oculto");
+                btnSave.classList.add("btn_save_carga_oculto");
+                btnDelete.classList.add("btn_delete_carga_oculto");
+            } else {
+                btnRequest.classList.add("btn_request_carga_oculto");
+            }
 
             //Botón Editar
             btnEdit.addEventListener('click', (event) => {
@@ -406,6 +415,154 @@ if (initialized_session == 'true') {
                     }, 2000);
 
 
+                })
+            });
+
+            //Botón Solicitar
+            btnRequest.addEventListener('click', (event) => {
+                event.preventDefault();
+                var today = new Date(),
+                    day = today.getDate(),
+                    month = today.getMonth() + 1,
+                    year = today.getFullYear();
+
+                let p = document.querySelector('.parrafo_informacion'),
+                    modalUsuario = document.getElementById('cod_usuario_modal'),
+                    modalEstadoSolicitud = document.getElementById('cod_estado_solicitud_modal'),
+                    modalCarga = document.getElementById('cod_carga_modal'),
+                    modalFecSolicitud = document.getElementById('fec_solicitud_modal'),
+                    option = document.getElementById(`option_tipo_prod_${tipo_producto}`),
+                    formRequest = document.getElementById('formulario_request'),
+                    fecha_retiro = new Date(data[0].fec_retiro);
+                fecha_destino = new Date(data[0].fec_destino);
+
+                p.innerHTML = `<b>Origen: </b> ${data[0].ciudad_origen} (${data[0].prov_origen}) - ${fecha_retiro.toLocaleDateString()}<br>
+                               <b>Destino: </b> ${data[0].ciudad_destino} (${data[0].prov_destino}) - ${fecha_destino.toLocaleDateString()} <br>
+                               <b>Carga: </b> ${option.text}`
+
+                modalUsuario.value = cod_usuario;
+                modalEstadoSolicitud.value = "1";
+                modalCarga.value = data[0].cod_carga;
+                //Tuve que ponerlo así porque lo meses de un dígito van con cero adelante
+                if (`${month}`.length > 1 && `${day}`.length > 1) {
+                    modalFecSolicitud.value = `${year}-${month}-${day}`;
+                } else if (`${month}`.length == 1 && `${day}`.length == 1) {
+                    modalFecSolicitud.value = `${year}-0${month}-0${day}`;
+                } else if (`${month}`.length == 1) {
+                    modalFecSolicitud.value = `${year}-0${month}-${day}`;
+                } else if (`${day}`.length == 1) {
+                    modalFecSolicitud.value = `${year}-${month}-0${day}`;
+                }
+
+                fetch(`http://localhost:3000/getTrucksUser/${cod_usuario}`, {
+                        method: 'GET',
+                    }).then(res => res.json())
+                    .then(data => {
+                        //console.log(data);
+                        let select = document.getElementById('selectCamion_modal');
+
+                        for (i in data) {
+
+                            let option = document.createElement('option');
+                            option.setAttribute('id', `option_camion_${i}`);
+                            option.setAttribute('value', `${data[i].patente_camion}`)
+                            option.innerHTML = `${data[i].patente_camion}`;
+                            select.appendChild(option);
+                        }
+
+                        select.addEventListener("change", (event) => {
+                            event.preventDefault();
+                            //El select.value representa la patente que es enviada al sevidor... my_truck/:patente
+                            fetch(`http://localhost:3000/my_truck/${select.value}`, {
+                                    method: 'GET',
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    // console.log(data[0])
+                                    let parrafo_informacion = document.querySelector(".info_camion");
+                                    parrafo_informacion.innerHTML = `<b>Marca: </b> ${data[0].marca} <br>
+                                                                     <b>Modelo: </b>${data[0].modelo} <br>
+                                                                     <b>Año: </b> ${data[0].anio}`;
+
+                                    fetch(`http://localhost:3000/getOneTypeTruck/${data[0].cod_tipo_camion}`, {
+                                            method: 'GET',
+                                        })
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            //console.log(data[0])
+                                            let parr = document.querySelector(".info_tipo_camion");
+                                            parr.innerHTML = `<b>Descripción: </b> ${data[0].descripcion}`;
+                                        })
+
+
+                                })
+
+                        })
+                    })
+
+
+                fetch(`http://localhost:3000/getCarroceriasUser/${cod_usuario}`, {
+                        method: 'GET',
+                    }).then(res => res.json())
+                    .then(data => {
+                        //console.log(data);
+                        let select = document.getElementById('selectCarroceria_modal');
+
+                        for (i in data) {
+
+                            let option = document.createElement('option');
+                            option.setAttribute('id', `option_carroceria_${i}`);
+                            option.setAttribute('value', `${data[i].patente_carroceria}`)
+                            option.innerHTML = `${data[i].patente_carroceria}`;
+                            select.appendChild(option);
+                        }
+
+                        select.addEventListener("change", () => {
+                            fetch(`http://localhost:3000/mi_carroceria/${select.value}`, {
+                                    method: 'GET',
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    //console.log(data[0])
+                                    let parrafo_informacion = document.querySelector(".info_carroceria");
+                                    parrafo_informacion.innerHTML = `<b>Cant. Ejes: </b> ${data[0].cant_ejes} <br>                                                                     
+                                                                     <b>Año: </b> ${data[0].anio}`;
+
+                                    fetch(`http://localhost:3000/getOneTipoCarroceria/${data[0].cod_tipo_carroceria}`, {
+                                            method: 'GET',
+                                        })
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            //   console.log(data[0])
+                                            let parr = document.querySelector(".info_tipo_carroceria");
+                                            parr.innerHTML = `<b>Descripción: </b> ${data[0].descripcion}`;
+                                        })
+
+
+                                })
+
+                        })
+                    })
+
+                formRequest.addEventListener('submit', (event) => {
+                    event.preventDefault()
+                    let registroFormData = new FormData(formRequest);
+                    fetch('http://localhost:3000/confirm_request/', {
+                        method: 'POST',
+                        body: registroFormData,
+                    });
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: '¡Solicitud Enviada!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+
+                    setTimeout(() => {
+                        javascript: history.back()
+                            // window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
+                    }, 2500);
                 })
             });
         })

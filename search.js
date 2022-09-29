@@ -1,3 +1,11 @@
+const getURL = new URLSearchParams(window.location.search),
+    cod_usuario = getURL.get('cod_usuario'),
+    tpo_usuario = getURL.get('tpo_usuario');
+let btn_dashboard = document.querySelector(".a-dashboard"),
+    btn_logOut = document.querySelector(".btn-salir"),
+    btn_mis_camiones = document.querySelector(".a-mis-camiones"),
+    btn_mi_perfil = document.querySelector(".a-perfil");
+
 var initialized_session = 'false';
 
 initialized_session = sessionStorage.getItem("initialized_session");
@@ -7,9 +15,14 @@ if (initialized_session == 'true') {
     let btnBuscarCarga = document.getElementById("btn_buscar_carga"),
         inputBusquedaCarga = document.getElementById("buscar_carga");
 
+
     btnBuscarCarga.addEventListener("click", (event) => {
         event.preventDefault();
         let nombre_provincia = inputBusquedaCarga.value;
+
+
+
+
 
         fetch(`http://localhost:3000/searchCarga/${nombre_provincia}`, {
                 method: 'GET',
@@ -96,8 +109,8 @@ if (initialized_session == 'true') {
 
 
                         btnVerDetalle.addEventListener("click", () => {
-                            alert(res.cod_carga)
-                            window.location.href = `./view_freights.html`;
+                            //alert(res.cod_carga)
+                            window.location.href = `./view_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&carga=${res.cod_carga}`;
                         })
 
 
@@ -105,7 +118,41 @@ if (initialized_session == 'true') {
                 }
 
             })
+
     })
 
+
+    //Botón Dashboard
+    btn_dashboard.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
+    });
+
+    //Mis Camiones - Transportista
+    btn_mis_camiones.addEventListener('click', () => {
+        window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
+    });
+
+    //Botón Mi Perfil
+    btn_mi_perfil.addEventListener('click', () => {
+        window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+    });
+
+    //Botón Salir
+    btn_logOut.addEventListener('click', (event) => {
+        event.preventDefault();
+        Swal.fire({
+            position: 'center',
+            title: 'CERRANDO SESIÓN...',
+            text: '¡Hasta Pronto!',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
+        sessionStorage.removeItem("initialized_session");
+        setTimeout(() => {
+            window.location.href = './index.html';
+        }, 1500);
+    });
 
 }

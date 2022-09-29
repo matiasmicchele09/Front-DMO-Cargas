@@ -301,12 +301,79 @@
 
             <div class="formulario_grupo form__grupo-btn-agregar-carga mb-4">
                 <!-- <button type="submit" name="" id="btn-agregaCarga" class="btn form_btn mt-3 mb-3 btn-agregaCarga">Agregar Carga</button> -->
-                <button class="btn_edit_carga">Editar</button>
-                <button class="btn_cancel_carga">Cancelar</button>
-                <button type="submit" class="btn_save_carga">Guardar Cambios</button>
-                <button class="btn_delete_carga">Eliminar</button>
+                <button class="btn_edit_carga" id="btn_edit_carga">Editar</button>
+                <button class="btn_cancel_carga" id="btn_cancel_carga">Cancelar</button>
+                <button type="submit" class="btn_save_carga" id="btn_save_carga">Guardar Cambios</button>
+                <button class="btn_delete_carga" id="btn_delete_carga">Eliminar</button>
+                <button class="btn_request_carga" id="btn_request_carga" data-bs-toggle="modal" data-bs-target="#solicitarCarga">Solicitar Carga</button>
             </div>
         </form>
+
+        <div class="modal fade" id="solicitarCarga" tabindex="-1" data-bs-backdrop="static" aria-labelledby="solicitarCargaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="solicitarCargaLabel">Verifique Datos de la Solicitud</h5>
+                        <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal_request">
+                        <p class="parrafo_informacion"></p>
+                        <form class="formulario_request" id="formulario_request">
+                            <div class="formulario_grupo d-none" id="grupo__cod_usuario">
+                                <label for="cod_usuario_transp" class="form__label">Usuario</label>
+                                <div class="form__grupo_input">
+                                    <input type="text" class="form__input form-control" id="cod_usuario_modal" name="cod_usuario_transp">
+                                </div>
+                            </div>
+                            <div class="formulario_grupo d-none" id="grupo__cod_estado_solicitud">
+                                <label for="cod_estado_solicitud" class="form__label">Estado Solicitud</label>
+                                <div class="form__grupo_input">
+                                    <input type="text" class="form__input form-control" id="cod_estado_solicitud_modal" name="cod_estado_solicitud">
+                                </div>
+                            </div>
+                            <div class="formulario_grupo d-none" id="grupo__cod_carga">
+                                <label for="cod_carga" class="form__label">Cod. Carga</label>
+                                <div class="form__grupo_input">
+                                    <input type="text" class="form__input form-control" id="cod_carga_modal" name="cod_carga">
+                                </div>
+                            </div>
+                            <div class="formulario_grupo" id="grupo__fec_solicitud">
+                                <label for="fec_solicitud" class="form__label">Fecha Solicitud</label>
+                                <div class="form__grupo_input">
+                                    <input type="date" class="form__input form-control" id="fec_solicitud_modal" name="fec_solicitud">
+                                </div>
+                            </div>
+
+                            <div class="formulario_grupo" id="grupo__selectCamion" style="grid-column: span 3;">
+                                <label for="selectCamion" class="form__label">Camión</label>
+                                <div class="form__grupo_input">
+                                    <select class="selectCamion" name="patente_camion" id="selectCamion_modal">
+                                        <option id="option_camion_99" value="99">Seleccione un Camión...</option>
+                                    </select>
+                                    <p class="info_camion"></p>
+                                    <p class="info_tipo_camion"></p>
+                                </div>
+                            </div>
+
+                            <div class="formulario_grupo" id="" style="grid-column: span 3;">
+                                <label for="selectCarroceria" class="form__label">Carrocería</label>
+                                <div class="form__grupo_input">
+                                    <select class="selectCarroceria" name="patente_carroceria" id="selectCarroceria_modal">
+                                        <option id="option_carroceria_99" value="99">Seleccione una Carrocería...</option>
+                                    </select>
+                                    <p class="info_carroceria"></p>
+                                    <p class="info_tipo_carroceria"></p>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn_request_carga" id="btn_confirm_request">Confirmar Solicitud</button>
+                        </form>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>

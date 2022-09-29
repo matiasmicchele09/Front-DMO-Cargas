@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Dashboard</title>
+    <title>Mis Camiones</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
     <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
@@ -27,14 +26,11 @@
                     <li class="nav-item mt-1">
                         <i class="fa-solid fa-house icon-fontawesome"></i><a class="a-dashboard nav-link">Panel</a>
                     </li>
-                    <li class="nav-item mt-1 nav-mis-camiones">
+                    <li class="nav-item mt-1">
                         <i class="fa-solid fa-truck icon-fontawesome"></i><a class="a-mis-camiones nav-link">Mis Camiones</a>
                     </li>
                     <li class="nav-item mt-1 nav-buscar-carga">
                         <i class="fa-solid fa-magnifying-glass icon-fontawesome"></i><a class="a-buscar-cargas nav-link">Buscar Cargas</a>
-                    </li>
-                    <li class="nav-item mt-1 nav-mis-cargas">
-                        <i class="fa-solid fa-truck-ramp-box icon-fontawesome"></i><a class="a-mis-cargas nav-link">Mis Cargas</a>
                     </li>
                     <li class="nav-item mt-1 nav-mis-solicitudes">
                         <i class="fa-solid fa-file-lines icon-fontawesome"></i><a class="a-mis-solicitudes nav-link">Mis Solicitudes</a>
@@ -54,13 +50,24 @@
         </div>
     </nav>
 
-    <div class="dashboard">
-        <div class="container">
-        </div>
+    <div class="container contenedor_solicitudes mt-4">
+        <table class="table">
+            <tbody class="t_body_solicitudes">
+                <tr>
+                    <th class="th_requests">Id Solicitud</th>
+                    <th class="th_requests">Carga</th>
+                    <th class="th_requests">Fecha Solicitud</th>
+                    <th class="th_requests">Estado</th>
+                    <th colspan="2"></th>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
-    <script src="./dashboard.js"></script>
+
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
+    <script src="./my_request.js "></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </body>
 

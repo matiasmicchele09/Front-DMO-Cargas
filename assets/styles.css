@@ -154,7 +154,8 @@
 
 .nav-mis-camiones-none,
 .nav-buscar-carga-none,
-.nav-mis-cargas-none {
+.nav-mis-cargas-none,
+.nav-mis-solicitudes-none {
     display: none;
 }
 
@@ -162,6 +163,7 @@
 .a-mis-cargas,
 .a-buscar-cargas,
 .a-dashboard,
+.a-mis-solicitudes,
 .a-manual-usuario {
     color: #241F74;
     font-family: Helvetica, Arial, sans-serif;
@@ -173,8 +175,12 @@
 .a-mis-cargas:hover,
 .a-buscar-cargas:hover,
 .a-dashboard:hover,
-.a-manual-usuario:hover {
-    color: #FFFFFF;
+.a-manual-usuario:hover,
+.navigation:hover,
+.a-mis-solicitudes:hover,
+.a-quienes-somos:hover,
+.a-contacto:hover {
+    color: #4136df;
     cursor: pointer;
     display: inline;
 }
@@ -187,7 +193,7 @@
 }
 
 .a-perfil:hover {
-    color: #FFFFFF;
+    color: #4136df;
     cursor: pointer;
 }
 
@@ -205,12 +211,10 @@
     margin-left: 50px;
 }
 
-.navigation:hover {
-    color: #FFFFFF;
-}
 
-
-/* ------------------------------------- Sección Uno - login ------------------------------------- */
+/*----------------------------------------------------------------------------------------------------- 
+ ------------------------------------- Sección Uno - login ---------------------------------------
+ ----------------------------------------------------------------------------------------------------- */
 
 .seccionUno {
     text-align: center;
@@ -340,13 +344,9 @@
 }
 
 
-/* ------------------------------------- Sección Dos - Información ------------------------------------- */
-
-.seccionDos .barraTitulo {
-    /*background-color: #241F74;*/
-    height: 70px;
-    align-items: center;
-}
+/* ----------------------------------------------------------------------------------------------------- 
+ ------------------------------------- Sección Dos - Información ---------------------------------------
+ ----------------------------------------------------------------------------------------------------- */
 
 .seccionDos .containerCards {
     background-color: #ffffff;
@@ -356,18 +356,20 @@
 .seccionDos .cardBody {
     padding: 0px;
     border-radius: 30px;
-    border: solid;
+    /* border: solid; */
     margin: 20px;
-    background-color: #ffffff;
+    background-color: #dbdaec;
     width: 270px;
     height: 280px;
     flex-grow: 1;
+    box-shadow: 5px 5px 5px 3px #4136df;
 }
 
 .seccionDos .cardTitle {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
     color: #241F74;
+    text-align: unset;
 }
 
 @media screen and (max-width: 1000px) {
@@ -393,7 +395,9 @@
 }
 
 
-/* ------------------------------------- Sección Tres - Contacto ------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------- 
+------------------------------------- Sección Tres - Contacto ------------------------------------------
+----------------------------------------------------------------------------------------------------- */
 
 .seccionTres {
     position: relative;
@@ -402,24 +406,10 @@
     background-color: black;
 }
 
-.seccionTres .tarjeta {
-    margin: 15px;
-    background-color: #FAFAFA;
-    opacity: 90%;
-    border: inset;
+
+/* .seccionTres .tarjeta {
+    margin: 30px 15px 15px 0;
     margin-left: auto;
-}
-
-
-/* .seccionTres .parrafos {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-} */
-
-
-/* .seccionTres .contenedor {
-    width: auto;
-    border: inset;
 } */
 
 .seccionTres img {
@@ -427,39 +417,27 @@
     min-height: 500px;
 }
 
-.seccionTres .tarjeta {
-    border-radius: 3%;
-}
-
-.seccionTres form .nom {
+.seccionTres form .nom,
+.e-mail,
+.tel,
+.dir,
+.ciu,
+.mensj {
     border-color: #000000;
     font-size: 15px;
 }
 
-.seccionTres form .e-mail {
-    border-color: #000000;
-    font-size: 15px;
-}
-
-.seccionTres form .tel {
-    border-color: #000000;
-    font-size: 15px;
-}
-
-.seccionTres form .dir {
-    border-color: #000000;
-    font-size: 15px;
-}
-
-.seccionTres form .ciu {
-    border-color: #000000;
-    font-size: 15px;
-}
-
-.seccionTres form .mensj {
-    border-color: #000000;
-    font-size: 15px;
-    height: auto;
+.seccionTres .form-contacto {
+    max-width: 50%;
+    margin: 30px 15px 15px 0;
+    max-height: 450px;
+    margin-left: auto;
+    padding: 10px;
+    border-radius: 15px;
+    border: solid;
+    border-color: #241F74;
+    background-color: #FAFAFA;
+    opacity: 95%;
 }
 
 .seccionTres form .botonEnviar {
@@ -475,24 +453,36 @@
 }
 
 .seccionTres form .btnEnviaForm:hover {
-    background: #974415;
+    background: #4136df;
     color: #FAFAFA;
 }
 
 @media screen and (max-width:1000px) {
-    /*.parrafos {
-        width: 100%;
-    }*/
     .seccionTres img {
-        min-height: 650px;
+        height: 700px;
     }
-    .seccionTres .contendor {
-        width: 100%;
+    .seccionTres .form-contacto {
+        max-height: 650px;
+        /* margin-left: auto; */
+    }
+}
+
+@media screen and (max-width:800px) {
+    .seccionTres img {
+        height: 700px;
+    }
+    .seccionTres .form-contacto {
+        margin: 20px;
+        max-width: 90%;
+        max-height: 650px;
+        /* margin-left: auto; */
     }
 }
 
 
-/* Footer */
+/* ----------------------------------------------------------------------------------------------------- 
+------------------------------------- Footer -----------------------------------------------------------
+----------------------------------------------------------------------------------------------------- */
 
 footer {
     width: 100%;
@@ -559,11 +549,13 @@ div .termsAndconds p {
 }
 
 
-/* Quienes Somos */
+/* ----------------------------------------------------------------------------------------------------- 
+------------------------------------- ¿Quienes Somos? ------------------------------------------
+----------------------------------------------------------------------------------------------------- */
 
 .nosotros {
-    background-color: #2E2E2E;
-    padding-top: 65px;
+    background-color: #FAFAFA;
+    /* padding-top: 65px; */
 }
 
 .nosotros img {
@@ -576,44 +568,43 @@ div .termsAndconds p {
     justify-content: space-between;
 }
 
+.nosotros .tipoCard {
+    border-color: #241F74;
+}
+
 div .cardTitle {
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
+    color: #241F74;
 }
 
 div .cardSubTitle {
     font-size: small;
     font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
+    color: #241F74;
 }
 
 div .cardText {
     font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
+    color: #241F74;
 }
 
 @media screen and (max-width: 600px) {
     .nosotros .tipoCard {
         justify-content: center;
         margin-top: 10px;
-        margin-left: 0;
+        margin: auto;
     }
 }
 
 .nosotros .primerRow {
-    background-color: #E6E6E6;
+    background-color: #FAFAFA;
     text-align: justify;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .nosotros .segundoRow {
-    background-color: #E6E6E6;
-}
-
-.nosotros .tipoCard {
-    border-color: #241F74;
-    border: solid;
+    background-color: #FAFAFA;
 }
 
 
@@ -675,13 +666,30 @@ div .cardText {
 }
 
 .btn_edit_profile,
-.btn_edit_carga {
+.btn_edit_carga,
+.btn_save_profile,
+.btn_cancel_carga,
+.btn_cancel_profile,
+.btn_save_carga {
     background-color: #2471A3;
     color: #FFFFFF;
     cursor: pointer;
     margin: 20px 10px 0 0;
     width: 100px;
     border-radius: 5px;
+}
+
+.btn_request_carga {
+    background-color: #f5e400;
+    color: #000000;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.btn_request_carga:hover {
+    background-color: #afa519;
 }
 
 .btn_edit_profile:hover,
@@ -692,11 +700,6 @@ div .cardText {
 .btn_cancel_profile,
 .btn_cancel_carga {
     background-color: #707980;
-    color: #FFFFFF;
-    cursor: pointer;
-    margin: 20px 10px 0 0;
-    width: 100px;
-    border-radius: 5px;
 }
 
 .btn_cancel_profile:hover,
@@ -707,16 +710,20 @@ div .cardText {
 .btn_save_profile,
 .btn_save_carga {
     background-color: #34bb3f;
-    color: #FFFFFF;
-    cursor: pointer;
-    margin: 20px 10px 0 0;
     width: 150px;
-    border-radius: 5px;
 }
 
 .btn_save_profile:hover,
 .btn_save_carga:hover {
     background-color: #289231;
+}
+
+.btn_edit_carga_oculto,
+.btn_cancel_carga_oculto,
+.btn_save_carga_oculto,
+.btn_delete_carga_oculto,
+.btn_request_carga_oculto {
+    display: none;
 }
 
 
@@ -744,7 +751,8 @@ div .cardText {
 ------------------------------------- My Trucks --------------------------------------------- 
 --------------------------------------------------------------------------------------------*/
 
-.th_trucks {
+.th_trucks,
+.th_requests {
     color: #241F74;
 }
 
@@ -830,7 +838,9 @@ div .cardText {
 ------------------------------------- Agregar Carga ------------------------------------------
 --------------------------------------------------------------------------------------------*/
 
-.selectTipoProducto {
+.selectTipoProducto,
+.selectCarroceria,
+.selectCamion {
     width: 50%;
     padding: 2px;
 }

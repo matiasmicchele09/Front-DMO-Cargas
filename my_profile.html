@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Mi Perfil</title>
+    <title>Mi Perfil - DMO Cargas</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -39,6 +39,76 @@
 
     <div class="container my_profile">
         <form action="" autocomplete="off" id="form_profile">
+
+            <!-- Grupo: Usuario -->
+            <div class="formulario_grupo d-none" id="grupo__cod_usuario">
+                <label for="cod_usuario" class="form__label">Usuario</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="cod_usuario" name="cod_usuario">
+                </div>
+            </div>
+
+            <!-- Grupo: Razon Social -->
+            <div class="formulario_grupo" id="grupo__razon_social">
+                <!--El name es para JS y para el formData, class para CSS el, el id para JS y tbm para el label for-->
+                <label for="razon_social" class="form__label">Razón Social</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="razon_social" name="razon_social">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La Razón Social solo acepta letras y no puede estar vacío</p>
+            </div>
+
+            <!-- Grupo: CUIT/CUIL -->
+            <div class="formulario_grupo" id="grupo__cuit_cuil">
+                <label for="cuit_cuil" class="form__label">CUIT/CUIL</label>
+                <div class="form__grupo_input">
+                    <input type="text" class="form__input form-control" id="cuit_cuil" name="cuit_cuil">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">EL CUIT/CUIL debe contener 11 números</p>
+            </div>
+
+            <!-- Grupo: Email -->
+            <div class="formulario_grupo" id="grupo__email">
+                <label for="email" class="form__label">Email</label>
+                <div class="form__grupo_input">
+                    <input type="email" class="form__input form-control" id="email" name="email">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">El mail es inválido</p>
+            </div>
+
+            <!-- Grupo: Contraseña -->
+            <div class="formulario_grupo" id="grupo__password">
+                <label for="password" class="form__label">Contraseña</label>
+                <div class="form__grupo_input">
+                    <input type="password" class="form__input form-control" id="password" name="password">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La contraseña debe tener al menos 4 dígitos</p>
+            </div>
+
+            <!-- Grupo: Fecha Nacimiento -->
+            <div class="formulario_grupo" id="grupo__fec_nacim">
+                <label for="fec_nacim" class="form__label">Fecha Nacimiento</label>
+                <div class="form_grupo_input">
+                    <input type="date" class="form__input form-control" id="fec_nacim" name="fec_nacim">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">Fecha inválida</p>
+            </div>
+
+            <div class="form__mensaje_error" id="form__mensaje_error">
+                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
+            </div>
+
+            <div class="formulario_grupo form__grupo-btn-enviar">
+                <button type="" name="" id="btn_edit_profile" class="mt-3 mb-3 btn_edit_profile">Editar</button>
+                <button type="" name="" id="btn_cancel_profile" class="mt-3 mb-3 btn_cancel_profile">Cancelar</button>
+                <button type="submit" name="" id="btn_save_profile" class="mt-3 mb-3 btn_save_profile">Guardar Cambios</button>
+            </div>
+
         </form>
     </div>
 

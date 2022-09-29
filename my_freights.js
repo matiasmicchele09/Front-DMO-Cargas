@@ -5,15 +5,15 @@ const getURL = new URLSearchParams(window.location.search),
 let modal_tipo_carga = document.querySelector(".modal_tipo_carga"),
     btn_cerrar_modal = document.querySelector(".btn-cerrar-modal"),
     btn_logOut = document.querySelector(".btn-salir"),
-    btn_agregar_carga = document.querySelector(".btn_plus");
+    btn_agregar_carga = document.querySelector(".btn_plus"),
+    btn_dashboard = document.querySelector(".a-dashboard"),
+    btn_mi_perfil = document.querySelector(".a-perfil");
 
 var initialized_session = 'false';
 initialized_session = sessionStorage.getItem("initialized_session");
 
 if (initialized_session == 'true') {
 
-    let btn_dashboard = document.querySelector(".a-dashboard");
-    console.log('aca', cod_usuario);
     fetch(`http://localhost:3000/getCargasUser/${cod_usuario}`, {
             method: 'GET',
         }).then(res => res.json())
@@ -24,13 +24,13 @@ if (initialized_session == 'true') {
                 btnMas.classList.add("btn_mas_carga")
                 btnMas.innerHTML = 'Ver más';
 
-                let tableRow = document.createElement('tr');
-                let tableData1 = document.createElement('td');
-                let tableData2 = document.createElement('td');
-                let tableData3 = document.createElement('td');
-                let tableData4 = document.createElement('td');
-                let tableData5 = document.createElement('td');
-                let tableData6 = document.createElement('td');
+                let tableRow = document.createElement('tr'),
+                    tableData1 = document.createElement('td'),
+                    tableData2 = document.createElement('td'),
+                    tableData3 = document.createElement('td'),
+                    tableData4 = document.createElement('td'),
+                    tableData5 = document.createElement('td'),
+                    tableData6 = document.createElement('td');
 
                 tableData1.innerHTML = `${res.cod_carga}`;
 
@@ -77,6 +77,7 @@ if (initialized_session == 'true') {
         })
 
 
+
     //Botón de Agregar Camión
     btn_agregar_carga.addEventListener('click', (event) => {
         event.preventDefault();
@@ -121,7 +122,11 @@ if (initialized_session == 'true') {
     btn_dashboard.addEventListener('click', (event) => {
         event.preventDefault();
         window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
-    })
+    });
+    //Botón Mi Perfil
+    btn_mi_perfil.addEventListener('click', () => {
+        window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+    });
 
     //Botón Salir
     btn_logOut.addEventListener('click', (event) => {

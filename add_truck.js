@@ -95,21 +95,49 @@ if (initialized_session == 'true') {
             let registroFormData = new FormData(formularioCamion);
 
             fetch('http://localhost:3000/add_truck/', {
-                method: 'POST',
-                body: registroFormData,
-            });
+                    method: 'POST',
+                    body: registroFormData,
+                })
+                //.then(res => res.formData())
 
-            Swal.fire({
+            .then(response => {
+                if (response.ok) {
+                    console.log('Success:', response);
+                } else {
+                    console.log("error");
+                }
+
+            })
+
+            // .catch(error => console.error('Error:', error));
+            /* 
+            .then(response => {
+                if (response.ok) {
+                    console.log("es okkkkk");
+                } else {
+                    console.log("no ok");
+                }
+            }) */
+            /*
+                            .catch((e) => {
+                                console.log(e);
+                            });*/
+
+
+
+            /*  Swal.fire({
                 position: 'center',
                 icon: 'success',
                 title: '¡Camión Agregado!',
                 showConfirmButton: false,
                 timer: 2500
             })
+*/
 
-            setTimeout(() => {
+
+            /*setTimeout(() => {
                 window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
-            }, 2500);
+            }, 2500);*/
 
         } else {
             document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo');

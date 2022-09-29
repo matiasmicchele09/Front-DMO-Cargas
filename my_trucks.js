@@ -5,6 +5,8 @@ const tableBodyCamion = document.querySelector(".t_body_camion"),
 let btn_agregar_camion = document.querySelector(".btn_agregar_camion"),
     btn_agregar_carroceria = document.querySelector(".btn_agregar_carroceria"),
     btn_dashboard = document.querySelector(".a-dashboard"),
+    btn_buscar_carga = document.querySelector(".a-buscar-cargas"),
+    btn_mi_perfil = document.querySelector(".a-perfil"),
     btn_logOut = document.querySelector(".btn-salir");
 var initialized_session = 'false';
 
@@ -232,7 +234,17 @@ if (initialized_session == 'true') {
     btn_dashboard.addEventListener('click', (event) => {
         event.preventDefault();
         window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
-    })
+    });
+
+    //Buscar Cargas - Transportista
+    btn_buscar_carga.addEventListener('click', () => {
+        window.location.href = `./search.html?cod_usuario=${cod_usuario}`;
+    });
+
+    //Botón Mi Perfil
+    btn_mi_perfil.addEventListener('click', () => {
+        window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+    });
 
     //Botón Salir
     btn_logOut.addEventListener('click', (event) => {
