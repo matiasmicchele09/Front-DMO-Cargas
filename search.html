@@ -51,11 +51,16 @@
         </div>
     </nav>
 
-    <div class="search-carga">
-        <input type="text" placeholder="Ingresa el nombre de una provincia" class="buscar_carga" id="buscar_carga" name="buscar_carga">
-        <button class="btn_buscar_carga" id="btn_buscar_carga">Buscar</button>
-        <div class="container info_cargas_disponibles">
-            <h2 class="carga_no_encontrada">Su Búsqueda no ha tenido resultados. <br>¡Intente con otra Provincia!</h2>
+    <div class="search-carga" style="margin-bottom: 20px;">
+        <p style="margin: 10px 0 10px 25px;">A continuación podrá elegir una provincia que contenga cargas para llevar</p>
+        <select name="" class="selectProvincia" id="selectProvincia">
+            <option value="0">Seleccione una Provincia...</option>    
+        </select>
+        <div class="cant_registros" style="margin: 10px 0 10px 0;">
+            <p class="p_cant_reg"></p>
+        </div>
+        <div class="container info_cargas_disponibles" id="info_cargas_disponibles">
+
         </div>
     </div>
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>

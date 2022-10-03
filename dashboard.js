@@ -23,13 +23,13 @@ if (initialized_session == 'true') {
                 btn_mis_cargas = document.querySelector(".a-mis-cargas"),
                 btn_logOut = document.querySelector(".btn-salir"),
                 h3 = document.createElement('h3'),
-                h4 = document.createElement('h4');
+                p = document.createElement('p');
 
             h3.innerHTML = `Bienvenido <b>${data[0].razon_social}</b>`;
             if (data[0].tipo_usuario == '1') {
                 let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
                 nav_mis_cargas.classList.add("nav-mis-cargas-none");
-                h4.innerHTML = 'Usted está registrado como Transportista'
+                p.innerHTML = 'Usted está registrado como Transportista'
             } else {
                 let nav_mis_camiones = document.querySelector(".nav-mis-camiones"),
                     nav_buscar_carga = document.querySelector(".nav-buscar-carga"),
@@ -37,14 +37,14 @@ if (initialized_session == 'true') {
                 nav_mis_camiones.classList.add("nav-mis-camiones-none");
                 nav_mis_solicitudes.classList.add("nav-mis-solicitudes-none");
                 nav_buscar_carga.classList.add("nav-buscar-carga-none");
-                h4.innerHTML = 'Usted está registrado como Dador de Carga'
+                p.innerHTML = 'Usted está registrado como Dador de Carga'
             }
             div.appendChild(h3);
-            div.appendChild(h4);
+            div.appendChild(p);
 
             //Mis Camiones - Transportista
             btn_mis_camiones.addEventListener('click', () => {
-                window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
+                window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
             });
 
             //Mi Perfil
@@ -59,7 +59,7 @@ if (initialized_session == 'true') {
 
             //Mis Solicitudes
             btn_my_request.addEventListener('click', () => {
-                window.location.href = `./my_request.html?cod_usuario=${cod_usuario}`; //&tpo_usuario=${data[0].tipo_usuario};
+                window.location.href = `./my_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
             });
 
             //Mis Cargas - Dador de Carga

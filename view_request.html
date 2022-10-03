@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Mi Perfil - DMO Cargas</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="./assets/normalize.css">
+    <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-navigation">
+        <!--navbar-navigation la cree yo, esta en styles.css-->
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item mt-1">
+                        <p class="parr_volver"><i class="fa-solid fa-circle-left"></i><a class="nav-link d-inline" style="margin-left: 10px; color: #241F74;">Volver</a></p>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" id="" style="margin-top:10px;">
+        <div class="my_request" id="my_request">
+        </div>
+        <div class="d-flex">        
+            <div class="datos_carga" id="datos_carga"></div>
+            <div class="datos_camion" id="datos_camion" style="margin-left:20px"></div>
+        </div>
+    </div>
+
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
+    <script src="./view_request.js "></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

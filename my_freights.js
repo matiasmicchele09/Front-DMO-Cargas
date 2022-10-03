@@ -21,7 +21,7 @@ if (initialized_session == 'true') {
             console.log(data);
             data.forEach(res => {
                 let btnMas = document.createElement('button');
-                btnMas.classList.add("btn_mas_carga")
+                btnMas.classList.add("btn_mas_carga");
                 btnMas.innerHTML = 'Ver más';
 
                 let tableRow = document.createElement('tr'),
@@ -54,8 +54,23 @@ if (initialized_session == 'true') {
                         method: 'GET',
                     }).then(res => res.json())
                     .then(data => {
-                        //<span class="badge text-bg-danger">Danger</span>
-                        tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
+                        switch (data[0].cod_estado_carga) {
+                            case 1:
+                                tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
+                                break;
+                            case 2:
+                                tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`
+                                break;
+                            case 3:
+                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                break;
+                            case 4:
+                                tableData5.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                break;
+                            case 5:
+                                tableData5.innerHTML = `<span class="badge text-bg-secondary">${data[0].descripcion}</span>`
+                                break;
+                        }
                     });
 
                 tableData6.appendChild(btnMas);
@@ -78,7 +93,7 @@ if (initialized_session == 'true') {
 
 
 
-    //Botón de Agregar Camión
+    //Botón de Agregar Carga
     btn_agregar_carga.addEventListener('click', (event) => {
         event.preventDefault();
 

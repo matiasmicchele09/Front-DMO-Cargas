@@ -148,6 +148,14 @@ if (initialized_session == 'true') {
             Creo que hay una biblioteca llamada moment que podes darle el formato correcto a la fecha,
             pero me hizo renegar asi que no la use */
 
+            fetch(`http://localhost:3000/getNameUser/${data[0].cod_usuario}`, {
+                    method: 'GET',
+                }).then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    document.getElementById('rs_dador_carga').innerHTML = data[0].razon_social;
+                });
+
             document.getElementById('prov_origen').value = data[0].prov_origen;
             document.getElementById('ciudad_origen').value = data[0].ciudad_origen;
             document.getElementById('domicilio_origen').value = data[0].domicilio_origen;
@@ -473,6 +481,7 @@ if (initialized_session == 'true') {
                         select.addEventListener("change", (event) => {
                             event.preventDefault();
                             //El select.value representa la patente que es enviada al sevidor... my_truck/:patente
+                            //Pero no usa el value del option, como defini arriba el value
                             fetch(`http://localhost:3000/my_truck/${select.value}`, {
                                     method: 'GET',
                                 })
@@ -546,7 +555,18 @@ if (initialized_session == 'true') {
 
                 formRequest.addEventListener('submit', (event) => {
                     event.preventDefault()
-                    let registroFormData = new FormData(formRequest);
+                    let registroFormData = new FormData(formRequest),
+                        //carga_actualizar = cod_carga,
+                        estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '2' };
+                    console.log(estadoCarga);
+
+                    fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                        method: 'PUT',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(estadoCarga),
+                    });
                     fetch('http://localhost:3000/confirm_request/', {
                         method: 'POST',
                         body: registroFormData,
@@ -561,7 +581,7 @@ if (initialized_session == 'true') {
 
                     setTimeout(() => {
                         javascript: history.back()
-                            // window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
+                        window.location.href = `./my_request.html?cod_usuario=${cod_usuario}`;
                     }, 2500);
                 })
             });

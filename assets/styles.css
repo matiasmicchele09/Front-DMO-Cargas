@@ -623,7 +623,11 @@ div .cardText {
 }
 
 .dashboard {
-    background-color: #c7c7c7;
+    display: grid;
+    place-content: center;
+    padding-top: 10px;
+    background-color: #A9E2F3;
+    text-align: center;
 }
 
 
@@ -914,27 +918,25 @@ div .cardText {
     background-color: #4136df;
 }
 
-.carga_no_encontrada {
-    color: #BB2929;
-    display: none;
-}
-
-.muestra_carga_no_encontrada {
-    display: block;
-}
-
 
 /* ---------------------------------------------------------------------------------- 
    ------------------------------------- Search ------------------------------------- 
    ---------------------------------------------------------------------------------- */
 
-.buscar_carga {
-    width: 80%;
-    height: 40px;
-    margin: 20px 0 40px 5%;
+.search-carga .p_cant_reg {
+    margin: 10px 0 10px 25px;
 }
 
-.btn_buscar_carga,
+.selectProvincia {
+    width: 300px;
+    height: 30px;
+    margin: 10px 0 0px 25px;
+}
+
+.p_cant_reg_none {
+    display: none;
+}
+
 .btn_ver_detalle {
     background-color: #241F74;
     color: #FFFFFF;
@@ -948,7 +950,6 @@ div .cardText {
     margin-bottom: 10px;
 }
 
-.btn_buscar_carga:hover,
 .btn_ver_detalle:hover {
     background-color: #4136df;
 }
@@ -963,26 +964,47 @@ div .cardText {
 }
 
 .card-carga {
-    box-shadow: 5px 5px 5px 3px #4136df;
+    box-shadow: 5px 5px 5px 3px #3f3f3f;
+    /*#4136df*/
+}
+
+.card-carga-none {
+    display: none;
 }
 
 .card-carga:hover {
-    background-color: #eceb86;
+    background-color: #c4c4c4;
+    /*#eceb86;*/
 }
 
-.cardText1-carga,
+.cardText1-carga {
+    /*display: inline-block;*/
+    margin: 5px 0 10px 10px;
+}
+
 .cardText2-carga {
-    display: inline-block;
+    /*display: inline-block;*/
+    margin: 5px 10px 10px 0;
 }
 
 .cardBbody-carga {
     display: flex;
     justify-content: space-between;
+    padding: 0;
 }
 
 .body2-carga {
     padding-top: 0;
     padding-bottom: 10px;
+}
+
+@media screen and (max-width:400px) {
+    .info_cargas_disponibles {
+        grid-template-columns: 1fr;
+    }
+    .cardBbody-carga {
+        display: inline-block;
+    }
 }
 
 @media screen and (max-width:800px) {
@@ -991,9 +1013,7 @@ div .cardText {
     }
 }
 
+/* ---------------------------------------------------------------------------------- 
+   ------------------------------------- Requests -----------------------------------
+   ---------------------------------------------------------------------------------- */
 
-/* @media screen and (max-width:900px) {
-    .card-carga {
-        max-width: 100%;
-    }
-} */
