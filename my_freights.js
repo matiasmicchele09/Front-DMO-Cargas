@@ -1,5 +1,6 @@
 const getURL = new URLSearchParams(window.location.search),
     cod_usuario = getURL.get('cod_usuario'),
+    tpo_usuario = getURL.get('tpo_usuario'),
     tableBody = document.querySelector(".t_body");
 
 let modal_tipo_carga = document.querySelector(".modal_tipo_carga"),
@@ -20,9 +21,12 @@ if (initialized_session == 'true') {
         .then(data => {
             console.log(data);
             data.forEach(res => {
-                let btnMas = document.createElement('button');
+                let btnMas = document.createElement('button'),
+                    btnSolicitudes = document.createElement('button');
                 btnMas.classList.add("btn_mas_carga");
+                btnSolicitudes.classList.add("btn_solicitudes_carga");
                 btnMas.innerHTML = 'Ver más';
+                btnSolicitudes.innerHTML = 'Solicitudes';
 
                 let tableRow = document.createElement('tr'),
                     tableData1 = document.createElement('td'),
@@ -30,7 +34,8 @@ if (initialized_session == 'true') {
                     tableData3 = document.createElement('td'),
                     tableData4 = document.createElement('td'),
                     tableData5 = document.createElement('td'),
-                    tableData6 = document.createElement('td');
+                    tableData6 = document.createElement('td'),
+                    tableData7 = document.createElement('td');
 
                 tableData1.innerHTML = `${res.cod_carga}`;
 
@@ -45,7 +50,7 @@ if (initialized_session == 'true') {
                         method: 'GET',
                     }).then(res => res.json())
                     .then(data => {
-                        tableData3.innerHTML = data[0].descripcion;
+                        tableData2.innerHTML = tableData2.innerHTML + ` - ${data[0].descripcion}`;
                     });
 
                 tableData4.innerHTML = `${res.prov_origen} - ${res.prov_destino}`;
@@ -59,33 +64,43 @@ if (initialized_session == 'true') {
                                 tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
                                 break;
                             case 2:
-                                tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`
+                                tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`;
+                                tableData7.appendChild(btnSolicitudes);
                                 break;
                             case 3:
                                 tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                tableData7.appendChild(btnSolicitudes);
                                 break;
                             case 4:
                                 tableData5.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                tableData7.appendChild(btnSolicitudes);
                                 break;
                             case 5:
                                 tableData5.innerHTML = `<span class="badge text-bg-secondary">${data[0].descripcion}</span>`
+                                tableData7.appendChild(btnSolicitudes);
                                 break;
                         }
                     });
 
                 tableData6.appendChild(btnMas);
 
+
                 tableRow.appendChild(tableData1);
                 tableRow.appendChild(tableData2);
-                tableRow.appendChild(tableData3);
+                //tableRow.appendChild(tableData3);
                 tableRow.appendChild(tableData4);
                 tableRow.appendChild(tableData5);
                 tableRow.appendChild(tableData6);
+                tableRow.appendChild(tableData7);
                 tableBody.appendChild(tableRow);
 
                 btnMas.addEventListener('click', (event) => {
                     event.preventDefault();
-                    window.location.href = `./view_freights.html?cod_usuario=${cod_usuario}&carga=${res.cod_carga}`;
+                    window.location.href = `./view_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&cod_carga=${res.cod_carga}`;
+                })
+                btnSolicitudes.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    window.location.href = `./my_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&cod_carga=${res.cod_carga}`;
                 })
 
             })

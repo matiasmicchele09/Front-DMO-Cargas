@@ -155,6 +155,7 @@
 .nav-mis-camiones-none,
 .nav-buscar-carga-none,
 .nav-mis-cargas-none,
+.nav-cargas-solicitadas-none,
 .nav-mis-solicitudes-none {
     display: none;
 }
@@ -162,6 +163,7 @@
 .a-mis-camiones,
 .a-mis-cargas,
 .a-buscar-cargas,
+.a-cargas-solicitadas,
 .a-dashboard,
 .a-mis-solicitudes,
 .a-manual-usuario {
@@ -174,6 +176,7 @@
 .a-mis-camiones:hover,
 .a-mis-cargas:hover,
 .a-buscar-cargas:hover,
+.a-cargas-solicitadas:hover,
 .a-dashboard:hover,
 .a-manual-usuario:hover,
 .navigation:hover,
@@ -630,6 +633,24 @@ div .cardText {
     text-align: center;
 }
 
+.info_usuario {
+    display: grid;
+    place-content: center;
+}
+
+.card_body_info_usuario {
+    padding: 25px;
+    width: 400px;
+    /*border-radius: 30px;*/
+    /* border: solid; */
+    margin: 20px;
+    background-color: #dbdaec;
+    /* width: 270px;
+    height: 280px; */
+    flex-grow: 1;
+    /* box-shadow: 5px 5px 5px 3px #4136df; */
+}
+
 
 /*--------------------------------------------------------------------------------------------
 ------------------------------------- My Profile --------------------------------------------- 
@@ -918,6 +939,17 @@ div .cardText {
     background-color: #4136df;
 }
 
+.btn_solicitudes_carga {
+    background-color: #f5e400;
+    color: #000000;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.btn_solicitudes_carga:hover {
+    background-color: #afa519;
+}
+
 
 /* ---------------------------------------------------------------------------------- 
    ------------------------------------- Search ------------------------------------- 
@@ -1013,7 +1045,104 @@ div .cardText {
     }
 }
 
+
 /* ---------------------------------------------------------------------------------- 
    ------------------------------------- Requests -----------------------------------
    ---------------------------------------------------------------------------------- */
 
+.btn_acept_request {
+    background-color: #34bb3f;
+    color: #FFFFFF;
+    border-color: #289231;
+}
+
+.btn_acept_request:hover {
+    background-color: #1ED12D;
+}
+
+.btn_acept_request_none {
+    display: none;
+}
+
+.btn_decline_request {
+    background-color: #dc3545;
+    color: #FFFFFF;
+}
+
+.btn_decline_request:hover {
+    background-color: #a82633;
+}
+
+.btn_decline_request_none {
+    display: none;
+}
+
+.btns_request {
+    display: flex;
+    justify-content: space-around;
+}
+
+.info_request {
+    margin: 0;
+}
+
+
+/* drag and drop */
+
+.drop-area-request {
+    border: 5px dashed #D0D3D4;
+    height: 200px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.drop-area-request:active {
+    background-color: #b8d4fe;
+    color: #000000;
+    border: 2px dashed #619ac9;
+}
+
+.drop-area-request button {
+    padding: 10px 25px;
+    font-size: 20px;
+    border: 0;
+    outline: none;
+    background-color: #5256ad;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.file-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: solid 1px #ddd;
+}
+
+#preview {
+    margin-top: 10px;
+}
+
+.status-text {
+    padding: 0 10px;
+}
+
+.success {
+    color: #52ad5a;
+}
+
+.failure {
+    color: #ff0000;
+}
+
+.download_files {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #120fe4;
+}

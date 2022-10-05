@@ -162,7 +162,7 @@ if (initialized_session == 'true') {
 
                             btnVerDetalle.addEventListener("click", () => {
                                 //alert(res.cod_carga)
-                                window.location.href = `./view_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&carga=${res.cod_carga}`;
+                                window.location.href = `./view_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&cod_carga=${res.cod_carga}`;
                             })
 
 

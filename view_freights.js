@@ -1,13 +1,9 @@
-//import moment from 'moment';
 const getURL = new URLSearchParams(window.location.search),
     cod_usuario = getURL.get('cod_usuario'),
-    cod_carga = getURL.get('carga'),
+    cod_carga = getURL.get('cod_carga'),
     tpo_usuario = getURL.get('tpo_usuario'),
     inputs = document.querySelectorAll('#form_freight input'),
     formEdicionCarga = document.getElementById("form_freight");
-//var moment = require('moment');
-
-
 
 let btn_back = document.querySelector(".parr_volver");
 var initialized_session = 'false';
@@ -127,19 +123,22 @@ inputs.forEach((input) => {
 
 });
 
-
+/* document.addEventListener("DOMContentLoaded", (event) => {
+    event.preventDefault();
+ */
 if (initialized_session == 'true') {
+    const btnEdit = document.getElementById("btn_edit_carga"),
+        btnCancel = document.getElementById("btn_cancel_carga"),
+        btnSave = document.getElementById("btn_save_carga"),
+        btnDelete = document.getElementById("btn_delete_carga"),
+        btnRequest = document.getElementById("btn_request_carga");
 
     fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
             method: 'GET',
         }).then(res => res.json())
         .then(data => {
             console.log(data);
-            let btnEdit = document.getElementById("btn_edit_carga"),
-                btnCancel = document.getElementById("btn_cancel_carga"),
-                btnSave = document.getElementById("btn_save_carga"),
-                btnDelete = document.getElementById("btn_delete_carga"),
-                btnRequest = document.getElementById("btn_request_carga");
+
 
             btnSave.disabled = true;
 
@@ -269,327 +268,333 @@ if (initialized_session == 'true') {
                 input.disabled = true;
             });
 
-            if (tpo_usuario == 1) {
+            if (tpo_usuario == '1') {
                 btnEdit.classList.add("btn_edit_carga_oculto");
                 btnCancel.classList.add("btn_cancel_carga_oculto");
                 btnSave.classList.add("btn_save_carga_oculto");
                 btnDelete.classList.add("btn_delete_carga_oculto");
-            } else {
-                btnRequest.classList.add("btn_request_carga_oculto");
-            }
+                //Botón Solicitar
+                btnRequest.addEventListener('click', (event) => {
+                    console.log("sisisisisi");
+                    event.preventDefault();
+                    var today = new Date(),
+                        day = today.getDate(),
+                        month = today.getMonth() + 1,
+                        year = today.getFullYear();
 
-            //Botón Editar
-            btnEdit.addEventListener('click', (event) => {
-                event.preventDefault();
-                const inputs = document.querySelectorAll('#form_freight input');
-                inputs.forEach((input) => {
-                    input.disabled = false;
-                });
-                document.getElementById('selectTipoProducto').disabled = false;
-                btnSave.disabled = false;
-                btnEdit.disabled = true;
-            });
+                    let p = document.querySelector('.parrafo_informacion'),
+                        modalUsuario = document.getElementById('cod_usuario_modal'),
+                        modalEstadoSolicitud = document.getElementById('cod_estado_solicitud_modal'),
+                        modalCarga = document.getElementById('cod_carga_modal'),
+                        modalFecSolicitud = document.getElementById('fec_solicitud_modal'),
+                        option = document.getElementById(`option_tipo_prod_${tipo_producto}`),
+                        formRequest = document.getElementById('formulario_request'),
+                        fecha_retiro = new Date(data[0].fec_retiro);
+                    fecha_destino = new Date(data[0].fec_destino);
 
-            //Botón Cancelar
-            btnCancel.addEventListener('click', (event) => {
-                event.preventDefault();
-                const inputs = document.querySelectorAll('#form_freight input');
+                    p.innerHTML = `<b>Origen: </b> ${data[0].ciudad_origen} (${data[0].prov_origen}) - ${fecha_retiro.toLocaleDateString()}<br>
+                                    <b>Destino: </b> ${data[0].ciudad_destino} (${data[0].prov_destino}) - ${fecha_destino.toLocaleDateString()} <br>
+                                    <b>Carga: </b> ${option.text}`
 
-                inputs.forEach((input) => {
-                    input.disabled = true;
-                })
-                document.getElementById('selectTipoProducto').disabled = true;
-                btnSave.disabled = true;
-                btnEdit.disabled = false;
-            });
-
-            document.getElementById('req_refrigeracion').addEventListener("click", () => {
-                if (document.getElementById('req_refrigeracion').checked) {
-                    document.getElementById('req_refrigeracion').value = true
-                } else {
-                    document.getElementById('req_refrigeracion').value = false
-                }
-            })
-            document.getElementById('es_carga_peligrosa').addEventListener("click", () => {
-                if (document.getElementById('es_carga_peligrosa').checked) {
-                    document.getElementById('es_carga_peligrosa').value = true
-                } else {
-                    document.getElementById('es_carga_peligrosa').value = false
-                }
-            })
-            document.getElementById('es_carga_apilable').addEventListener("click", () => {
-                if (document.getElementById('es_carga_apilable').checked) {
-                    document.getElementById('es_carga_apilable').value = true
-                } else {
-                    document.getElementById('es_carga_apilable').value = false
-                }
-            })
-
-            // Guardar Cambios 
-            formEdicionCarga.addEventListener('submit', (event) => {
-                event.preventDefault();
-                let horaRetiro = document.getElementById("hora_retiro"),
-                    horaDestino = document.getElementById("hora_destino"),
-                    fecRetiro = document.getElementById("fec_retiro"),
-                    fecDestino = document.getElementById("fec_destino"),
-                    receptor_carga = document.getElementById("receptor_carga");
-                if (horaRetiro.value == "") {
-                    campos.hora_retiro = false;
-                } else { campos.hora_retiro = true; }
-                if (horaDestino.value == "") {
-                    campos.hora_destino = false;
-                } else { campos.hora_destino = true; }
-                if (fecRetiro.value == "") {
-                    campos.fec_retiro = false;
-                } else { campos.fec_retiro = true; }
-                if (fecDestino.value == "") {
-                    campos.fec_destino = false;
-                } else { campos.fec_destino = true; }
-                if (receptor_carga.value == "") {
-                    campos.receptor_carga = false;
-                } else { campos.receptor_carga = true; }
-                /* falta que salga el cartel en todos esos campos que definí acá arriba */
-
-                if (campos.prov_origen && campos.ciudad_origen && campos.domicilio_origen &&
-                    campos.hora_retiro && campos.fec_retiro && campos.hora_destino &&
-                    campos.fec_destino && campos.prov_destino && campos.ciudad_destino &&
-                    campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
-                    campos.peso_unit_kg && campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
-                    campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros) {
-
-                    let registroFormData = new FormData(formEdicionCarga);
-
-                    fetch('http://localhost:3000/update_carga', {
-                        method: 'PUT',
-                        body: registroFormData,
-                    })
-
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: '¡Cambios Guardados!',
-                        showConfirmButton: false,
-                        timer: 2500
-                    })
-
-                    setTimeout(() => {
-                        javascript: history.back()
-                    }, 2500);
-
-                } else {
-                    document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo')
-                    setTimeout(() => {
-                        document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
-                    }, 4000);
-                }
-
-            })
-
-            //Botón Eliminar
-            btnDelete.addEventListener("click", (event) => {
-                event.preventDefault();
-
-                Swal.fire({
-                    title: '¿Está seguro que desea eliminar esta Carga?',
-                    icon: 'warning',
-                    showDenyButton: false,
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: `Confirmar`,
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true,
-                    allowOutsideClick: false,
-
-                }).then((result) => {
-                    fetch(`http://localhost:3000/delete_carga/${data[0].cod_carga}`, {
-                        method: 'DELETE',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(data[0])
-                    })
-
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'La Carga ha sido eliminado',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
+                    modalUsuario.value = cod_usuario;
+                    modalEstadoSolicitud.value = "1";
+                    modalCarga.value = data[0].cod_carga;
+                    //Tuve que ponerlo así porque lo meses de un dígito van con cero adelante
+                    if (`${month}`.length > 1 && `${day}`.length > 1) {
+                        modalFecSolicitud.value = `${year}-${month}-${day}`;
+                    } else if (`${month}`.length == 1 && `${day}`.length == 1) {
+                        modalFecSolicitud.value = `${year}-0${month}-0${day}`;
+                    } else if (`${month}`.length == 1) {
+                        modalFecSolicitud.value = `${year}-0${month}-${day}`;
+                    } else if (`${day}`.length == 1) {
+                        modalFecSolicitud.value = `${year}-${month}-0${day}`;
                     }
 
-                    setTimeout(() => {
-                        javascript: history.back()
-                    }, 2000);
+                    fetch(`http://localhost:3000/getTrucksUser/${cod_usuario}`, {
+                            method: 'GET',
+                        }).then(res => res.json())
+                        .then(data => {
+                            //console.log(data);
+                            let select = document.getElementById('selectCamion_modal');
+
+                            for (i in data) {
+
+                                let option = document.createElement('option');
+                                option.setAttribute('id', `option_camion_${i}`);
+                                option.setAttribute('value', `${data[i].patente_camion}`)
+                                option.innerHTML = `${data[i].patente_camion}`;
+                                select.appendChild(option);
+                            }
+
+                            select.addEventListener("change", (event) => {
+                                event.preventDefault();
+                                //El select.value representa la patente que es enviada al sevidor... my_truck/:patente
+                                //Pero no usa el value del option, como defini arriba el value
+                                fetch(`http://localhost:3000/my_truck/${select.value}`, {
+                                        method: 'GET',
+                                    })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        // console.log(data[0])
+                                        let parrafo_informacion = document.querySelector(".info_camion");
+                                        parrafo_informacion.innerHTML = `<b>Marca: </b> ${data[0].marca} <br>
+                                                                          <b>Modelo: </b>${data[0].modelo} <br>
+                                                                          <b>Año: </b> ${data[0].anio}`;
+
+                                        fetch(`http://localhost:3000/getOneTypeTruck/${data[0].cod_tipo_camion}`, {
+                                                method: 'GET',
+                                            })
+                                            .then(res => res.json())
+                                            .then(data => {
+                                                //console.log(data[0])
+                                                let parr = document.querySelector(".info_tipo_camion");
+                                                parr.innerHTML = `<b>Descripción: </b> ${data[0].descripcion}`;
+                                            })
 
 
-                })
-            });
+                                    })
 
-            //Botón Solicitar
-            btnRequest.addEventListener('click', (event) => {
-                event.preventDefault();
-                var today = new Date(),
-                    day = today.getDate(),
-                    month = today.getMonth() + 1,
-                    year = today.getFullYear();
+                            })
+                        })
 
-                let p = document.querySelector('.parrafo_informacion'),
-                    modalUsuario = document.getElementById('cod_usuario_modal'),
-                    modalEstadoSolicitud = document.getElementById('cod_estado_solicitud_modal'),
-                    modalCarga = document.getElementById('cod_carga_modal'),
-                    modalFecSolicitud = document.getElementById('fec_solicitud_modal'),
-                    option = document.getElementById(`option_tipo_prod_${tipo_producto}`),
-                    formRequest = document.getElementById('formulario_request'),
-                    fecha_retiro = new Date(data[0].fec_retiro);
-                fecha_destino = new Date(data[0].fec_destino);
 
-                p.innerHTML = `<b>Origen: </b> ${data[0].ciudad_origen} (${data[0].prov_origen}) - ${fecha_retiro.toLocaleDateString()}<br>
-                               <b>Destino: </b> ${data[0].ciudad_destino} (${data[0].prov_destino}) - ${fecha_destino.toLocaleDateString()} <br>
-                               <b>Carga: </b> ${option.text}`
+                    fetch(`http://localhost:3000/getCarroceriasUser/${cod_usuario}`, {
+                            method: 'GET',
+                        }).then(res => res.json())
+                        .then(data => {
+                            //console.log(data);
+                            let select = document.getElementById('selectCarroceria_modal');
 
-                modalUsuario.value = cod_usuario;
-                modalEstadoSolicitud.value = "1";
-                modalCarga.value = data[0].cod_carga;
-                //Tuve que ponerlo así porque lo meses de un dígito van con cero adelante
-                if (`${month}`.length > 1 && `${day}`.length > 1) {
-                    modalFecSolicitud.value = `${year}-${month}-${day}`;
-                } else if (`${month}`.length == 1 && `${day}`.length == 1) {
-                    modalFecSolicitud.value = `${year}-0${month}-0${day}`;
-                } else if (`${month}`.length == 1) {
-                    modalFecSolicitud.value = `${year}-0${month}-${day}`;
-                } else if (`${day}`.length == 1) {
-                    modalFecSolicitud.value = `${year}-${month}-0${day}`;
+                            for (i in data) {
+
+                                let option = document.createElement('option');
+                                option.setAttribute('id', `option_carroceria_${i}`);
+                                option.setAttribute('value', `${data[i].patente_carroceria}`)
+                                option.innerHTML = `${data[i].patente_carroceria}`;
+                                select.appendChild(option);
+                            }
+
+                            select.addEventListener("change", () => {
+                                fetch(`http://localhost:3000/mi_carroceria/${select.value}`, {
+                                        method: 'GET',
+                                    })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        //console.log(data[0])
+                                        let parrafo_informacion = document.querySelector(".info_carroceria");
+                                        parrafo_informacion.innerHTML = `<b>Cant. Ejes: </b> ${data[0].cant_ejes} <br>                                                                     
+                                                                          <b>Año: </b> ${data[0].anio}`;
+
+                                        fetch(`http://localhost:3000/getOneTipoCarroceria/${data[0].cod_tipo_carroceria}`, {
+                                                method: 'GET',
+                                            })
+                                            .then(res => res.json())
+                                            .then(data => {
+                                                //   console.log(data[0])
+                                                let parr = document.querySelector(".info_tipo_carroceria");
+                                                parr.innerHTML = `<b>Descripción: </b> ${data[0].descripcion}`;
+                                            })
+
+
+                                    })
+
+                            })
+                        })
+
+                    formRequest.addEventListener('submit', (event) => {
+                        event.preventDefault()
+                        let registroFormData = new FormData(formRequest),
+                            estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '2' };
+
+                        fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(estadoCarga),
+                        });
+                        fetch('http://localhost:3000/confirm_request/', {
+                            method: 'POST',
+                            body: registroFormData,
+                        });
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: '¡Solicitud Enviada!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        })
+
+                        setTimeout(() => {
+                            javascript: history.back()
+                                //window.location.href = `./my_request.html?cod_usuario=${cod_usuario}`;
+                        }, 2500);
+                    })
+                });
+
+            } else if (tpo_usuario == '2') {
+                {
+                    btnRequest.classList.add("btn_request_carga_oculto");
+
                 }
 
-                fetch(`http://localhost:3000/getTrucksUser/${cod_usuario}`, {
-                        method: 'GET',
-                    }).then(res => res.json())
-                    .then(data => {
-                        //console.log(data);
-                        let select = document.getElementById('selectCamion_modal');
-
-                        for (i in data) {
-
-                            let option = document.createElement('option');
-                            option.setAttribute('id', `option_camion_${i}`);
-                            option.setAttribute('value', `${data[i].patente_camion}`)
-                            option.innerHTML = `${data[i].patente_camion}`;
-                            select.appendChild(option);
-                        }
-
-                        select.addEventListener("change", (event) => {
-                            event.preventDefault();
-                            //El select.value representa la patente que es enviada al sevidor... my_truck/:patente
-                            //Pero no usa el value del option, como defini arriba el value
-                            fetch(`http://localhost:3000/my_truck/${select.value}`, {
-                                    method: 'GET',
-                                })
-                                .then(res => res.json())
-                                .then(data => {
-                                    // console.log(data[0])
-                                    let parrafo_informacion = document.querySelector(".info_camion");
-                                    parrafo_informacion.innerHTML = `<b>Marca: </b> ${data[0].marca} <br>
-                                                                     <b>Modelo: </b>${data[0].modelo} <br>
-                                                                     <b>Año: </b> ${data[0].anio}`;
-
-                                    fetch(`http://localhost:3000/getOneTypeTruck/${data[0].cod_tipo_camion}`, {
-                                            method: 'GET',
-                                        })
-                                        .then(res => res.json())
-                                        .then(data => {
-                                            //console.log(data[0])
-                                            let parr = document.querySelector(".info_tipo_camion");
-                                            parr.innerHTML = `<b>Descripción: </b> ${data[0].descripcion}`;
-                                        })
-
-
-                                })
-
-                        })
-                    })
-
-
-                fetch(`http://localhost:3000/getCarroceriasUser/${cod_usuario}`, {
-                        method: 'GET',
-                    }).then(res => res.json())
-                    .then(data => {
-                        //console.log(data);
-                        let select = document.getElementById('selectCarroceria_modal');
-
-                        for (i in data) {
-
-                            let option = document.createElement('option');
-                            option.setAttribute('id', `option_carroceria_${i}`);
-                            option.setAttribute('value', `${data[i].patente_carroceria}`)
-                            option.innerHTML = `${data[i].patente_carroceria}`;
-                            select.appendChild(option);
-                        }
-
-                        select.addEventListener("change", () => {
-                            fetch(`http://localhost:3000/mi_carroceria/${select.value}`, {
-                                    method: 'GET',
-                                })
-                                .then(res => res.json())
-                                .then(data => {
-                                    //console.log(data[0])
-                                    let parrafo_informacion = document.querySelector(".info_carroceria");
-                                    parrafo_informacion.innerHTML = `<b>Cant. Ejes: </b> ${data[0].cant_ejes} <br>                                                                     
-                                                                     <b>Año: </b> ${data[0].anio}`;
-
-                                    fetch(`http://localhost:3000/getOneTipoCarroceria/${data[0].cod_tipo_carroceria}`, {
-                                            method: 'GET',
-                                        })
-                                        .then(res => res.json())
-                                        .then(data => {
-                                            //   console.log(data[0])
-                                            let parr = document.querySelector(".info_tipo_carroceria");
-                                            parr.innerHTML = `<b>Descripción: </b> ${data[0].descripcion}`;
-                                        })
-
-
-                                })
-
-                        })
-                    })
-
-                formRequest.addEventListener('submit', (event) => {
-                    event.preventDefault()
-                    let registroFormData = new FormData(formRequest),
-                        //carga_actualizar = cod_carga,
-                        estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '2' };
-                    console.log(estadoCarga);
-
-                    fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                        method: 'PUT',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(estadoCarga),
+                //Botón Editar
+                btnEdit.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const inputs = document.querySelectorAll('#form_freight input');
+                    inputs.forEach((input) => {
+                        input.disabled = false;
                     });
-                    fetch('http://localhost:3000/confirm_request/', {
-                        method: 'POST',
-                        body: registroFormData,
-                    });
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: '¡Solicitud Enviada!',
-                        showConfirmButton: false,
-                        timer: 2500
-                    })
+                    document.getElementById('selectTipoProducto').disabled = false;
+                    btnSave.disabled = false;
+                    btnEdit.disabled = true;
+                });
 
-                    setTimeout(() => {
-                        javascript: history.back()
-                        window.location.href = `./my_request.html?cod_usuario=${cod_usuario}`;
-                    }, 2500);
+                //Botón Cancelar
+                btnCancel.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const inputs = document.querySelectorAll('#form_freight input');
+
+                    inputs.forEach((input) => {
+                        input.disabled = true;
+                    })
+                    document.getElementById('selectTipoProducto').disabled = true;
+                    btnSave.disabled = true;
+                    btnEdit.disabled = false;
+                });
+
+                document.getElementById('req_refrigeracion').addEventListener("click", () => {
+                    if (document.getElementById('req_refrigeracion').checked) {
+                        document.getElementById('req_refrigeracion').value = true
+                    } else {
+                        document.getElementById('req_refrigeracion').value = false
+                    }
                 })
-            });
+                document.getElementById('es_carga_peligrosa').addEventListener("click", () => {
+                    if (document.getElementById('es_carga_peligrosa').checked) {
+                        document.getElementById('es_carga_peligrosa').value = true
+                    } else {
+                        document.getElementById('es_carga_peligrosa').value = false
+                    }
+                })
+                document.getElementById('es_carga_apilable').addEventListener("click", () => {
+                    if (document.getElementById('es_carga_apilable').checked) {
+                        document.getElementById('es_carga_apilable').value = true
+                    } else {
+                        document.getElementById('es_carga_apilable').value = false
+                    }
+                })
+
+                // Guardar Cambios 
+                formEdicionCarga.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    let horaRetiro = document.getElementById("hora_retiro"),
+                        horaDestino = document.getElementById("hora_destino"),
+                        fecRetiro = document.getElementById("fec_retiro"),
+                        fecDestino = document.getElementById("fec_destino"),
+                        receptor_carga = document.getElementById("receptor_carga");
+                    if (horaRetiro.value == "") {
+                        campos.hora_retiro = false;
+                    } else { campos.hora_retiro = true; }
+                    if (horaDestino.value == "") {
+                        campos.hora_destino = false;
+                    } else { campos.hora_destino = true; }
+                    if (fecRetiro.value == "") {
+                        campos.fec_retiro = false;
+                    } else { campos.fec_retiro = true; }
+                    if (fecDestino.value == "") {
+                        campos.fec_destino = false;
+                    } else { campos.fec_destino = true; }
+                    if (receptor_carga.value == "") {
+                        campos.receptor_carga = false;
+                    } else { campos.receptor_carga = true; }
+                    /* falta que salga el cartel en todos esos campos que definí acá arriba */
+
+                    if (campos.prov_origen && campos.ciudad_origen && campos.domicilio_origen &&
+                        campos.hora_retiro && campos.fec_retiro && campos.hora_destino &&
+                        campos.fec_destino && campos.prov_destino && campos.ciudad_destino &&
+                        campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
+                        campos.peso_unit_kg && campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
+                        campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros) {
+
+                        let registroFormData = new FormData(formEdicionCarga);
+
+                        fetch('http://localhost:3000/update_carga', {
+                            method: 'PUT',
+                            body: registroFormData,
+                        })
+
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: '¡Cambios Guardados!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        })
+
+                        setTimeout(() => {
+                            javascript: history.back()
+                        }, 2500);
+
+                    } else {
+                        document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo')
+                        setTimeout(() => {
+                            document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
+                        }, 4000);
+                    }
+
+                })
+
+                //Botón Eliminar
+                btnDelete.addEventListener("click", (event) => {
+                    event.preventDefault();
+
+                    Swal.fire({
+                        title: '¿Está seguro que desea eliminar esta Carga?',
+                        icon: 'warning',
+                        showDenyButton: false,
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: `Confirmar`,
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true,
+                        allowOutsideClick: false,
+
+                    }).then((result) => {
+                        fetch(`http://localhost:3000/delete_carga/${data[0].cod_carga}`, {
+                            method: 'DELETE',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(data[0])
+                        })
+
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'La Carga ha sido eliminado',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000
+                            })
+                        }
+
+                        setTimeout(() => {
+                            javascript: history.back()
+                        }, 2000);
+
+
+                    })
+                });
+
+
+            }
+
         })
 
+    //Botón Volver
+    btn_back.addEventListener('click', (event) => {
+        event.preventDefault();
+        javascript: history.back()
+    })
 }
-//Botón Volver
-btn_back.addEventListener('click', (event) => {
-    event.preventDefault();
-    javascript: history.back()
-})
+/* }) */

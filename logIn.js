@@ -1,6 +1,6 @@
 const form_login = document.getElementById("form_logueo");
 
-form_logueo.addEventListener('submit', (e) => {
+form_login.addEventListener('submit', (e) => {
     e.preventDefault();
     let email = document.getElementById('email');
     let pass = document.getElementById('password');
@@ -41,5 +41,6 @@ form_logueo.addEventListener('submit', (e) => {
 
                 }
             })
+            //.catch(err => console.log(err))
     }
 })

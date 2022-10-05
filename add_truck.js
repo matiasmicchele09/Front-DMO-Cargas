@@ -135,9 +135,9 @@ if (initialized_session == 'true') {
 */
 
 
-            /*setTimeout(() => {
-                window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
-            }, 2500);*/
+            setTimeout(() => {
+                javascript: history.back()
+            }, 2500);
 
         } else {
             document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo');

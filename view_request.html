@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Mi Perfil - DMO Cargas</title>
+    <title>Solicitudes - DMO Cargas</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -31,12 +31,39 @@
         </div>
     </nav>
 
-    <div class="container" id="" style="margin-top:10px;">
+    <div class="container" id="" style="margin: 10px 0 10px 0">
         <div class="my_request" id="my_request">
         </div>
-        <div class="d-flex">        
+        <div class="d-flex">
             <div class="datos_carga" id="datos_carga"></div>
             <div class="datos_camion" id="datos_camion" style="margin-left:20px"></div>
+        </div>
+        <div class="btns_request">
+            <button class="btn btn_acept_request" data-bs-toggle="modal" data-bs-target="#aceptRequestModal" id="btn_acept_request">Aceptar Solicitud</button>
+            <button class="btn btn_decline_request" id="btn_decline_request">Rechazar Solicitud</button>
+
+            <div class="modal fade" id="aceptRequestModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="aceptRequestModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="aceptRequestModalLabel">Suba Formulario de Retiro de Carga para Finalizar</h5>
+                            <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body modal_acept_request">
+                            <div>
+                                <div class="drop-area-request">
+                                    <h4>Solo se acepta formato .pdf</h4>
+                                    <button>Selecciona tu archivo</button>
+                                    <input type="file" name="" id="input-file" hidden multiple>
+                                    <!-- el multiple es para que acepte multiples archivos aunque esta vez creo que no lo necesito, pero lo dejo igual para probar -->
+                                    <div id="preview"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
