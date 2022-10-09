@@ -1,5 +1,12 @@
 /*Sign Up - Lo pongo aca por ahora, despues veo si le creo un style por separado*/
 
+#map {
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+}
+
 .card-form {
     max-width: 500px;
     margin: auto;
@@ -78,7 +85,9 @@
     /* Esto para que no se muestre, que se muestre solo cuando haya error */
 }
 
-.form__mensaje_error {
+.form__mensaje_error,
+.form__mensaje_error_cuenta,
+.form__mensaje_error_contrasenia {
     height: 45px;
     line-height: 45px;
     margin-top: 10px;
@@ -656,14 +665,26 @@ div .cardText {
 ------------------------------------- My Profile --------------------------------------------- 
 --------------------------------------------------------------------------------------------*/
 
-.my_profile {
-    background-color: #D0D3D4;
-    padding: 15px;
-    border-radius: 20px;
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, .5);
-    max-width: 500px;
+#form_profile .formulario_grupo {
     margin: auto;
-    margin-top: 20px;
+    width: 50%;
+}
+
+#form_profile label {
+    margin: 0;
+    padding: 0;
+}
+
+.my_profile input {
+    margin: 15px 0 15px 0;
+}
+
+.my_profile label {
+    margin: 15px 0 15px 0;
+}
+
+.div_pass_2_none {
+    display: none;
 }
 
 .parr_volver {
@@ -688,6 +709,76 @@ div .cardText {
 
 .form_grupo label {
     font-weight: bold;
+}
+
+.drop-area-img-frente,
+.drop-area-img-dorso,
+.drop-area-img-curso {
+    border: 5px dashed #D0D3D4;
+    height: 200px;
+    width: 50%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.drop-area-img-frente.active,
+.drop-area-img-dorso.active,
+.drop-area-img-curso.active {
+    background-color: #b8d4fe;
+    color: #000000;
+    border: 2px dashed #619ac9;
+}
+
+.drop-area-img-dorso button,
+.drop-area-img-frente button,
+.drop-area-img-curso button {
+    padding: 10px 25px;
+    font-size: 15px;
+    border: 0;
+    outline: none;
+    background-color: #5256ad;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.drop-area-imagenes-perfil {
+    display: none;
+}
+
+.perfil_prof_transportista_none {
+    display: none;
+}
+
+.img-doc-frente,
+.img-doc-dorso,
+.img-doc-curso {
+    width: 300px;
+    height: 200px;
+    border: solid;
+    margin: 10px 0 10px 0;
+}
+
+.img-docs-perfil {
+    display: none;
+}
+
+.btn_editar_cuenta {
+    margin-top: 15px;
+    background: #241F74;
+    color: #FAFAFA;
+    border-color: #241F74;
+    border-radius: 5px;
+    height: 40px;
+    width: 150px;
+}
+
+.btn_editar_cuenta:hover {
+    background: #FAFAFA;
+    color: #241F74;
 }
 
 .btn_edit_profile,
@@ -969,21 +1060,32 @@ div .cardText {
     display: none;
 }
 
-.btn_ver_detalle {
+.btn_ver_detalle,
+.btn_ver_solicitud {
     background-color: #241F74;
     color: #FFFFFF;
-    width: 100px;
+    width: 150px;
     height: 40px;
     border-radius: 5px;
     margin-left: 2%;
 }
 
-.btn_ver_detalle {
+.btn_ver_solicitud {
+    background-color: #f5e400;
+    color: #000000;
+}
+
+.btn_ver_detalle,
+.btn_ver_solicitud {
     margin-bottom: 10px;
 }
 
 .btn_ver_detalle:hover {
     background-color: #4136df;
+}
+
+.btn_ver_solicitud:hover {
+    background-color: #afa519;
 }
 
 
@@ -1050,6 +1152,11 @@ div .cardText {
    ------------------------------------- Requests -----------------------------------
    ---------------------------------------------------------------------------------- */
 
+.info-request p {
+    font-size: large;
+    font-weight: 200;
+}
+
 .btn_acept_request {
     background-color: #34bb3f;
     color: #FFFFFF;
@@ -1100,7 +1207,7 @@ div .cardText {
     flex-direction: column;
 }
 
-.drop-area-request:active {
+.drop-area-request.active {
     background-color: #b8d4fe;
     color: #000000;
     border: 2px dashed #619ac9;

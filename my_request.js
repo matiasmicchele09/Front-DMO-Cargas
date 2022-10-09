@@ -17,6 +17,13 @@ initialized_session = sessionStorage.getItem("initialized_session");
 document.addEventListener('DOMContentLoaded', () => {
     if (initialized_session == 'true') {
 
+        fetch(`http://localhost:3000/getNameUser/${cod_usuario}`, {
+                method: 'GET',
+            }).then(res => res.json())
+            .then(data => {
+                btn_mi_perfil.innerHTML = `${data[0].razon_social}`;
+            })
+
         if (tpo_usuario == '1') {
             let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
             nav_mis_cargas.classList.add("nav-mis-cargas-none");

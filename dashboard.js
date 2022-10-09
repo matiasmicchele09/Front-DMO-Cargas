@@ -1,9 +1,26 @@
 const getURL = new URLSearchParams(window.location.search),
     cod_usuario = getURL.get('cod_usuario');
-
+//@license
 var initialized_session = 'false';
 
 initialized_session = sessionStorage.getItem("initialized_session");
+// Initialize and add the map
+function initMap() {
+    // The location of Uluru
+    const uluru = { lat: -25.344, lng: 131.031 };
+    // The map, centered at Uluru
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: uluru,
+    });
+    // The marker, positioned at Uluru
+    const marker = new google.maps.Marker({
+        position: uluru,
+        map: map,
+    });
+}
+
+window.initMap = initMap;
 
 if (initialized_session == 'true') {
     fetch(`http://localhost:3000/dashboard/${cod_usuario}`, {
@@ -25,9 +42,11 @@ if (initialized_session == 'true') {
                 h3 = document.createElement('h3'),
                 p = document.createElement('p');
 
-                btn__manual_usuario.href = 'http://localhost:5000/assets/files/manual_de_usuario.pdf';
-                btn__manual_usuario.target = '_blank';
-                btn__manual_usuario.download = 'manual_de_usuario.pdf';
+            btn_perfil.innerHTML = `${data[0].razon_social}`;
+
+            btn__manual_usuario.href = 'http://localhost:5000/assets/files/manual_de_usuario.pdf';
+            btn__manual_usuario.target = '_blank';
+            btn__manual_usuario.download = 'manual_de_usuario.pdf';
 
 
             h3.innerHTML = `Bienvenido <b>${data[0].razon_social}</b>`;
@@ -145,7 +164,7 @@ if (initialized_session == 'true') {
 
             //Mi Perfil
             btn_perfil.addEventListener('click', () => {
-                window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+                window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
             });
 
             //Buscar Cargas - Transportista

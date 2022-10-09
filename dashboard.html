@@ -4,6 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>Dashboard - DMO Cargas</title>
+    <!-- Para Google Maps -->
+    <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -47,7 +50,9 @@
                     <li class="nav-item">
                         <a class=""><img src="./assets/img/sin_foto.png" alt="sin-foto-usuario" width="32" height="32" class="rounded-circle mt-1"></a>
                     </li>
-                    <li class="nav-item"><a class="a-perfil nav-link">Mi Perfil</a></li>
+                    <li class="nav-item">
+                        <a class="a-perfil nav-link"></a>
+                    </li>
                     <li class="nav-item"><button type="button" class="btn btn-danger btn-salir" style="margin-right:25px;">Salir</button></li>
                 </ul>
             </div>
@@ -62,16 +67,13 @@
 
             <div class="card card_body_info_usuario" id="card_body_info_usuario" style="width: 18rem;">
             </div>
+
+
         </div>
+
     </div>
-    <!-- </div> -->
-    <!-- <footer style="background-color:#878791;">
-        <div>
-
-            <i class="fa-solid fa-book icon-fontawesome"></i><a class="a-manual-usuario nav-link">Manual del Usuario</a>
-
-        </div>
-    </footer> -->
+    <!-- <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDtUTkWNC9Yf7IoMpKHsIRAJi3PHR2lTk&callback=initMap&v=weekly" defer></script> -->
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
     <script src="./dashboard.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

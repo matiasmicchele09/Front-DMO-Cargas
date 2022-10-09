@@ -12,6 +12,12 @@ var initialized_session = 'false';
 initialized_session = sessionStorage.getItem("initialized_session");
 
 if (initialized_session == 'true') {
+    fetch(`http://localhost:3000/getNameUser/${cod_usuario}`, {
+            method: 'GET',
+        }).then(res => res.json())
+        .then(data => {
+            btn_mi_perfil.innerHTML = `${data[0].razon_social}`;
+        })
 
     let selectProvincia = document.getElementById('selectProvincia');
 
@@ -110,7 +116,6 @@ if (initialized_session == 'true') {
                             //cardText3.classList.add("cardText3-carga");
                             btnVerDetalle.classList.add("btn_ver_detalle");
 
-
                             fetch(`http://localhost:3000/getOneTipoCarga/${res.cod_tipo_carga}`, {
                                     method: 'GET',
                                 }).then(res => res.json())
@@ -150,7 +155,6 @@ if (initialized_session == 'true') {
                                     method: 'GET',
                                 }).then(res => res.json())
                                 .then(data => {
-                                    console.log(data);
                                     cardText3.innerHTML = cardText3.innerHTML + `<b>Dador de la carga: </b> ${data[0].razon_social}`;
                                 });
                             card.appendChild(cardBody);
@@ -158,17 +162,34 @@ if (initialized_session == 'true') {
                             card.appendChild(btnVerDetalle);
                             contenedor.appendChild(card);
 
+                            fetch(`http://localhost:3000/getUserRequest/${cod_usuario}`, {
+                                    method: 'GET',
+                                }).then(res => res.json())
+                                .then(data => {
+                                    let btnVerSolicitud = document.createElement('button');
+                                    btnVerSolicitud.innerHTML = "Ver Solicitud";
+                                    btnVerSolicitud.classList.add("btn_ver_solicitud");
 
+                                    for (i = 0; i < data.length; i++) {
+                                        console.log(data[i]);
+                                        if (res.cod_carga == data[i].cod_carga) {
+                                            card.removeChild(btnVerDetalle);
+                                            btnVerSolicitud.setAttribute("id", data[i].cod_solicitud)
+                                            card.appendChild(btnVerSolicitud);
+                                        }
+                                    }
+
+                                    btnVerSolicitud.addEventListener('click', (event) => {
+                                        event.preventDefault();
+                                        let cod_solicitud = btnVerSolicitud.getAttribute("id")
+                                        window.location.href = `./view_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&request=${cod_solicitud}&cod_carga=${res.cod_carga}`;
+                                    })
+                                })
 
                             btnVerDetalle.addEventListener("click", () => {
-                                //alert(res.cod_carga)
                                 window.location.href = `./view_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&cod_carga=${res.cod_carga}`;
-                            })
-
-
+                            });
                         })
-
-
                     })
                 primera_vez = false;
             }

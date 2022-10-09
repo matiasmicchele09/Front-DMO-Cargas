@@ -15,6 +15,13 @@ initialized_session = sessionStorage.getItem("initialized_session");
 
 if (initialized_session == 'true') {
 
+    fetch(`http://localhost:3000/getNameUser/${cod_usuario}`, {
+            method: 'GET',
+        }).then(res => res.json())
+        .then(data => {
+            btn_mi_perfil.innerHTML = `${data[0].razon_social}`;
+        })
+
     fetch(`http://localhost:3000/getCargasUser/${cod_usuario}`, {
             method: 'GET',
         }).then(res => res.json())
