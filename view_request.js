@@ -1,12 +1,16 @@
-const getURL = new URLSearchParams(window.location.search),
-    cod_usuario = getURL.get('cod_usuario'),
-    tpo_usuario = getURL.get('tpo_usuario'),
-    cod_solicitud = getURL.get('request'),
-    cod_carga = getURL.get('cod_carga');
-var initialized_session = 'false';
+'use strict'
+document.addEventListener('DOMContentLoaded', (event) => {
+    event.preventDefault()
+    const getURL = new URLSearchParams(window.location.search),
+        cod_usuario = getURL.get('cod_usuario'),
+        tpo_usuario = getURL.get('tpo_usuario'),
+        cod_solicitud = getURL.get('request'),
+        cod_carga = getURL.get('cod_carga');
 
-initialized_session = sessionStorage.getItem("initialized_session");
-document.addEventListener('DOMContentLoaded', () => {
+    var initialized_session = 'false';
+    initialized_session = sessionStorage.getItem("initialized_session");
+
+    //const jsPDF = require('jspdf');
     if (initialized_session == 'true') {
         let btn_back = document.querySelector(".parr_volver");
 
@@ -15,8 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data[0]);
 
+                console.log(data[0]);
+                /* let btnpdf = document.getElementById('generarPDF');
+                btnpdf.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    console.log("clikpdf");
+                    var docPDF = new jsPDF();
+                    docPDF.text("alalall");
+                    docPDF.save("a4.pdf")
+                })*/
                 let btn_acept = document.getElementById('btn_acept_request'),
                     btn_decline = document.getElementById('btn_decline_request'),
                     divMyRequest = document.getElementById('my_request'),
@@ -58,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                             method: 'GET',
                                         }).then(res => res.json())
                                         .then(data => {
-                                            console.log(data[0].nombre_archivo);
                                             download_files.href = `http://localhost:5000/assets/files/${data[0].nombre_archivo}`
                                             download_files.target = '_blank';
                                             download_files.download = `${data[0].nombre_archivo}`
@@ -76,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 p_estado.append(download_files);
                             }
                         })
+                        .catch(err => { console.log(err); })
+
                     p_fecha_solicitud.innerHTML = `<b>Fecha Solicitud: </b> ${fecha_solicitud.toLocaleDateString()}`;
 
                     //Download files
@@ -133,10 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 p_es_apilable = document.createElement('p');
 
                             h5.innerHTML = '<u>Datos de la Carga</u>';
-                            p_origen_destino.innerHTML = `<b>Origen: </b>${data[0].ciudad_origen} (${data[0].prov_origen}) - <b>Fecha: </b> ${fecha_retiro.toLocaleDateString()} - ${data[0].hora_retiro}</br>
+                            p_origen_destino.innerHTML = `<b>Origen: </b>${data[0].ciudad_origen} (${data[0].prov_origen}) - <b>Fecha: </b> ${fecha_retiro.toLocaleDateString()} - ${data[0].hora_retiro} Hs</br>
                                             <b>Domicilio: </b>${data[0].domicilio_origen}</br>                                            
                                             <hr>
-                                            <b>Destino: </b> ${data[0].ciudad_destino} (${data[0].prov_destino}) - <b>Fecha: </b> ${fecha_destino.toLocaleDateString()} - ${data[0].hora_destino}</br>
+                                            <b>Destino: </b> ${data[0].ciudad_destino} (${data[0].prov_destino}) - <b>Fecha: </b> ${fecha_destino.toLocaleDateString()} - ${data[0].hora_destino} Hs</br>
                                             <b>Domicilio: </b>${data[0].domicilio_destino} </br>
                                             <b>Receptor de Carga: </b> ${data[0].receptor_carga} </br>                                             
                                             <b>Comentario: </b> ${data[0].comentario}<hr>`;
@@ -231,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 divMyRequestCarga.appendChild(p_cant_litros)
                             }
                         })
+                        .catch(err => { console.log(err); })
 
                     divMyRequest.appendChild(p_nro_orden);
                     divMyRequest.appendChild(p_estado);
@@ -255,7 +269,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                     p_info_camion.innerHTML = `<b>Tipo Camión: </b>${data[0].descripcion}`;
                                     divMyRequestCamion.appendChild(p_info_camion);
                                 })
+                                .catch(err => { console.log(err); })
                         })
+                        .catch(err => { console.log(err); })
+
                     fetch(`http://localhost:3000/mi_carroceria/${data[0].patente_carroceria}`, {
                             method: 'GET',
                         }).then(res => res.json())
@@ -272,17 +289,66 @@ document.addEventListener('DOMContentLoaded', () => {
                                     p_info_carroceria.innerHTML = `<b>Tipo Carrocería: </b>${data[0].descripcion}`;
                                     divMyRequestCamion.appendChild(p_info_carroceria);
                                 })
+                                .catch(err => { console.log(err); })
                         })
+                        .catch(err => { console.log(err); })
 
-                    fetch(`http://localhost:3000/getNameUser/${data[0].cod_usuario_transp}`, {
+                    let docsTransportista = document.createElement('div');
+                    let imgdocsTransportista = document.createElement('div');
+                    let p_transp = document.createElement('p');
+                    p_transp.innerHTML = '<b><u>Documentación:</u></b>'
+                    docsTransportista.appendChild(p_transp);
+                    fetch(`http://localhost:3000/my_profile/${data[0].cod_usuario_transp}`, {
                             method: 'GET',
                         }).then(res => res.json())
                         .then(data => {
+                            console.log(data);
                             let p_chofer = document.createElement('p');
                             p_chofer.innerHTML = `<b>Conductor: </b> ${data[0].razon_social} </br>
                                                   <b>CUIT: </b>${data[0].cuit_cuil}`;
-                            divMyRequestCamion.appendChild(p_chofer);
+                            docsTransportista.appendChild(p_chofer);
+
+
+                            fetch(`http://localhost:3000/downloadImg/${data[0].nom_img_lic_frente}`, {
+                                    method: 'GET',
+                                }).then(res => res.blob())
+                                .then(img => {
+                                    let docFrente = document.createElement('img');
+                                    docFrente.classList.add('docs_transp');
+                                    docFrente.alt = "Imagen Lic Frente";
+                                    docFrente.src = URL.createObjectURL(img);
+                                    imgdocsTransportista.appendChild(docFrente);
+                                })
+                                .catch(err => { console.log(err); })
+
+                            fetch(`http://localhost:3000/downloadImg/${data[0].nom_img_lic_dorso}`, {
+                                    method: 'GET',
+                                }).then(res => res.blob())
+                                .then(img => {
+                                    let docDorso = document.createElement('img');
+                                    docDorso.classList.add('docs_transp');
+                                    docDorso.alt = "Imagen Lic Dorso";
+                                    docDorso.src = URL.createObjectURL(img);
+                                    imgdocsTransportista.appendChild(docDorso);
+                                })
+                                .catch(err => { console.log(err); })
+
+                            fetch(`http://localhost:3000/downloadImg/${data[0].nom_img_doc}`, {
+                                    method: 'GET',
+                                }).then(res => res.blob())
+                                .then(img => {
+                                    let docCurso = document.createElement('img');
+                                    docCurso.classList.add('docs_transp');
+                                    docCurso.alt = "Imagen Curso";
+                                    docCurso.src = URL.createObjectURL(img);
+                                    imgdocsTransportista.appendChild(docCurso);
+                                })
+                                .catch(err => { console.log(err); })
+
+                            docsTransportista.appendChild(imgdocsTransportista);
+                            divMyRequestCamion.appendChild(docsTransportista);
                         })
+                        .catch(err => { console.log(err); })
                 });
 
 
@@ -316,8 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             .then(data => {
                                 console.log(data);
                             })
-                            .catch(err => { console.log(err); })
- */
+                            .catch(err => { console.log(err); }) */
 
                         filesUpload = input_request.files;
                         //files = this.files;
@@ -351,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 id = `file-${Math.random().toString(32).substring(7)}`;
 
                             fileReader.addEventListener('load', event => {
+                                event.preventDefault()
                                 const fileURL = fileReader.result;
                                 //console.log("fileURL", fileURL);
                                 const p = `<p>${file.name}</p>`
@@ -366,9 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
                             const html = document.getElementById('preview');
                             html.innerHTML = html.innerHTML + p;
-                            setTimeout(() => {
-                                location.reload();
-                            }, 2500);
                         }
 
 
@@ -422,20 +485,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '3' };
 
                     fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
-                        method: 'PUT',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(estadoSolicitud),
-                    });
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(estadoSolicitud),
+                        })
+                        .catch(err => { console.log(err); })
 
                     fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                        method: 'PUT',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(estadoCarga),
-                    });
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(estadoCarga),
+                        })
+                        .catch(err => { console.log(err); })
 
                 })
 
@@ -462,20 +527,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '1' };
 
                     fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
-                        method: 'PUT',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(estadoSolicitud),
-                    });
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(estadoSolicitud),
+                        })
+                        .catch(err => { console.log(err); })
 
                     fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                        method: 'PUT',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(estadoCarga),
-                    });
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(estadoCarga),
+                        })
+                        .catch(err => { console.log(err); })
 
                     Swal.fire({
                         position: 'center',
@@ -490,6 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 3000);
                 })
             })
+            .catch(err => { console.log(err); })
 
         //Botón Volver
         btn_back.addEventListener('click', (event) => {
@@ -497,5 +565,8 @@ document.addEventListener('DOMContentLoaded', () => {
             javascript: history.back();
         })
 
+    } else {
+        alert("Usted NO ha Iniciado Sesión");
+        window.location.href = './index.html';
     }
 })

@@ -1,3 +1,4 @@
+'use strict'
 const form_login = document.getElementById("form_logueo");
 
 form_login.addEventListener('submit', (e) => {
@@ -41,6 +42,6 @@ form_login.addEventListener('submit', (e) => {
 
                 }
             })
-            //.catch(err => console.log(err))
+            .catch(err => { console.log(err); })
     }
 })

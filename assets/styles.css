@@ -87,7 +87,8 @@
 
 .form__mensaje_error,
 .form__mensaje_error_cuenta,
-.form__mensaje_error_contrasenia {
+.form__mensaje_error_contrasenia,
+.form__mensaje_error_request_freight {
     height: 45px;
     line-height: 45px;
     margin-top: 10px;
@@ -980,6 +981,11 @@ div .cardText {
     max-width: 800px;
 }
 
+.selectProvOrigen {
+    height: 35px;
+    border-radius: 5px;
+}
+
 .form_req_refrigeracion,
 .form_es_carga_peligrosa,
 .form_es_carga_apilable,
@@ -1154,7 +1160,48 @@ div .cardText {
 
 .info-request p {
     font-size: large;
-    font-weight: 200;
+    font-weight: 400;
+    padding: 10px 0 0 10px;
+    margin: 0;
+}
+
+.info-request {
+    margin: auto;
+}
+
+.info-request h5,
+.info-request b {
+    color: #241F74;
+}
+
+.datos-solicitud {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.datos_carga,
+.datos_camion {
+    padding: 10px;
+    /* background-color: #cbc7f5; */
+}
+
+.my_request {
+    background-color: #c7c7c7;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-bottom: 10px;
+}
+
+.docs_transp {
+    margin: 0 5px 0 5px;
+    border: solid #241F74;
+    width: 150px;
+    height: 200px;
+}
+
+.docs_transp:hover {
+    width: 300px;
+    height: 400px;
 }
 
 .btn_acept_request {
@@ -1186,11 +1233,9 @@ div .cardText {
 
 .btns_request {
     display: flex;
+    background-color: #c7c7c7;
     justify-content: space-around;
-}
-
-.info_request {
-    margin: 0;
+    padding: 10px;
 }
 
 

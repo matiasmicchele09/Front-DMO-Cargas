@@ -1,81 +1,80 @@
-const getURL = new URLSearchParams(window.location.search),
-    cod_usuario = getURL.get('cod_usuario'),
-    tpo_usuario = getURL.get('tpo_usuario'),
-    formularioPerfil = document.getElementById("form_profile"),
-    formularioCuenta = document.getElementById("form_cuenta_perfil"),
-    inputs = document.querySelectorAll('#form_profile input'), //me devuelve un arreglo de todos los inputs dentro del formulario
-    inputsCuenta = document.querySelectorAll('#form_cuenta_perfil input');
-var initialized_session = 'false';
-
-const expresiones = {
-    //usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-    razon_social: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    cuit_cuil: /^\d{11,11}$/, // Supongo así valido que solo sean 11 números
-    email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-    password: /^.{4,50}$/ // 4 a 50 digitos.
-        /*fec_nacim: /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/*/
-}
-
-const campos = {
-    razon_social: true,
-    cuit_cuil: true,
-    email: true,
-    password: true,
-    /*fec_nacim: true*/
-}
-
-const validarFormulario = (e) => {
-    switch (e.target.name) {
-        case "razon_social":
-            validarCampo(expresiones.razon_social, e.target, 'razon_social'); //también podría haber pasado solo el e.target en vez de e.target.name
-            break;
-        case "cuit_cuil":
-            validarCampo(expresiones.cuit_cuil, e.target, 'cuit_cuil');
-            break;
-        case "email":
-            validarCampo(expresiones.email, e.target, 'email');
-            break;
-        case "password":
-            validarCampo(expresiones.password, e.target, 'password');
-            break;
-            /*case "fec_nacim":
-                validarCampo(expresiones.fec_nacim, e.target, 'fec_nacim');
-                break;*/
-    }
-}
-
-const validarCampo = (expresion, input, campo) => {
-    if (expresion.test(input.value)) {
-        document.getElementById(`grupo__${campo}`).classList.remove('formulario_grupo_incorrecto');
-        document.getElementById(`grupo__${campo}`).classList.add('formulario_grupo_correcto');
-        document.querySelector(`#grupo__${campo} i`).classList.remove('fa-circle-xmark');
-        document.querySelector(`#grupo__${campo} i`).classList.add('fa-circle-check');
-        document.querySelector(`#grupo__${campo} .form__input_error`).classList.remove('form__input_error_activo');
-        campos[campo] = true;
-    } else {
-        document.getElementById(`grupo__${campo}`).classList.add('formulario_grupo_incorrecto');
-        document.getElementById(`grupo__${campo}`).classList.remove('formulario_grupo_correcto');
-        document.querySelector(`#grupo__${campo} i`).classList.remove('fa-circle-check');
-        document.querySelector(`#grupo__${campo} i`).classList.add('fa-circle-xmark');
-        document.querySelector(`#grupo__${campo} .form__input_error`).classList.add('form__input_error_activo');
-        campos[campo] = false;
-    }
-}
-
-inputs.forEach((input) => {
-    input.addEventListener('keyup', validarFormulario);
-    input.addEventListener('blur', validarFormulario); //para cuando pierde el foco, valida luego de terminar de escribir, creo es asi
-})
-inputsCuenta.forEach((input) => {
-    input.addEventListener('keyup', validarFormulario);
-    input.addEventListener('blur', validarFormulario); //para cuando pierde el foco, valida luego de terminar de escribir, creo es asi
-})
-
-
-
-initialized_session = sessionStorage.getItem("initialized_session");
+'use strict'
 document.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault()
+    const getURL = new URLSearchParams(window.location.search),
+        cod_usuario = getURL.get('cod_usuario'),
+        tpo_usuario = getURL.get('tpo_usuario'),
+        formularioPerfil = document.getElementById("form_profile"),
+        formularioCuenta = document.getElementById("form_cuenta_perfil"),
+        inputs = document.querySelectorAll('#form_profile input'), //me devuelve un arreglo de todos los inputs dentro del formulario
+        inputsCuenta = document.querySelectorAll('#form_cuenta_perfil input');
+    var initialized_session = 'false';
+
+    const expresiones = {
+        //usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+        razon_social: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+        cuit_cuil: /^\d{11,11}$/, // Supongo así valido que solo sean 11 números
+        email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+        password: /^.{4,50}$/ // 4 a 50 digitos.
+            /*fec_nacim: /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/*/
+    }
+
+    const campos = {
+        razon_social: true,
+        cuit_cuil: true,
+        email: true,
+        password: true,
+        /*fec_nacim: true*/
+    }
+
+    const validarFormulario = (e) => {
+        switch (e.target.name) {
+            case "razon_social":
+                validarCampo(expresiones.razon_social, e.target, 'razon_social'); //también podría haber pasado solo el e.target en vez de e.target.name
+                break;
+            case "cuit_cuil":
+                validarCampo(expresiones.cuit_cuil, e.target, 'cuit_cuil');
+                break;
+            case "email":
+                validarCampo(expresiones.email, e.target, 'email');
+                break;
+            case "password":
+                validarCampo(expresiones.password, e.target, 'password');
+                break;
+                /*case "fec_nacim":
+                    validarCampo(expresiones.fec_nacim, e.target, 'fec_nacim');
+                    break;*/
+        }
+    }
+
+    const validarCampo = (expresion, input, campo) => {
+        if (expresion.test(input.value)) {
+            document.getElementById(`grupo__${campo}`).classList.remove('formulario_grupo_incorrecto');
+            document.getElementById(`grupo__${campo}`).classList.add('formulario_grupo_correcto');
+            document.querySelector(`#grupo__${campo} i`).classList.remove('fa-circle-xmark');
+            document.querySelector(`#grupo__${campo} i`).classList.add('fa-circle-check');
+            document.querySelector(`#grupo__${campo} .form__input_error`).classList.remove('form__input_error_activo');
+            campos[campo] = true;
+        } else {
+            document.getElementById(`grupo__${campo}`).classList.add('formulario_grupo_incorrecto');
+            document.getElementById(`grupo__${campo}`).classList.remove('formulario_grupo_correcto');
+            document.querySelector(`#grupo__${campo} i`).classList.remove('fa-circle-check');
+            document.querySelector(`#grupo__${campo} i`).classList.add('fa-circle-xmark');
+            document.querySelector(`#grupo__${campo} .form__input_error`).classList.add('form__input_error_activo');
+            campos[campo] = false;
+        }
+    }
+
+    inputs.forEach((input) => {
+        input.addEventListener('keyup', validarFormulario);
+        input.addEventListener('blur', validarFormulario); //para cuando pierde el foco, valida luego de terminar de escribir, creo es asi
+    })
+    inputsCuenta.forEach((input) => {
+        input.addEventListener('keyup', validarFormulario);
+        input.addEventListener('blur', validarFormulario); //para cuando pierde el foco, valida luego de terminar de escribir, creo es asi
+    })
+
+    initialized_session = sessionStorage.getItem("initialized_session");
 
     if (initialized_session == 'true') {
 
@@ -157,6 +156,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             method: 'GET',
                         }).then(res => res.blob())
                         .then(img => imagenFrente.src = URL.createObjectURL(img))
+                        .catch(err => { console.log(err); })
                 } else {
                     imagenFrente.classList.add("img-docs-perfil");
                 }
@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             method: 'GET',
                         }).then(res => res.blob())
                         .then(img => imagenDorso.src = URL.createObjectURL(img))
+                        .catch(err => { console.log(err); })
                 } else {
                     imagenDorso.classList.add("img-docs-perfil");
                 }
@@ -177,6 +178,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             method: 'GET',
                         }).then(res => res.blob())
                         .then(img => imagenCurso.src = URL.createObjectURL(img))
+                        .catch(err => { console.log(err); })
                 } else {
 
                     imagenCurso.classList.add("img-docs-perfil");
@@ -340,9 +342,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     formData.append("file", file);
                     try {
                         const response = await fetch('http://localhost:3000/uploadImages', {
-                            method: "POST",
-                            body: formData
-                        })
+                                method: "POST",
+                                body: formData
+                            })
+                            .catch(err => { console.log(err); })
                         const responseText = await response.text();
                         console.log("responseText", responseText);
 
@@ -436,9 +439,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         } else {
                             let registroFormData = new FormData(formularioCuenta);
                             fetch('http://localhost:3000/update_cuenta', {
-                                method: 'POST',
-                                body: registroFormData,
-                            })
+                                    method: 'POST',
+                                    body: registroFormData,
+                                })
+                                .catch(err => { console.log(err); })
 
                             Swal.fire({
                                 position: 'center',
@@ -450,11 +454,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             setTimeout(() => {
                                 window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
                             }, 1500);
-
-
                         }
-
-
                     } else {
                         document.getElementById('form__mensaje_error_cuenta').classList.add('form__mensaje_error_activo')
                         setTimeout(() => {
@@ -469,8 +469,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     inputs.forEach((input) => {
                         input.disabled = false;
                     })
-
-
                     drop_area_img_frente.classList.remove("drop-area-imagenes-perfil");
                     drop_area_img_dorso.classList.remove("drop-area-imagenes-perfil");
                     drop_area_img_curso.classList.remove("drop-area-imagenes-perfil");
@@ -478,10 +476,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     imagenDorso.classList.add("img-docs-perfil");
                     imagenCurso.classList.add("img-docs-perfil");
                     btn_save_profile.disabled = false;
-
-
                 });
-
 
                 //Botón Cancelar
                 btn_cancel.addEventListener('click', (event) => {
@@ -509,9 +504,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                         let registroFormData = new FormData(formularioPerfil);
                         fetch('http://localhost:3000/update_profile', {
-                            method: 'POST',
-                            body: registroFormData,
-                        })
+                                method: 'POST',
+                                body: registroFormData,
+                            })
+                            .catch(err => { console.log(err); })
 
                         Swal.fire({
                             position: 'center',
@@ -589,22 +585,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 })
 
             })
+            .catch(err => { console.log(err); })
     } else {
-        //Me parece que estas alertas no la tira porque al estar atada al CDN entonces si no carga el html no 
-        //va a cargar el CDN. Tengo que ver como hacer.
-        //Sino ya fue lo dejo sin nada y listo. En ninguna app que recuerde te salta un cartel con eso.
-        //Simplemente muestra que no esta cargado nada porque no esta en su sesion
-        Swal.fire({
-            position: 'center',
-            icon: 'error',
-            title: '¡No ha iniciado sesión!',
-            showConfirmButton: false,
-            timer: 1500
-        })
-        setTimeout(() => {
-            window.location.href = './index.html';
-        }, 1500);
+        alert("Usted NO ha Iniciado Sesión");
+        window.location.href = './index.html';
     }
-    //})}, 1500);
 
 })

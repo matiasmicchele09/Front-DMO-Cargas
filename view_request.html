@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
     <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -31,12 +32,13 @@
         </div>
     </nav>
 
-    <div class="container info-request" id="" style="margin: 10px 0 10px 0">
+    <div class="info-request" id="">
         <div class="my_request" id="my_request">
+            <!-- <button id="generarPDF">Generar PDF</button> -->
         </div>
-        <div class="d-flex">
+        <div class="datos-solicitud">
             <div class="datos_carga" id="datos_carga"></div>
-            <div class="datos_camion" id="datos_camion" style="margin-left:20px"></div>
+            <div class="datos_camion" id="datos_camion"></div>
         </div>
         <div class="btns_request">
             <button class="btn btn_acept_request" data-bs-toggle="modal" data-bs-target="#aceptRequestModal" id="btn_acept_request">Aceptar Solicitud</button>

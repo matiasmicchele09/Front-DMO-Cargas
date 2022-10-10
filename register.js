@@ -99,9 +99,10 @@ formularioRegistro.addEventListener('submit', (event) => {
         document.getElementById('form__mensaje_exito').classList.add('form__mensaje_exito_activo')
 
         fetch('http://localhost:3000/register', {
-            method: 'POST',
-            body: registroFormData,
-        });
+                method: 'POST',
+                body: registroFormData,
+            })
+            .catch(err => { console.log(err); })
 
         setTimeout(() => {
             document.getElementById('form__mensaje_exito').classList.remove('form__mensaje_exito_activo')

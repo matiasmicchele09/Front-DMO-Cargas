@@ -1,20 +1,21 @@
-const getURL = new URLSearchParams(window.location.search),
-    cod_usuario = getURL.get('cod_usuario'),
-    tpo_usuario = getURL.get('tpo_usuario'),
-    cod_carga = getURL.get('cod_carga');
-const tableBodyRequest = document.querySelector(".t_body_solicitudes");
-
-let btn_dashboard = document.querySelector(".a-dashboard"),
-    btn_mis_camiones = document.querySelector(".a-mis-camiones"),
-    btn_buscar_carga = document.querySelector(".a-buscar-cargas"),
-    btn_my_request = document.querySelector(".a-mis-solicitudes"),
-    btn_mis_cargas = document.querySelector(".a-mis-cargas"),
-    btn_mi_perfil = document.querySelector(".a-perfil"),
-    btn_logOut = document.querySelector(".btn-salir");
-var initialized_session = 'false';
-
-initialized_session = sessionStorage.getItem("initialized_session");
+'use strict'
 document.addEventListener('DOMContentLoaded', () => {
+    const getURL = new URLSearchParams(window.location.search),
+        cod_usuario = getURL.get('cod_usuario'),
+        tpo_usuario = getURL.get('tpo_usuario'),
+        cod_carga = getURL.get('cod_carga');
+    const tableBodyRequest = document.querySelector(".t_body_solicitudes");
+
+    let btn_dashboard = document.querySelector(".a-dashboard"),
+        btn_mis_camiones = document.querySelector(".a-mis-camiones"),
+        btn_buscar_carga = document.querySelector(".a-buscar-cargas"),
+        btn_my_request = document.querySelector(".a-mis-solicitudes"),
+        btn_mis_cargas = document.querySelector(".a-mis-cargas"),
+        btn_mi_perfil = document.querySelector(".a-perfil"),
+        btn_logOut = document.querySelector(".btn-salir");
+    var initialized_session = 'false';
+
+    initialized_session = sessionStorage.getItem("initialized_session");
     if (initialized_session == 'true') {
 
         fetch(`http://localhost:3000/getNameUser/${cod_usuario}`, {
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 btn_mi_perfil.innerHTML = `${data[0].razon_social}`;
             })
+            .catch(err => { console.log(err); })
 
         if (tpo_usuario == '1') {
             let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
@@ -57,7 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     .then(data => {
                                         tableData2.innerHTML = data[0].descripcion;
                                     });
-                            });
+                            })
+                            .catch(err => { console.log(err); })
 
                         tableData3.innerHTML = `${fecha_solicitud.toLocaleDateString()}`;
 
@@ -76,9 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
                                         break;
                                 }
-
-
-                            });
+                            })
+                            .catch(err => { console.log(err); })
 
                         tableData5.appendChild(btnMas);
 
@@ -96,6 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     })
                 })
+                .catch(err => { console.log(err); })
+
         } else {
             let nav_mis_camiones = document.querySelector(".nav-mis-camiones"),
                 nav_buscar_carga = document.querySelector(".nav-buscar-carga"),
@@ -136,7 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     .then(data => {
                                         tableData2.innerHTML = data[0].descripcion;
                                     });
-                            });
+                            })
+                            .catch(err => { console.log(err); })
 
                         tableData3.innerHTML = `${fecha_solicitud.toLocaleDateString()}`;
 
@@ -155,7 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
                                         break;
                                 }
-                            });
+                            })
+                            .catch(err => { console.log(err); })
 
                         tableData5.appendChild(btnMas);
 
@@ -172,9 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     })
                 })
+                .catch(err => { console.log(err); })
         }
-
-
 
         //Mis Camiones
         btn_mis_camiones.addEventListener('click', () => {
@@ -194,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_mis_cargas.addEventListener('click', () => {
             window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
+
         //Botón Mi Perfil
         btn_mi_perfil.addEventListener('click', () => {
             window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
@@ -215,5 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = './index.html';
             }, 1500);
         });
+    } else {
+        alert("Usted NO ha Iniciado Sesión");
+        window.location.href = './index.html';
     }
 })
