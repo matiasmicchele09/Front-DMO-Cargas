@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
     <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 
@@ -59,21 +60,13 @@
 
             <h4 class="mt-2" style="color: #241F74;">Origen</h4>
             <hr>
-            <!-- Grupo: Provincia Origen -->
-            <div class="formulario_grupo" id="grupo__prov_origen" style="display: inline-block;">
-                <label for="prov_origen" class="form__label">Provincia</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Origen" class="form__input form-control" id="prov_origen" name="prov_origen">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">La Provincia solo acepta letras</p>
-            </div>
 
             <!-- Grupo: Ciudad Origen -->
-            <div class="formulario_grupo" id="grupo__ciudad_origen" style="display: inline-block;">
-                <label for="ciudad_origen" class="form__label">Ciudad</label>
+            <div class="formulario_grupo" id="grupo__origen" style="display: inline-block;">
+                <label for="origen" class="form__label">Origen</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="Origen" class="form__input form-control" id="ciudad_origen" name="ciudad_origen">
+                    <!-- <input type="text" placeholder="Origen" class="form__input form-control" id="ciudad_origen" name="ciudad_origen"> -->
+                    <input type="text" placeholder="Ubicación Origen" class="form__input form-control" id="origen" name="origen">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Ciudad solo acepta letras</p>
@@ -109,21 +102,13 @@
             </div>
             <h4 class="mt-4" style="color: #241F74;">Destino</h4>
             <hr>
-            <!-- Grupo: Provincia Destino -->
-            <div class="formulario_grupo" id="grupo__prov_destino" style="display: inline-block;">
-                <label for="prov_destino" class="form__label">Provincia</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Destino" class="form__input form-control" id="prov_destino" name="prov_destino">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">La Provincia solo acepta letras</p>
-            </div>
 
-            <!-- Grupo: Ciudad Destino -->
-            <div class="formulario_grupo" id="grupo__ciudad_destino" style="display: inline-block;">
-                <label for="ciudad_destino" class="form__label">Ciudad</label>
+            <!-- Grupo: Destino -->
+            <div class="formulario_grupo" id="grupo__destino" style="display: inline-block;">
+                <label for="destino" class="form__label">Destino</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="Destino" class="form__input form-control" id="ciudad_destino" name="ciudad_destino">
+                    <!-- <input type="text" class="form__input form-control" id="place_destination" placeholder="Destino" style="width: 100%; height:35px; margin-top:15px"> -->
+                    <input type="text" placeholder="Ubicación Destino" class="form__input form-control" id="destino" name="destino">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Ciudad solo acepta letras</p>
@@ -302,6 +287,7 @@
             </div>
 
             <div class="formulario_grupo form__grupo-btn-agregar-carga mb-4">
+                <button id="btn_calcular_valor">Calcular Valor de la Carga</button>
                 <!-- <button type="submit" name="" id="btn-agregaCarga" class="btn form_btn mt-3 mb-3 btn-agregaCarga">Agregar Carga</button> -->
                 <button class="btn_edit_carga" id="btn_edit_carga">Editar</button>
                 <button class="btn_cancel_carga" id="btn_cancel_carga">Cancelar</button>
@@ -389,6 +375,56 @@
         <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
         <script src="./view_freights.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNlsS5ZWXx_l8kzgjGyRRZ8uJ0YodeYyE&libraries=places&callback=initAutoCompleteDistance"></script>
+        <script>
+            const input_place_origin = document.getElementById("origen"),
+                input_place_destination = document.getElementById("destino"),
+                btn_calcula_valor = document.getElementById("btn_calcular_valor");
+
+            let autocompleteOrigin,
+                autocompleteDestination,
+                placeID_Origen,
+                placeID_destino;
+
+            function initAutoCompleteDistance() {
+                autocompleteOrigin = new google.maps.places.Autocomplete(input_place_origin);
+                autocompleteDestination = new google.maps.places.Autocomplete(input_place_destination);
+                autocompleteOrigin.addListener('place_changed', function() {
+                    const placeOrigin = autocompleteOrigin.getPlace();
+                    placeID_Origen = placeOrigin.place_id;
+                    console.log(placeID_Origen);
+                });
+
+                autocompleteDestination.addListener('place_changed', function() {
+                    const placeDestination = autocompleteDestination.getPlace();
+                    placeID_destino = placeDestination.place_id;
+
+                })
+            }
+
+
+            btn_calcula_valor.addEventListener("click", (event) => {
+                event.preventDefault();
+                const config = {
+                    method: 'get',
+                    url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=place_id:${placeID_Origen}&destinations=place_id:${placeID_destino}&key=AIzaSyCNlsS5ZWXx_l8kzgjGyRRZ8uJ0YodeYyE`,
+                };
+
+                axios(config)
+                    .then(function(response) {
+                        //console.log(JSON.stringify(response.data));
+                        let data = JSON.stringify(response.data);
+                        //console.log(JSON.parse(data));
+                        let datos = JSON.parse(data);
+                        console.log("datos", datos);
+                        console.log("datos.destination_addresses", datos.destination_addresses[0]);
+                        console.log("Distancia: ", datos.rows[0].elements[0].distance.text);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            })
+        </script>
 </body>
 
 </html>

@@ -156,13 +156,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     })
                     .catch(err => { console.log(err); })
 
-                document.getElementById('prov_origen').value = data[0].prov_origen;
-                document.getElementById('ciudad_origen').value = data[0].ciudad_origen;
+                document.getElementById('origen').value = data[0].origen;
                 document.getElementById('domicilio_origen').value = data[0].domicilio_origen;
                 document.getElementById('fec_retiro').value = data[0].fec_retiro.substring(0, 10);
                 document.getElementById('hora_retiro').value = data[0].hora_retiro.substring(0, 5);
-                document.getElementById('prov_destino').value = data[0].prov_destino;
-                document.getElementById('ciudad_destino').value = data[0].ciudad_destino;
+                document.getElementById('destino').value = data[0].destino;
                 document.getElementById('domicilio_destino').value = data[0].domicilio_destino;
                 document.getElementById('receptor_carga').value = data[0].receptor_carga;
                 document.getElementById('fec_destino').value = data[0].fec_destino.substring(0, 10);
@@ -218,7 +216,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     document.getElementById('es_carga_apilable').checked = data[0].es_carga_apilable;
                 }
 
-                for (i in data) {
+                for (let i = 0; i < data.length; i++) {
 
                     if (data[i].cant_unit != 0) {
                         document.getElementById("grupo__cant_unit").classList.remove("form_cant_unit");
@@ -294,8 +292,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                         fecha_destino = new Date(data[0].fec_destino);
 
-                        p.innerHTML = `<b>Origen: </b> ${data[0].ciudad_origen} (${data[0].prov_origen}) - ${fecha_retiro.toLocaleDateString()}<br>
-                                    <b>Destino: </b> ${data[0].ciudad_destino} (${data[0].prov_destino}) - ${fecha_destino.toLocaleDateString()} <br>
+                        p.innerHTML = `<b>Origen: </b> ${data[0].origen} - ${fecha_retiro.toLocaleDateString()}<br>
+                                    <b>Destino: </b> ${data[0].destino} - ${fecha_destino.toLocaleDateString()} <br>
                                     <b>Carga: </b> ${option.text}`
 
                         modalUsuario.value = cod_usuario;

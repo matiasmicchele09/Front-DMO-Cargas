@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+ @license
+ Copyright 2019 Google LLC. All Rights Reserved.
+ SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+
+<head>
+    <title>Add Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+        #map {
+            height: 400px;
+            /* The height is 400 pixels */
+            width: 100%;
+        }
+        
+        #place_input {
+            width: 100%;
+            height: 40px;
+            border-radius: 0;
+            border: none;
+        }
+    </style>
+    <script type="module" src="./home.js"></script>
+</head>
+
+<body>
+    <h3>My Google Maps Demo</h3>
+    <!--The div element for the map -->
+    <input type="text" id="place_input" placeholder="Ingrese una Ubicación">
+    <div id="map"></div>
+
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly" defer></script> -->
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNlsS5ZWXx_l8kzgjGyRRZ8uJ0YodeYyE&libraries=places&callback=initMap"></script>
+    <!-- <script src="./home.js"></script> -->
+    <script>
+        const mapDiv = document.getElementById("map"),
+            input_place = document.getElementById("place_input"),
+            argCoords = {
+                lat: -34.0,
+                lng: -64.0
+            };
+        let map,
+            marker,
+            autocomplete;
+
+        function initMap() {
+            map = new google.maps.Map(mapDiv, {
+                center: argCoords,
+                zoom: 5,
+            })
+            marker = new google.maps.Marker({
+                position: argCoords,
+                map: map,
+            });
+            initAutoComplete();
+        }
+
+        function initAutoComplete() {
+            autocomplete = new google.maps.places.Autocomplete(input_place);
+            autocomplete.addListener('place_changed', function() {
+                const place = autocomplete.getPlace();
+                console.log(place);
+                /* map.setCenter(place.geometry.location);
+                marker.setPosition(place.geometry.location) */
+            })
+        }
+    </script>
+</body>
+
+</html>

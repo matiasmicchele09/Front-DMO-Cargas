@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
     <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -45,53 +46,12 @@
                 </div>
             </div>
 
-            <!-- Grupo: Provincia Origen -->
-            <!-- <div class="formulario_grupo" id="grupo__prov_origen" style="display: inline-block;">
-                <label for="prov_origen" class="form__label">Provincia</label>
+            <!-- Grupo: Origen -->
+            <div class="formulario_grupo" id="grupo__origen" style="display: inline-block;">
+                <label for="origen" class="form__label">Origen</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="Origen" class="form__input form-control" id="prov_origen" name="prov_origen">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">La Provincia solo acepta letras</p>
-            </div> -->
-            <!-- Grupo: Provincia Origen -->
-            <div class="formulario_grupo" id="grupo__prov_origen" style="display: inline-block;">
-                <label for="prov_origen" class="form__label">Provincia</label>
-                <div class="form__grupo_input">
-                    <select class="form__input selectProvOrigen" id="prov_origen" name="prov_origen">
-                        <option id="" value="0">Seleccione una Provincia...</option>
-                        <option id="" value="Buenos Aires">Buenos Aires</option>
-                        <option id="" value="Catamarca">Catamarca</option>
-                        <option id="" value="Chaco">Chaco</option>
-                        <option id="" value="Chubut">Chubut</option>
-                        <option id="" value="Córdoba">Córdoba</option>
-                        <option id="" value="Corrientes">Corrientes</option>
-                        <option id="" value="Entre Ríos">Entre Ríos</option>
-                        <option id="" value="Formosa">Formosa</option>
-                        <option id="" value="Jujuy">Jujuy</option>
-                        <option id="" value="La Pampa">La Pampa</option>
-                        <option id="" value="La Rioja">La Rioja</option>
-                        <option id="" value="Mendoza">Mendoza</option>
-                        <option id="" value="Misiones">Misiones</option>
-                        <option id="" value="Neuquén">Neuquén</option>
-                        <option id="" value="Río Negro">Río Negro</option>
-                        <option id="" value="Salta">Salta</option>
-                        <option id="" value="San Juan">San Juan</option>
-                        <option id="" value="San Luis">San Luis</option>
-                        <option id="" value="Santa Cruz">Santa Cruz</option>
-                        <option id="" value="Santa Fe">Santa Fe</option>
-                        <option id="" value="Santiago Del Estero">Santiago Del Estero</option>
-                        <option id="" value="Tierra del Fuego">Tierra del Fuego</option>
-                        <option id="" value="Tucumán">Tucumán</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Grupo: Ciudad Origen -->
-            <div class="formulario_grupo" id="grupo__ciudad_origen" style="display: inline-block;">
-                <label for="ciudad_origen" class="form__label">Ciudad</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Origen" class="form__input form-control" id="ciudad_origen" name="ciudad_origen">
+                    <!-- <input type="text" placeholder="Origen" class="form__input form-control" id="ciudad_origen" name="ciudad_origen"> -->
+                    <input type="text" placeholder="Ubicación Origen" class="form__input form-control" id="origen" name="origen">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Ciudad solo acepta letras</p>
@@ -126,52 +86,12 @@
                 <p class="form__input_error">Debe ingresar una Hora</p>
             </div>
             <hr>
-            <!-- Grupo: Provincia Destino -->
-            <!-- <div class="formulario_grupo" id="grupo__prov_destino" style="display: inline-block;">
-                <label for="prov_destino" class="form__label">Provincia</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Destino" class="form__input form-control" id="prov_destino" name="prov_destino">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">La Provincia solo acepta letras</p>
-            </div> -->
-            <div class="formulario_grupo" id="grupo__prov_destino" style="display: inline-block;">
-                <label for="prov_destino" class="form__label">Provincia</label>
-                <div class="form__grupo_input">
-                    <select class="form__input selectProvOrigen" id="prov_destino" name="prov_destino">
-                        <option id="" value="0">Seleccione una Provincia...</option>
-                        <option id="" value="Buenos Aires">Buenos Aires</option>
-                        <option id="" value="Catamarca">Catamarca</option>
-                        <option id="" value="Chaco">Chaco</option>
-                        <option id="" value="Chubut">Chubut</option>
-                        <option id="" value="Córdoba">Córdoba</option>
-                        <option id="" value="Corrientes">Corrientes</option>
-                        <option id="" value="Entre Ríos">Entre Ríos</option>
-                        <option id="" value="Formosa">Formosa</option>
-                        <option id="" value="Jujuy">Jujuy</option>
-                        <option id="" value="La Pampa">La Pampa</option>
-                        <option id="" value="La Rioja">La Rioja</option>
-                        <option id="" value="Mendoza">Mendoza</option>
-                        <option id="" value="Misiones">Misiones</option>
-                        <option id="" value="Neuquén">Neuquén</option>
-                        <option id="" value="Río Negro">Río Negro</option>
-                        <option id="" value="Salta">Salta</option>
-                        <option id="" value="San Juan">San Juan</option>
-                        <option id="" value="San Luis">San Luis</option>
-                        <option id="" value="Santa Cruz">Santa Cruz</option>
-                        <option id="" value="Santa Fe">Santa Fe</option>
-                        <option id="" value="Santiago Del Estero">Santiago Del Estero</option>
-                        <option id="" value="Tierra del Fuego">Tierra del Fuego</option>
-                        <option id="" value="Tucumán">Tucumán</option>
-                    </select>
-                </div>
-            </div>
 
-            <!-- Grupo: Ciudad Destino -->
-            <div class="formulario_grupo" id="grupo__ciudad_destino" style="display: inline-block;">
-                <label for="ciudad_destino" class="form__label">Ciudad</label>
+            <!-- Grupo: Destino -->
+            <div class="formulario_grupo" id="grupo__destino" style="display: inline-block;">
+                <label for="destino" class="form__label">Destino</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="Destino" class="form__input form-control" id="ciudad_destino" name="ciudad_destino">
+                    <input type="text" placeholder="Ubicación Destino" class="form__input form-control" id="destino" name="destino">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Ciudad solo acepta letras</p>
@@ -354,21 +274,139 @@
                 <p class="form__input_error">La cantidad solo debe contener números</p>
             </div>
 
-            <div class="form__mensaje_error" id="form__mensaje_error">
-                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos/Incompletos</p>
-            </div>
+
 
             <div class="formulario_grupo form__grupo-btn-agregar-carga">
+                <button class="btn_calcular_valor" id="btn_calcular_valor">Calcular Valor de la Carga</button>
+
+                <div class="formulario_grupo form_valor_carga" id="grupo__valor_carga">
+                    <label for="valor_carga" class="form__label">Valor Carga</label>
+                    <div class="form__grupo_input">
+                        <input type="text" class="form__input form-control" id="valor_carga" name="valor_carga" disabled>
+                    </div>
+                </div>
+
+                <div class="form__mensaje_error" id="form__mensaje_error">
+                    <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos/Incompletos</p>
+                </div>
+
+
                 <button type="submit" name="" id="btn-agregaCarga" class="btn form_btn mt-3 mb-3 btn-agregaCarga">Agregar Carga</button>
             </div>
         </form>
 
 
     </div>
-
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
     <script src="./add_freight.js "></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNlsS5ZWXx_l8kzgjGyRRZ8uJ0YodeYyE&libraries=places&callback=initAutoCompleteDistance"></script>
+    <script>
+        const input_place_origin = document.getElementById("origen"),
+            input_place_destination = document.getElementById("destino"),
+            btn_calcula_valor = document.getElementById("btn_calcular_valor"),
+            input_valor_carga = document.getElementById("valor_carga"),
+            valor_km_recorrido = 100,
+            valor_unit_tn = 1500,
+            valor_unit_kg = 1.5,
+            valor_litro = 2000,
+            selectProducto = document.getElementById("selectTipoProducto"),
+            peso_total_kg = document.getElementById("peso_total_kg"),
+            peso_total_tn = document.getElementById("peso_total_tn"),
+            cant_litros = document.getElementById("cant_litros");
+
+        let autocompleteOrigin,
+            autocompleteDestination,
+            placeID_Origen,
+            placeID_destino;
+
+        function initAutoCompleteDistance() {
+            autocompleteOrigin = new google.maps.places.Autocomplete(input_place_origin);
+            autocompleteDestination = new google.maps.places.Autocomplete(input_place_destination);
+            autocompleteOrigin.addListener('place_changed', function() {
+                const placeOrigin = autocompleteOrigin.getPlace();
+                placeID_Origen = placeOrigin.place_id;
+                //console.log(placeID_Origen);
+            });
+            autocompleteDestination.addListener('place_changed', function() {
+                const placeDestination = autocompleteDestination.getPlace();
+                placeID_destino = placeDestination.place_id;
+
+            })
+        }
+
+        btn_calcula_valor.addEventListener("click", (event) => {
+            event.preventDefault();
+            const config = {
+                method: 'get',
+                url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=place_id:${placeID_Origen}&destinations=place_id:${placeID_destino}&key=AIzaSyCNlsS5ZWXx_l8kzgjGyRRZ8uJ0YodeYyE`,
+            };
+
+            if (selectProducto.value == 0) {
+                alert("Debe elegir un Tipo de Producto")
+            } else {
+                if (peso_total_kg.value == "" || peso_total_tn.value == "" || cant_litros.value == "") {
+                    alert("¡Datos Incorrectos/Incompletos!")
+                } else {
+                    axios(config)
+                        .then(function(response) {
+                            let data = JSON.stringify(response.data),
+                                datos = JSON.parse(data);
+                            console.log("datos", datos);
+                            console.log("Distancia: ", datos.rows[0].elements[0].distance.text);
+                            let distancia_km = datos.rows[0].elements[0].distance.text.replace(".", "");
+
+                            let pais_origen = datos.origin_addresses[0].split(","),
+                                pais_destino = datos.destination_addresses[0].split(","),
+                                primer_pais,
+                                segundo_pais;
+
+                            if (pais_origen.length == 3) {
+                                primer_pais = pais_origen[2].trim();
+                            }
+                            if (pais_origen.length == 2) {
+                                primer_pais = pais_origen[1].trim();
+                            }
+                            if (pais_destino.length == 3) {
+                                segundo_pais = pais_destino[2].trim();
+                            }
+                            if (pais_destino.length == 2) {
+                                segundo_pais = pais_destino[1].trim();
+                            }
+                            if (primer_pais == 'Argentina' && segundo_pais == 'Argentina') {
+                                if (peso_total_kg != 0) {
+                                    let valor = (parseInt(peso_total_kg.value, 10) * valor_unit_kg) + (valor_km_recorrido * parseInt(distancia_km, 10));
+                                    input_valor_carga.value = parseInt(valor, 10);
+                                    console.log(parseInt(distancia_km, 10));
+                                    console.log("typeof", typeof valor_unit_kg);
+                                    console.log("peso_total_kg.value", parseInt(peso_total_kg.value, 10), "valor_unit_kg", valor_unit_kg, "valor_km_recorrido", valor_km_recorrido);
+                                }
+                                if (peso_total_tn != 0) {
+                                    let valor = peso_total_tn.value * valor_unit_tn + valor_km_recorrido * parseInt(distancia_km, 10);
+                                    input_valor_carga.value = valor;
+                                }
+                                if (cant_litros != 0) {
+                                    let valor = cant_litros.value * valor_litro + valor_km_recorrido * parseInt(distancia_km, 10);
+                                    input_valor_carga.value = valor;
+                                }
+
+
+
+                            } else {
+                                alert("¡Ha ingresado Localidades Fuera de Argentina!")
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                            alert("¡Datos Incorrectos/Incompletos!")
+                                //location.reload()
+                        });
+                }
+
+            }
+        })
+    </script>
+
 
 </body>
 

@@ -1,4 +1,14 @@
-/*Sign Up - Lo pongo aca por ahora, despues veo si le creo un style por separado*/
+/* Set the size of the div element that contains the map */
+
+
+/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
+/* Set the size of the div element that contains the map */
 
 #map {
     height: 400px;
@@ -971,6 +981,19 @@ div .cardText {
     background-color: #34bb3f;
     color: #FAFAFA;
     width: 100%;
+}
+
+.btn_calcular_valor {
+    color: #FFFFFF;
+    background-color: #241F74;
+    margin: 10px 0 0 0;
+    height: 35px;
+    border-radius: 5px;
+}
+
+.btn_calcular_valor:hover {
+    color: #FFFFFF;
+    background-color: #4136df;
 }
 
 .btn-agregaCarga:hover {

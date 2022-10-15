@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         })
                         .catch(err => { console.log(err); })
 
-                    tableData4.innerHTML = `${res.prov_origen} - ${res.prov_destino}`;
+                    tableData4.innerHTML = `${res.origen} - ${res.destino}`;
 
                     fetch(`http://localhost:3000/getOneTipoEstado/${res.cod_estado_carga}`, {
                             method: 'GET',

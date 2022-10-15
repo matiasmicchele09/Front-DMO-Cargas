@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     const expresiones = {
         // prov_origen: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-        ciudad_origen: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+        origen: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
         domicilio_origen: /^[a-zA-ZÀ-ÿ\s]+[0-9]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.
         //prov_destino: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
         ciudad_destino: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
     const campos = {
         selectProvOrigen: false,
-        ciudad_origen: false,
+        origen: false,
         domicilio_origen: false,
         fec_retiro: false,
         hora_retiro: false,
@@ -56,9 +56,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             /* case "prov_origen":
                 validarCampo(expresiones.prov_origen, e.target, 'prov_origen'); //también podría haber pasado solo el e.target en vez de e.target.name
                 break; */
-            case "ciudad_origen":
-                validarCampo(expresiones.ciudad_origen, e.target, 'ciudad_origen');
-                break;
+            /* case "origen":
+                validarCampo(expresiones.origen, e.target, 'origen');
+                break; */
             case "domicilio_origen":
                 validarCampo(expresiones.domicilio_origen, e.target, 'domicilio_origen');
                 break;
@@ -135,7 +135,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-
                 let select = document.getElementById('selectTipoProducto'),
                     selectEstado = document.getElementById('selectEstadoCarga'),
                     inputUsuario = document.getElementById("cod_usuario"),
@@ -186,7 +185,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         divLitros = document.getElementById("grupo__cant_litros");
 
 
-                    for (i in data) {
+                    for (let i = 0; i < data.length; i++) {
 
                         if (data[i].cod_tipo_producto == tipo_prod_seleccionado) {
 
@@ -221,7 +220,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divCantUnitaria.classList.remove("form_cant_unit");
                                 divCantUnitaria.classList.add("form_cant_unit_disponible");
                             } else {
-                                cant_unit = document.getElementById("cant_unit");
+                                let cant_unit = document.getElementById("cant_unit");
                                 cant_unit.value = 0;
                                 campos.cant_unit = true;
                             }
@@ -229,7 +228,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divPesoUnitKG.classList.remove("form_peso_unit_kg");
                                 divPesoUnitKG.classList.add("form_peso_unit_kg_disponible");
                             } else {
-                                peso_unit_kg = document.getElementById("peso_unit_kg");
+                                let peso_unit_kg = document.getElementById("peso_unit_kg");
                                 peso_unit_kg.value = 0;
                                 campos.peso_unit_kg = true;
                             }
@@ -237,7 +236,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divPesoTotalKG.classList.remove("form_peso_total_kg");
                                 divPesoTotalKG.classList.add("form_peso_total_kg_disponible");
                             } else {
-                                peso_total_kg = document.getElementById("peso_total_kg");
+                                let peso_total_kg = document.getElementById("peso_total_kg");
                                 peso_total_kg.value = 0;
                                 campos.peso_total_kg = true;
                             }
@@ -245,7 +244,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divLargo.classList.remove("form_largo_mts");
                                 divLargo.classList.add("form_largo_mts_disponible");
                             } else {
-                                largo_mts = document.getElementById("largo_mts");
+                                let largo_mts = document.getElementById("largo_mts");
                                 largo_mts.value = 0;
                                 campos.largo_mts = true;
                             }
@@ -253,7 +252,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divAncho.classList.remove("form_ancho_mts");
                                 divAncho.classList.add("form_ancho_mts_disponible");
                             } else {
-                                ancho_mts = document.getElementById("ancho_mts");
+                                let ancho_mts = document.getElementById("ancho_mts");
                                 ancho_mts.value = 0;
                                 campos.ancho_mts = true;
                             }
@@ -261,7 +260,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divAlto.classList.remove("form_alto_mts");
                                 divAlto.classList.add("form_alto_mts_disponible");
                             } else {
-                                alto_mts = document.getElementById("alto_mts");
+                                let alto_mts = document.getElementById("alto_mts");
                                 alto_mts.value = 0;
                                 campos.alto_mts = true;
                             }
@@ -269,7 +268,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divPesoUnitTN.classList.remove("form_peso_unit_tn");
                                 divPesoUnitTN.classList.add("form_peso_unit_tn_disponible");
                             } else {
-                                peso_unit_tn = document.getElementById("peso_unit_tn");
+                                let peso_unit_tn = document.getElementById("peso_unit_tn");
                                 peso_unit_tn.value = 0;
                                 campos.peso_unit_tn = true;
                             }
@@ -277,7 +276,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divPesoTotalTN.classList.remove("form_peso_total_tn");
                                 divPesoTotalTN.classList.add("form_peso_total_tn_disponible");
                             } else {
-                                peso_total_tn = document.getElementById("peso_total_tn");
+                                let peso_total_tn = document.getElementById("peso_total_tn");
                                 peso_total_tn.value = 0;
                                 campos.peso_total_tn = true;
                             }
@@ -285,7 +284,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 divLitros.classList.remove("form_cant_litros");
                                 divLitros.classList.add("form_cant_litros_disponible");
                             } else {
-                                cant_litros = document.getElementById("cant_litros");
+                                let cant_litros = document.getElementById("cant_litros");
                                 cant_litros.value = 0;
                                 campos.cant_litros = true;
                             }
@@ -353,22 +352,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 horaDestino = document.getElementById("hora_destino"),
                 fecRetiro = document.getElementById("fec_retiro"),
                 fecDestino = document.getElementById("fec_destino"),
-                receptor_carga = document.getElementById("receptor_carga"),
-                selectProvOrigen = document.getElementById("prov_origen"),
-                selectProvDestino = document.getElementById("prov_destino");
+                receptor_carga = document.getElementById("receptor_carga");
 
             if (horaRetiro.value != "") { campos.hora_retiro = true; }
             if (horaDestino.value != "") { campos.hora_destino = true; }
             if (fecRetiro.value != "") { campos.fec_retiro = true; }
             if (fecDestino.value != "") { campos.fec_destino = true; }
             if (receptor_carga.value !== "") { campos.receptor_carga = true; }
-            if (selectProvOrigen.value != 0) { campos.selectProvOrigen = true; }
-            if (selectProvDestino.value != 0) { campos.selectProvDestino = true; }
 
-            if (campos.selectProvOrigen && campos.ciudad_origen && campos.domicilio_origen &&
-                campos.hora_retiro && campos.fec_retiro && campos.hora_destino &&
-                campos.fec_destino && campos.selectProvDestino && campos.ciudad_destino &&
-                campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
+            if (campos.domicilio_origen && campos.hora_retiro && campos.fec_retiro && campos.hora_destino &&
+                campos.fec_destino && campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
                 campos.peso_unit_kg && campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
                 campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros) {
                 let registroFormData = new FormData(formAgregarCarga);
