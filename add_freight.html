@@ -47,7 +47,7 @@
             </div>
 
             <!-- Grupo: Origen -->
-            <div class="formulario_grupo" id="grupo__origen" style="display: inline-block;">
+            <div class="formulario_grupo" id="grupo__origen" style="display: block;">
                 <label for="origen" class="form__label">Origen</label>
                 <div class="form__grupo_input">
                     <!-- <input type="text" placeholder="Origen" class="form__input form-control" id="ciudad_origen" name="ciudad_origen"> -->
@@ -87,55 +87,6 @@
             </div>
             <hr>
 
-            <!-- Grupo: Destino -->
-            <div class="formulario_grupo" id="grupo__destino" style="display: inline-block;">
-                <label for="destino" class="form__label">Destino</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Ubicación Destino" class="form__input form-control" id="destino" name="destino">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">La Ciudad solo acepta letras</p>
-            </div>
-
-            <!-- Grupo: Domicilio Destino -->
-            <div class="formulario_grupo" id="grupo__domicilio_destino" style="display: inline-block;">
-                <label for="domicilio_destino" class="form__label">Domicilio</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Calle + Número" class="form__input form-control" id="domicilio_destino" name="domicilio_destino">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">Debe ingresar primero la calle y luego el número</p>
-            </div>
-
-            <!-- Grupo: Receptor de Carga -->
-            <div class="formulario_grupo" id="grupo__receptor_carga" style="display: inline-block;">
-                <label for="receptor_carga" class="form__label">Receptor</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Quién reciba la carga" class="form__input form-control" id="receptor_carga" name="receptor_carga">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class="form__input_error">Debe ingresar un Receptor de la Carga</p>
-            </div>
-
-            <!-- Grupo: Fecha Llegada -->
-            <div class="formulario_grupo" id="grupo__fec_destino" style="display: inline-block;">
-                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
-                <label for="fec_destino" class="form__label">Fecha Llegada</label>
-                <div class="form__grupo_input">
-                    <input type="date" class="form__input form-control" id="fec_destino" name="fec_destino">
-                </div>
-                <p class="form__input_error">Debe ingresar una Fecha</p>
-            </div>
-
-            <!-- Grupo: Hora Llegada -->
-            <div class="formulario_grupo" id="grupo__hora_destino" style="display: inline-block;">
-                <label for="hora_destino" class="form__label">Hora Llegada</label>
-                <div class="form__grupo_input">
-                    <input type="time" class="form__input form-control" id="hora_destino" name="hora_destino">
-                </div>
-                <p class="form__input_error">Debe ingresar una Hora</p>
-            </div>
-            <hr>
             <!-- Grupo: Comentario -->
             <div class="formulario_grupo" id="grupo__comentario" style="grid-column: span 3;">
                 <label for="comentario" class="form__label">Comentario</label>
@@ -145,7 +96,7 @@
             </div>
 
             <!-- Grupo: Estado -->
-            <div class="formulario_grupo" id="" style="grid-column: span 3;">
+            <div class="formulario_grupo d-none" id="" style="grid-column: span 3;">
                 <label for="selectEstadoCarga" class="form__label">Estado</label>
                 <div class="form__grupo_input">
                     <select class="selectTipoProducto" name="cod_estado_carga" id="selectEstadoCarga">                        
@@ -188,7 +139,7 @@
             <div class="formulario_grupo form_cant_unit" id="grupo__cant_unit">
                 <label for="cant_unit" class="form__label">Cant. Unitaria</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En Unidades" class="form__input form-control" id="cant_unit" name="cant_unit">
+                    <input type="number" placeholder="En Unidades" class="form__input form-control" id="cant_unit" name="cant_unit">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La Cantidad solo debe contener números</p>
@@ -198,7 +149,7 @@
             <div class="formulario_grupo form_peso_unit_kg" id="grupo__peso_unit_kg">
                 <label for="peso_unit_kg" class="form__label">Peso Unitario</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En Kg" class="form__input form-control" id="peso_unit_kg" name="peso_unit_kg">
+                    <input type="number" placeholder="En Kg" class="form__input form-control" id="peso_unit_kg" name="peso_unit_kg">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">El Peso solo debe contener números</p>
@@ -208,7 +159,7 @@
             <div class="formulario_grupo form_peso_total_kg" id="grupo__peso_total_kg">
                 <label for="peso_total_kg" class="form__label">Peso Total</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En Kg" class="form__input form-control" id="peso_total_kg" name="peso_total_kg">
+                    <input type="number" placeholder="En Kg" class="form__input form-control" id="peso_total_kg" name="peso_total_kg">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">El Peso solo debe contener números</p>
@@ -218,7 +169,7 @@
             <div class="formulario_grupo form_largo_mts" id="grupo__largo_mts">
                 <label for="largo_mts" class="form__label">Largo</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En metros" class="form__input form-control" id="largo_mts" name="largo_mts">
+                    <input type="number" placeholder="En metros" class="form__input form-control" id="largo_mts" name="largo_mts">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">El Largo solo debe contener números</p>
@@ -228,7 +179,7 @@
             <div class="formulario_grupo form_ancho_mts" id="grupo__ancho_mts">
                 <label for="ancho_mts" class="form__label">Ancho</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En metros" class="form__input form-control" id="ancho_mts" name="ancho_mts">
+                    <input type="number" placeholder="En metros" class="form__input form-control" id="ancho_mts" name="ancho_mts">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">El Ancho solo debe contener números</p>
@@ -238,7 +189,7 @@
             <div class="formulario_grupo form_alto_mts" id="grupo__alto_mts">
                 <label for="alto_mts" class="form__label">Alto</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En metros" class="form__input form-control" id="alto_mts" name="alto_mts">
+                    <input type="number" placeholder="En metros" class="form__input form-control" id="alto_mts" name="alto_mts">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">El Alto solo debe contener números</p>
@@ -248,7 +199,7 @@
             <div class="formulario_grupo form_peso_unit_tn" id="grupo__peso_unit_tn">
                 <label for="peso_unit_tn" class="form__label">Peso Unitario</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En Tn" class="form__input form-control" id="peso_unit_tn" name="peso_unit_tn">
+                    <input type="number" placeholder="En Tn" class="form__input form-control" id="peso_unit_tn" name="peso_unit_tn">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">El Peso solo debe contener números</p>
@@ -258,7 +209,7 @@
             <div class="formulario_grupo form_peso_total_tn" id="grupo__peso_total_tn">
                 <label for="peso_total_tn" class="form__label">Peso Total</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En Tn" class="form__input form-control" id="peso_total_tn" name="peso_total_tn">
+                    <input type="number" placeholder="En Tn" class="form__input form-control" id="peso_total_tn" name="peso_total_tn">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">El Peso solo debe contener números</p>
@@ -268,29 +219,83 @@
             <div class="formulario_grupo form_cant_litros" id="grupo__cant_litros">
                 <label for="cant_litros" class="form__label">Cantidad Litros</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="En Litros" class="form__input form-control" id="cant_litros" name="cant_litros">
+                    <input type="number" placeholder="En Litros" class="form__input form-control" id="cant_litros" name="cant_litros">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class="form__input_error">La cantidad solo debe contener números</p>
             </div>
 
+            <hr>
 
+            <!-- Grupo: Destino -->
+            <div class="formulario_grupo" id="grupo__destino" style="display: block;">
+                <label for="destino" class="form__label">Destino</label>
+                <div class="form__grupo_input">
+                    <input type="text" placeholder="Ubicación Destino" class="form__input form-control" id="destino" name="destino">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La Ciudad solo acepta letras</p>
+            </div>
+
+            <!-- Grupo: Domicilio Destino -->
+            <div class="formulario_grupo" id="grupo__domicilio_destino" style="display: inline-block;">
+                <label for="domicilio_destino" class="form__label">Domicilio</label>
+                <div class="form__grupo_input">
+                    <input type="text" placeholder="Calle + Número" class="form__input form-control" id="domicilio_destino" name="domicilio_destino">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">Debe ingresar primero la calle y luego el número</p>
+            </div>
+
+            <!-- Grupo: Receptor de Carga -->
+            <div class="formulario_grupo" id="grupo__receptor_carga" style="display: inline-block;">
+                <label for="receptor_carga" class="form__label">Receptor</label>
+                <div class="form__grupo_input">
+                    <input type="text" placeholder="Quién reciba la carga" class="form__input form-control" id="receptor_carga" name="receptor_carga">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">Debe ingresar un Receptor de la Carga</p>
+            </div>
+            <!-- Grupo: Fecha Llegada -->
+            <div class="formulario_grupo" id="grupo__fec_destino" style="display: inline-block;">
+                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
+                <label for="fec_destino" class="form__label">Fecha estimada de llegada</label>
+                <div class="form__grupo_input">
+                    <input type="date" class="form__input form-control" id="fec_destino" name="fec_destino">
+                </div>
+                <p class="form__input_error">Debe ingresar una Fecha</p>
+            </div>
+
+
+            <!-- Grupo: Hora Llegada -->
+            <div class="formulario_grupo" id="grupo__hora_destino" style="display: inline-block;">
+                <label for="hora_destino" class="form__label">Hora Llegada</label>
+                <div class="form__grupo_input">
+                    <input type="time" class="form__input form-control" id="hora_destino" name="hora_destino">
+                </div>
+                <p class="form__input_error">Debe ingresar una Hora</p>
+            </div>
+            <hr>
+            <button class="btn_calcular_valor" id="btn_calcular_valor">Calcular Valor de la Carga</button>
+
+            <div class="formulario_grupo" id="grupo__distancia_recorrido">
+                <label for="distancia_recorrido" class="form__label">Distancia estimada para el recorrido:</label>
+                <div class="form__grupo_input">
+                    <input type="number" class="form__input form-control" id="distancia_recorrido" name="distancia_recorrido">
+                </div>
+            </div>
+
+            <div class="formulario_grupo" id="grupo__valor_carga">
+                <label for="valor_carga" class="form__label">Valor Carga</label>
+                <div class="form__grupo_input">
+                    <input type="number" class="form__input form-control" id="valor_carga" name="valor_carga">
+                </div>
+            </div>
 
             <div class="formulario_grupo form__grupo-btn-agregar-carga">
-                <button class="btn_calcular_valor" id="btn_calcular_valor">Calcular Valor de la Carga</button>
-
-                <div class="formulario_grupo form_valor_carga" id="grupo__valor_carga">
-                    <label for="valor_carga" class="form__label">Valor Carga</label>
-                    <div class="form__grupo_input">
-                        <input type="text" class="form__input form-control" id="valor_carga" name="valor_carga" disabled>
-                    </div>
-                </div>
-
                 <div class="form__mensaje_error" id="form__mensaje_error">
                     <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos/Incompletos</p>
                 </div>
-
-
                 <button type="submit" name="" id="btn-agregaCarga" class="btn form_btn mt-3 mb-3 btn-agregaCarga">Agregar Carga</button>
             </div>
         </form>
@@ -306,10 +311,11 @@
             input_place_destination = document.getElementById("destino"),
             btn_calcula_valor = document.getElementById("btn_calcular_valor"),
             input_valor_carga = document.getElementById("valor_carga"),
+            input_distancia_recorrido = document.getElementById("distancia_recorrido"),
             valor_km_recorrido = 100,
             valor_unit_tn = 1500,
             valor_unit_kg = 1.5,
-            valor_litro = 2000,
+            valor_litro = 200,
             selectProducto = document.getElementById("selectTipoProducto"),
             peso_total_kg = document.getElementById("peso_total_kg"),
             peso_total_tn = document.getElementById("peso_total_tn"),
@@ -374,22 +380,23 @@
                                 segundo_pais = pais_destino[1].trim();
                             }
                             if (primer_pais == 'Argentina' && segundo_pais == 'Argentina') {
-                                if (peso_total_kg != 0) {
-                                    let valor = (parseInt(peso_total_kg.value, 10) * valor_unit_kg) + (valor_km_recorrido * parseInt(distancia_km, 10));
-                                    input_valor_carga.value = parseInt(valor, 10);
-                                    console.log(parseInt(distancia_km, 10));
-                                    console.log("typeof", typeof valor_unit_kg);
-                                    console.log("peso_total_kg.value", parseInt(peso_total_kg.value, 10), "valor_unit_kg", valor_unit_kg, "valor_km_recorrido", valor_km_recorrido);
+                                if (peso_total_kg.value != 0) {
+                                    let valor1 = (parseInt(peso_total_kg.value, 10) * valor_unit_kg),
+                                        valor2 = (valor_km_recorrido * parseInt(distancia_km, 10));
+                                    input_valor_carga.value = valor1 + valor2;
                                 }
-                                if (peso_total_tn != 0) {
-                                    let valor = peso_total_tn.value * valor_unit_tn + valor_km_recorrido * parseInt(distancia_km, 10);
-                                    input_valor_carga.value = valor;
+                                if (peso_total_tn.value != 0) {
+                                    let valor1 = (parseInt(peso_total_tn.value, 10) * valor_unit_tn),
+                                        valor2 = (valor_km_recorrido * parseInt(distancia_km, 10));
+                                    input_valor_carga.value = valor1 + valor2;
                                 }
-                                if (cant_litros != 0) {
-                                    let valor = cant_litros.value * valor_litro + valor_km_recorrido * parseInt(distancia_km, 10);
-                                    input_valor_carga.value = valor;
+                                if (cant_litros.value != 0) {
+                                    let valor1 = (parseInt(cant_litros.value, 10) * valor_litro),
+                                        valor2 = (valor_km_recorrido * parseInt(distancia_km, 10));
+                                    input_valor_carga.value = valor1 + valor2;
                                 }
 
+                                input_distancia_recorrido.value = parseInt(distancia_km, 10);
 
 
                             } else {

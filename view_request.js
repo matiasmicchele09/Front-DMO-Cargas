@@ -125,6 +125,38 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         .then(data => {
 
                             console.log(data[0])
+                            let loc_origen,
+                                loc_destino,
+                                pcia_origen,
+                                pcia_destino;
+
+                            switch (data[0].origen.split(",").length) {
+                                case 2:
+                                    loc_origen = `${data[0].origen.split(",")[0]} (Capital)`;
+                                    break;
+                                case 3:
+                                    pcia_origen = data[0].origen.split(",")[1];
+                                    loc_origen = `${data[0].origen.split(",")[0]} (${pcia_origen.trim()})`;
+                                    break;
+                                case 4:
+                                    pcia_origen = data[0].origen.split(",")[2];
+                                    loc_origen = `${data[0].origen.split(",")[1]} (${pcia_origen.trim()})`
+                                    break;
+                            }
+
+                            switch (data[0].destino.split(",").length) {
+                                case 2:
+                                    loc_destino = `${data[0].destino.split(",")[0]} (Capital)`;
+                                    break;
+                                case 3:
+                                    pcia_destino = data[0].destino.split(",")[1];
+                                    loc_destino = `${data[0].destino.split(",")[0]} (${pcia_destino.trim()})`;
+                                    break;
+                                case 4:
+                                    pcia_destino = data[0].destino.split(",")[2];
+                                    loc_destino = `${data[0].destino.split(",")[1]} (${pcia_destino.trim()})`
+                                    break;
+                            }
 
                             let h5 = document.createElement('h5'),
                                 p_origen_destino = document.createElement('p'),
@@ -146,13 +178,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 p_es_apilable = document.createElement('p');
 
                             h5.innerHTML = '<u>Datos de la Carga</u>';
-                            p_origen_destino.innerHTML = `<b>Origen: </b>${data[0].ciudad_origen} (${data[0].prov_origen}) - <b>Fecha: </b> ${fecha_retiro.toLocaleDateString()} - ${data[0].hora_retiro} Hs</br>
+                            p_origen_destino.innerHTML = `<b>Origen: </b>${loc_origen} - <b>Fecha: </b> ${fecha_retiro.toLocaleDateString()} - ${data[0].hora_retiro} Hs</br>
                                             <b>Domicilio: </b>${data[0].domicilio_origen}</br>                                            
                                             <hr>
-                                            <b>Destino: </b> ${data[0].ciudad_destino} (${data[0].prov_destino}) - <b>Fecha: </b> ${fecha_destino.toLocaleDateString()} - ${data[0].hora_destino} Hs</br>
+                                            <b>Destino: </b> ${loc_destino} - <b>Fecha: </b> ${fecha_destino.toLocaleDateString()} - ${data[0].hora_destino} Hs</br>
                                             <b>Domicilio: </b>${data[0].domicilio_destino} </br>
                                             <b>Receptor de Carga: </b> ${data[0].receptor_carga} </br>                                             
-                                            <b>Comentario: </b> ${data[0].comentario}<hr>`;
+                                            <b>Comentario: </b> ${data[0].comentario} </br>
+                                            <b>Distancia Aprox.: </b> ${data[0].distancia_recorrido} Km </br>
+                                            <b>Valor Flete: </b> $ ${data[0].valor_carga} <hr>`;
 
                             divMyRequestCarga.appendChild(h5);
                             divMyRequestCarga.appendChild(p_origen_destino);
@@ -355,155 +389,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 //Botón Aceptar Solicitud
                 btn_acept.addEventListener('click', (event) => {
                     event.preventDefault();
-                    const drop_area_request = document.querySelector(".drop-area-request"),
-                        drag_text = drop_area_request.querySelector("h2"),
-                        button_request = drop_area_request.querySelector("button"),
-                        input_request = drop_area_request.querySelector("#input-file");
-                    let filesUpload;
-
-
-                    button_request.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        input_request.click();
-                    })
-
-                    input_request.addEventListener('change', (event) => {
-                        //Este no se si va, creo que es para archivos multiples. Ver despues
-                        event.preventDefault();
-                        /*  console.log(input_request.files);
-                        const FD = new FormData();
-                        for (let file in input_request.files) {
-                            FD.append('files[]', input_request.files)
-                        }
-                        fetch(`http://localhost:3000/uploadFiles/`, {
-                                method: 'POST',
-                                body: FD
-                            }).then(res => res.json())
-                            .then(data => {
-                                console.log(data);
-                            })
-                            .catch(err => { console.log(err); }) */
-
-                        filesUpload = input_request.files;
-                        //files = this.files;
-                        // console.log("valor", files);
-                        drop_area_request.classList.add("active");
-                        //files = event.dataTransfer.files;
-                        showFiles(filesUpload);
-                        drop_area_request.classList.remove("active");
-                    })
-
-                    function showFiles(files) {
-                        console.log(files);
-                        if (files == undefined) {
-                            console.log("en undefined");
-                            processFile(files);
-                        } else {
-                            for (const file of files) {
-                                processFile(file)
-                            }
-                        }
-                    }
-
-                    function processFile(file) {
-                        const docType = file.type;
-                        console.log(docType);
-                        const validExtensions = ["application/pdf"];
-
-                        if (validExtensions.includes(docType)) {
-                            console.log("es valido");
-                            const fileReader = new FileReader(),
-                                id = `file-${Math.random().toString(32).substring(7)}`;
-
-                            fileReader.addEventListener('load', event => {
-                                event.preventDefault()
-                                const fileURL = fileReader.result;
-                                //console.log("fileURL", fileURL);
-                                const p = `<p>${file.name}</p>`
-                                const html = document.getElementById('preview');
-                                html.innerHTML = html.innerHTML + p;
-
-                            })
-
-                            fileReader.readAsDataURL(file);
-                            uploadFile(file, id)
-
-                        } else {
-                            const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
-                            const html = document.getElementById('preview');
-                            html.innerHTML = html.innerHTML + p;
-                        }
-
-
-                    }
-
-                    async function uploadFile(file, id) {
-                        const formData = new FormData();
-                        console.log("id", id);
-                        formData.append("file", file);
-
-                        try {
-                            const response = await fetch(`http://localhost:3000/uploadFiles/${cod_solicitud}`, {
-                                method: "POST",
-                                body: formData
-                            })
-                            const responseText = await response.text();
-                            console.log(responseText);
-                            const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
-                            const html = document.getElementById('preview');
-                            html.innerHTML = html.innerHTML + p;
-                            setTimeout(() => {
-                                window.location.href = `./my_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&cod_carga=${cod_carga}`;
-                            }, 3000);
-                            //document.querySelector(`#${id} .status-text`).innerHTML = `<span class="success">¡Archivo subido correctamente!</span>`
-                        } catch (error) {
-                            const p = `<h5><span class="failure">¡Ha ocurrido un error al subir el archivo!</span></h5>`
-                            const html = document.getElementById('preview');
-                            html.innerHTML = html.innerHTML + p;
-                            setTimeout(() => {
-                                location.reload();
-                            }, 3000);
-                            //document.querySelector(`#${id} .status-text`).innerHTML = `<span class="failure">¡Ha ocurrido un error al subir el archivo!</span>`
-                        }
-                    }
-
-                    var fecha_today = new Date(),
-                        today = new Date(),
-                        day = today.getDate(),
-                        month = today.getMonth() + 1,
-                        year = today.getFullYear();
-                    if (`${month}`.length > 1 && `${day}`.length > 1) {
-                        fecha_today = `${year}-${month}-${day}`;
-                    } else if (`${month}`.length == 1 && `${day}`.length == 1) {
-                        fecha_today = `${year}-0${month}-0${day}`;
-                    } else if (`${month}`.length == 1) {
-                        fecha_today = `${year}-0${month}-${day}`;
-                    } else if (`${day}`.length == 1) {
-                        fecha_today = `${year}-${month}-0${day}`;
-                    }
-                    let estadoSolicitud = { codigo_carga: cod_carga, cod_estado_solicitud: '2', fec_cambio_estado: fecha_today },
-                        estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '3' };
-
-                    fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
-                            method: 'PUT',
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(estadoSolicitud),
-                        })
-                        .catch(err => { console.log(err); })
-
-                    fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                            method: 'PUT',
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(estadoCarga),
-                        })
-                        .catch(err => { console.log(err); })
+                    setTimeout(() => {
+                        window.location.href = `./accept_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&request=${cod_solicitud}&cod_carga=${cod_carga}`;
+                    }, 3000);
 
                 })
-
 
                 //Botón Rechazar Solicitud
                 btn_decline.addEventListener('click', (event) => {

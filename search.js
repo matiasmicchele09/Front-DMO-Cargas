@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 }
 
+                console.log(typeof selectProvincia.value);
                 fetch(`http://localhost:3000/searchCarga/${selectProvincia.value}`, {
                         method: 'GET',
                     }).then(res => res.json())
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 cardText1 = document.createElement('p'),
                                 cardText2 = document.createElement('p'),
                                 cardText3 = document.createElement('p'),
+                                cardText4 = document.createElement('p'),
                                 btnVerDetalle = document.createElement('button');
 
                             card.classList.add("card");
@@ -128,6 +130,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             cardText2.classList.add("card-text");
                             cardText2.classList.add("cardText2-carga");
                             cardText3.classList.add("card-text");
+                            cardText4.classList.add("card-text");
                             //cardText3.classList.add("cardText3-carga");
                             btnVerDetalle.classList.add("btn_ver_detalle");
 
@@ -144,16 +147,48 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     method: 'GET',
                                 }).then(res => res.json())
                                 .then(data => {
-                                    cardHeader.innerHTML = cardHeader.innerHTML + ` <b>${data[0].descripcion}</b>  PRECIO:`
+                                    cardHeader.innerHTML = cardHeader.innerHTML + ` <b>${data[0].descripcion}</b>`
                                 })
                                 .catch(err => { console.log(err); })
 
                             let fecha_retiro = new Date(res.fec_retiro),
-                                fecha_destino = new Date(res.fec_destino);
+                                fecha_destino = new Date(res.fec_destino),
+                                loc_origen,
+                                loc_destino,
+                                pcia_origen,
+                                pcia_destino;
+
+                            switch (res.origen.split(",").length) {
+                                case 2:
+                                    loc_origen = `${res.origen.split(",")[0]} (Capital)`;
+                                    break;
+                                case 3:
+                                    pcia_origen = res.origen.split(",")[1];
+                                    loc_origen = `${res.origen.split(",")[0]} (${pcia_origen.trim()})`;
+                                    break;
+                                case 4:
+                                    pcia_origen = res.origen.split(",")[2];
+                                    loc_origen = `${res.origen.split(",")[1]} (${pcia_origen.trim()})`
+                                    break;
+                            }
+
+                            switch (res.destino.split(",").length) {
+                                case 2:
+                                    loc_destino = `${res.destino.split(",")[0]} (Capital)`;
+                                    break;
+                                case 3:
+                                    pcia_destino = res.destino.split(",")[1];
+                                    loc_destino = `${res.destino.split(",")[0]} (${pcia_destino.trim()})`;
+                                    break;
+                                case 4:
+                                    pcia_destino = res.destino.split(",")[2];
+                                    loc_destino = `${res.destino.split(",")[1]} (${pcia_destino.trim()})`
+                                    break;
+                            }
                             //No hago lo mismo con la hora porque me la muestra siempre con los segundos. Es más fácil como está.                        
-                            cardText1.innerHTML = `<b>${res.ciudad_origen}</b> ${res.prov_origen} <br> 
+                            cardText1.innerHTML = `<b>${loc_origen}</b><br> 
                                           <b>${fecha_retiro.toLocaleDateString()}</b> ${res.hora_retiro.substring(0, 5)} Hs`;
-                            cardText2.innerHTML = `<b>${res.ciudad_destino}</b> ${res.prov_destino} <br> 
+                            cardText2.innerHTML = `<b>${loc_destino}</b><br> 
                             <b>${fecha_destino.toLocaleDateString()}</b> ${res.hora_destino.substring(0, 5)} Hs`
 
                             btnVerDetalle.innerHTML = "Ver Detalle";
@@ -172,9 +207,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     method: 'GET',
                                 }).then(res => res.json())
                                 .then(data => {
-                                    cardText3.innerHTML = cardText3.innerHTML + `<b>Dador de la carga: </b> ${data[0].razon_social}`;
+                                    cardText3.innerHTML = cardText3.innerHTML + `<b>Dador de la carga: </b> ${data[0].razon_social} <br>`;
                                 })
                                 .catch(err => { console.log(err); })
+
+                            cardText4.innerHTML = `<b>Valor: </b> $${res.valor_carga}`;
+                            cardBody2.appendChild(cardText4);
 
                             card.appendChild(cardBody);
                             card.appendChild(cardBody2);

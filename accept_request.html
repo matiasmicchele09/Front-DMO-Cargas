@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Aceptar Solicitud - DMO Cargas</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="./assets/normalize.css">
+    <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <!-- <script src="https://sdk.mercadopago.com/js/v2"></script> -->
+    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-navigation">
+        <!--navbar-navigation la cree yo, esta en styles.css-->
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item mt-1">
+                    <p class="parr_volver"><i class="fa-solid fa-circle-left"></i><a class="nav-link d-inline" style="margin-left: 10px; color: #241F74;">Volver</a></p>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h3>Cargar formulario de Retiro</h3>
+        <div class="drop-area-request">
+            <h4>Solo se acepta formato .pdf</h4>
+            <button>Selecciona tu archivo</button>
+            <input type="file" name="" id="input-file" hidden multiple>
+            <div id="preview"></div>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block mt-5" id="checkout-btn">Generar Botón de Pago</button>
+        <div id="btn_checkout" style="margin-top:20px">
+
+        </div>
+
+    </div>
+
+    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
+    <script src="./accept_request.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

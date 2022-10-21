@@ -1,4 +1,4 @@
-'use strict'
+/* 'use strict' */
 document.addEventListener("DOMContentLoaded", (event) => {
     event.preventDefault();
     const getURL = new URLSearchParams(window.location.search),
@@ -131,7 +131,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             btnCancel = document.getElementById("btn_cancel_carga"),
             btnSave = document.getElementById("btn_save_carga"),
             btnDelete = document.getElementById("btn_delete_carga"),
-            btnRequest = document.getElementById("btn_request_carga");
+            btnRequest = document.getElementById("btn_request_carga"),
+            btnCalculaValor = document.getElementById("btn_calcular_valor");
 
         fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
                 method: 'GET',
@@ -141,6 +142,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
                 btnSave.disabled = true;
+                btnCalculaValor.disabled = true;
 
                 /* Lo de la fecha no lo hice como hice mas abajo en la solicitud porque a los dias y meses de un 
                 digito no les agrega el cero delante (01, 02, ...) entonces el input no me lo toma como válido.
@@ -166,6 +168,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 document.getElementById('fec_destino').value = data[0].fec_destino.substring(0, 10);
                 document.getElementById('hora_destino').value = data[0].hora_destino.substring(0, 5);
                 document.getElementById('comentario').value = data[0].comentario;
+                document.getElementById('distancia_recorrido').value = data[0].distancia_recorrido;
+                document.getElementById('valor_carga').value = data[0].valor_carga;
 
                 const tipo_producto = data[0].cod_tipo_producto;
 
@@ -273,6 +277,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     btnCancel.classList.add("btn_cancel_carga_oculto");
                     btnSave.classList.add("btn_save_carga_oculto");
                     btnDelete.classList.add("btn_delete_carga_oculto");
+                    btnCalculaValor.classList.add("btn_calcular_valor_oculto");
                     //Botón Solicitar
                     btnRequest.addEventListener('click', (event) => {
                         event.preventDefault();
@@ -288,9 +293,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             modalFecSolicitud = document.getElementById('fec_solicitud_modal'),
                             option = document.getElementById(`option_tipo_prod_${tipo_producto}`),
                             formRequest = document.getElementById('formulario_request'),
-                            fecha_retiro = new Date(data[0].fec_retiro);
-
-                        fecha_destino = new Date(data[0].fec_destino);
+                            fecha_retiro = new Date(data[0].fec_retiro),
+                            fecha_destino = new Date(data[0].fec_destino);
 
                         p.innerHTML = `<b>Origen: </b> ${data[0].origen} - ${fecha_retiro.toLocaleDateString()}<br>
                                     <b>Destino: </b> ${data[0].destino} - ${fecha_destino.toLocaleDateString()} <br>
@@ -469,6 +473,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         document.getElementById('selectTipoProducto').disabled = false;
                         btnSave.disabled = false;
                         btnEdit.disabled = true;
+                        btnCalculaValor.disabled = false;
                     });
 
                     //Botón Cancelar
@@ -482,6 +487,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         document.getElementById('selectTipoProducto').disabled = true;
                         btnSave.disabled = true;
                         btnEdit.disabled = false;
+                        btnCalculaValor.disabled = true;
                     });
 
                     document.getElementById('req_refrigeracion').addEventListener("click", () => {

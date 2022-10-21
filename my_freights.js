@@ -66,7 +66,41 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         })
                         .catch(err => { console.log(err); })
 
-                    tableData4.innerHTML = `${res.origen} - ${res.destino}`;
+
+                    let loc_origen,
+                        loc_destino,
+                        pcia_origen,
+                        pcia_destino;
+
+                    switch (res.origen.split(",").length) {
+                        case 2:
+                            loc_origen = `${res.origen.split(",")[0]} (Capital)`;
+                            break;
+                        case 3:
+                            pcia_origen = res.origen.split(",")[1];
+                            loc_origen = `${res.origen.split(",")[0]} (${pcia_origen.trim()})`;
+                            break;
+                        case 4:
+                            pcia_origen = res.origen.split(",")[2];
+                            loc_origen = `${res.origen.split(",")[1]} (${pcia_origen.trim()})`
+                            break;
+                    }
+
+                    switch (res.destino.split(",").length) {
+                        case 2:
+                            loc_destino = `${res.destino.split(",")[0]} (Capital)`;
+                            break;
+                        case 3:
+                            pcia_destino = res.destino.split(",")[1];
+                            loc_destino = `${res.destino.split(",")[0]} (${pcia_destino.trim()})`;
+                            break;
+                        case 4:
+                            pcia_destino = res.destino.split(",")[2];
+                            loc_destino = `${res.destino.split(",")[1]} (${pcia_destino.trim()})`
+                            break;
+                    }
+
+                    tableData4.innerHTML = `${loc_origen} - ${loc_destino}`;
 
                     fetch(`http://localhost:3000/getOneTipoEstado/${res.cod_estado_carga}`, {
                             method: 'GET',

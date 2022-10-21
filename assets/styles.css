@@ -849,7 +849,8 @@ div .cardText {
 .btn_cancel_carga_oculto,
 .btn_save_carga_oculto,
 .btn_delete_carga_oculto,
-.btn_request_carga_oculto {
+.btn_request_carga_oculto,
+.btn_calcular_valor_oculto {
     display: none;
 }
 
