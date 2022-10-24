@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-
+                let i;
                 for (i in data) {
                     //console.log(data[i]);
                     let select = document.getElementById('selectCarroceria');

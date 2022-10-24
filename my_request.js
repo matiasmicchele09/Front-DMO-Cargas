@@ -30,6 +30,96 @@ document.addEventListener('DOMContentLoaded', () => {
             let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
             nav_mis_cargas.classList.add("nav-mis-cargas-none");
 
+            const drop_area_request = document.querySelector(".drop-area-fin-viaje"),
+                drag_text = drop_area_request.querySelector("h2"),
+                button_request = drop_area_request.querySelector("button"),
+                input_request = drop_area_request.querySelector("#input-file");
+            let filesUpload,
+                nombre_archivo;
+
+
+            button_request.addEventListener('click', (event) => {
+                event.preventDefault();
+                input_request.click();
+            })
+
+            input_request.addEventListener('change', (event) => {
+                //Este no se si va, creo que es para archivos multiples. Ver despues
+                event.preventDefault();
+                filesUpload = input_request.files;
+                drop_area_request.classList.add("active");
+                //showFiles(filesUpload);
+                drop_area_request.classList.remove("active");
+            })
+
+            function showFiles(filesUpload) {
+                if (filesUpload == undefined) {
+                    console.log("en undefined");
+                    //processFile(filesUpload);
+                } else {
+                    for (const file of filesUpload) {
+                        processFile(file)
+                    }
+                }
+            }
+
+            function processFile(file) {
+                const docType = file.type;
+                console.log(docType);
+                const validExtensions = ["image/jpeg", "image/png", "image/jpg"];
+
+                let p = document.createElement('p');
+                if (validExtensions.includes(docType)) {
+                    const fileReader = new FileReader();
+                    fileReader.addEventListener('load', event => {
+                        event.preventDefault()
+                        const fileURL = fileReader.result;
+                        p.innerHTML = `${file.name}`
+                        nombre_archivo = `${file.name}`;
+
+                        console.log("nombre_archivo", nombre_archivo);
+                        const html = document.getElementById('preview');
+                        //html.innerHTML = html.innerHTML + p;
+                        html.appendChild(p);
+
+                    })
+                    fileReader.readAsDataURL(file);
+                    uploadFile(file)
+
+                } else {
+                    const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
+                    const html = document.getElementById('preview');
+                    html.innerHTML = html.innerHTML + p;
+                }
+
+
+            }
+
+            async function uploadFile(file) {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                try {
+                    const response = await fetch('http://localhost:3000/uploadFiles', {
+                            method: "POST",
+                            body: formData
+                        })
+                        .catch(err => { console.log(err); })
+                    const responseText = await response.text();
+                    console.log(responseText);
+                    const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
+                    const html = document.getElementById('preview');
+                    html.innerHTML = html.innerHTML + p;
+
+                } catch (error) {
+                    console.log(error);
+                    const p = `<h5><span class="failure">¡Ha ocurrido un error al subir el archivo!</span></h5>`
+                    const html = document.getElementById('preview');
+                    html.innerHTML = html.innerHTML + p;
+                }
+            }
+
+
             fetch(`http://localhost:3000/getUserRequest/${cod_usuario}`, {
                     method: 'GET',
                 }).then(res => res.json())
@@ -43,10 +133,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             tableData3 = document.createElement('td'),
                             tableData4 = document.createElement('td'),
                             tableData5 = document.createElement('td'),
+                            tableData6 = document.createElement('td'),
+                            tableData7 = document.createElement('td'),
+                            btnEntregada = document.createElement('button'),
                             btnMas = document.createElement('button'),
                             fecha_solicitud = new Date(res.fec_solicitud);
                         btnMas.classList.add("btn_mas_carga");
                         btnMas.innerHTML = 'Ver más';
+
+                        btnEntregada.innerHTML = 'Entregar Carga';
+
+                        btnEntregada.classList.add("btn_entregar_carga");
+                        btnEntregada.setAttribute("data-bs-toggle", "modal");
+                        btnEntregada.setAttribute("data-bs-target", "#finalizarCarga");
 
                         tableData1.innerHTML = `${res.cod_solicitud}`;
                         fetch(`http://localhost:3000/getOneCargaUser/${res.cod_carga}`, {
@@ -58,7 +157,36 @@ document.addEventListener('DOMContentLoaded', () => {
                                     }).then(res => res.json())
                                     .then(data => {
                                         tableData2.innerHTML = data[0].descripcion;
-                                    });
+                                    })
+                                    .catch(err => { console.log(err); })
+                                fetch(`http://localhost:3000/getOneTipoEstado/${data[0].cod_estado_carga}`, {
+                                        method: 'GET',
+                                    }).then(res => res.json())
+                                    .then(data => {
+                                        switch (data[0].cod_estado_carga) {
+                                            case 1:
+                                                tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
+                                                break;
+                                            case 2:
+                                                tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`;
+                                                break;
+                                            case 3:
+                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                                break;
+                                            case 4:
+                                                tableData5.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                                tableData7.appendChild(btnEntregada);
+                                                break;
+                                            case 5:
+                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                                tableData7.remove(btnEntregada);
+                                                break;
+                                        }
+                                        console.log(data);
+                                    }).catch(err => { console.log(err); })
+
+
+
                             })
                             .catch(err => { console.log(err); })
 
@@ -82,13 +210,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             })
                             .catch(err => { console.log(err); })
 
-                        tableData5.appendChild(btnMas);
+                        tableData6.appendChild(btnMas);
 
                         tableRow.appendChild(tableData1);
                         tableRow.appendChild(tableData2);
                         tableRow.appendChild(tableData3);
                         tableRow.appendChild(tableData4);
                         tableRow.appendChild(tableData5);
+                        tableRow.appendChild(tableData6);
+                        tableRow.appendChild(tableData7);
                         tableBodyRequest.appendChild(tableRow);
 
                         btnMas.addEventListener('click', (event) => {
@@ -97,9 +227,96 @@ document.addEventListener('DOMContentLoaded', () => {
                         })
 
                     })
+
+
+                    async function updateFinalViaje() {
+                        console.log("final Viaje");
+                        console.log("NomFinal ", nombre_archivo);
+                        /*let nom_arch = { cod_solicitud: parseInt(data[0].cod_solicitud, 10), nombre: nombre_archivo },
+                                 estadoCarga = { codigo_carga: data[0].cod_carga, cod_estado_carga: '5' };
+                             fetch(`http://localhost:3000/uploadFileFinViaje`, {
+                                     method: 'PUT',
+                                     headers: {
+                                         "Content-Type": "application/json"
+                                     },
+                                     body: JSON.stringify(nom_arch),
+                                 })
+                                 .catch(err => { console.log(err); })
+
+
+
+                             fetch(`http://localhost:3000/updateEstadoCarga`, {
+                                     method: 'PUT',
+                                     headers: {
+                                         "Content-Type": "application/json"
+                                     },
+                                     body: JSON.stringify(estadoCarga),
+                                 })
+                                 .catch(err => { console.log(err); }) */
+
+                        /* Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '¡Viaje Finalizado!',
+                                showConfirmButton: false,
+                                timer: 2000
+                            }) */
+                        /* 
+                                                    setTimeout(() => {
+                                                        window.location.reload();
+                                                    }, 2000); */
+                    }
+
+
+                    document.getElementById("btn_finalizar_viaje").addEventListener('click', async(event) => {
+                        event.preventDefault();
+
+                        await showFiles(filesUpload);
+                        await updateFinalViaje();
+
+                        if (nombre_archivo == undefined) {
+                            //alert("¡Debe Subir el Formulario de Entrega de Carga!")
+                            console.log("¡Debe Subir el Formulario de Entrega de Carga!");
+                        } else {
+
+
+                            /*  let nom_arch = { cod_solicitud: parseInt(data[0].cod_solicitud, 10), nombre: nombre_archivo },
+                                 estadoCarga = { codigo_carga: data[0].cod_carga, cod_estado_carga: '5' };
+                             fetch(`http://localhost:3000/uploadFileFinViaje`, {
+                                     method: 'PUT',
+                                     headers: {
+                                         "Content-Type": "application/json"
+                                     },
+                                     body: JSON.stringify(nom_arch),
+                                 })
+                                 .catch(err => { console.log(err); })
+
+
+
+                             fetch(`http://localhost:3000/updateEstadoCarga`, {
+                                     method: 'PUT',
+                                     headers: {
+                                         "Content-Type": "application/json"
+                                     },
+                                     body: JSON.stringify(estadoCarga),
+                                 })
+                                 .catch(err => { console.log(err); }) */
+
+                            /* Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '¡Viaje Finalizado!',
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                }) */
+                            /* 
+                                                        setTimeout(() => {
+                                                            window.location.reload();
+                                                        }, 2000); */
+                        }
+                    })
                 })
                 .catch(err => { console.log(err); })
-
         } else {
             let nav_mis_camiones = document.querySelector(".nav-mis-camiones"),
                 nav_buscar_carga = document.querySelector(".nav-buscar-carga"),
@@ -124,10 +341,18 @@ document.addEventListener('DOMContentLoaded', () => {
                             tableData3 = document.createElement('td'),
                             tableData4 = document.createElement('td'),
                             tableData5 = document.createElement('td'),
+                            tableData6 = document.createElement('td'),
+                            tableData7 = document.createElement('td'),
                             btnMas = document.createElement('button'),
+                            btnRetirada = document.createElement('button'),
                             fecha_solicitud = new Date(res.fec_solicitud);
                         btnMas.classList.add("btn_mas_carga");
                         btnMas.innerHTML = 'Ver más';
+                        btnRetirada.innerHTML = 'Actualizar Estado';
+
+                        btnRetirada.classList.add("btn_retirar_carga");
+                        btnRetirada.setAttribute("data-bs-toggle", "modal");
+                        btnRetirada.setAttribute("data-bs-target", "#updateEstadoCarga");
 
                         tableData1.innerHTML = `${res.cod_solicitud}`;
                         fetch(`http://localhost:3000/getOneCargaUser/${res.cod_carga}`, {
@@ -155,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         break;
                                     case 2:
                                         tableData4.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                        tableData7.appendChild(btnRetirada);
                                         break;
                                     case 3:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
@@ -163,19 +389,79 @@ document.addEventListener('DOMContentLoaded', () => {
                             })
                             .catch(err => { console.log(err); })
 
-                        tableData5.appendChild(btnMas);
+                        fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
+                                method: 'GET',
+                            }).then(res => res.json())
+                            .then(data => {
+                                fetch(`http://localhost:3000/getOneTipoEstado/${data[0].cod_estado_carga}`, {
+                                        method: 'GET',
+                                    }).then(res => res.json())
+                                    .then(data => {
+                                        switch (data[0].cod_estado_carga) {
+                                            case 1:
+                                                tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
+                                                break;
+                                            case 2:
+                                                tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`;
+                                                break;
+                                            case 3:
+                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                                break;
+                                            case 4:
+                                                tableData5.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                                tableData7.remove(btnRetirada);
+                                                break;
+                                            case 5:
+                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                                tableData7.remove(btnRetirada);
+                                                break;
+                                        }
+                                        console.log(data);
+                                    }).catch(err => { console.log(err); })
+                            })
+                            .catch(err => { console.log(err); })
+
+                        tableData6.appendChild(btnMas);
 
                         tableRow.appendChild(tableData1);
                         tableRow.appendChild(tableData2);
                         tableRow.appendChild(tableData3);
                         tableRow.appendChild(tableData4);
                         tableRow.appendChild(tableData5);
+                        tableRow.appendChild(tableData6);
+                        tableRow.appendChild(tableData7);
                         tableBodyRequest.appendChild(tableRow);
                         btnMas.addEventListener('click', (event) => {
                             event.preventDefault();
                             window.location.href = `./view_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&request=${res.cod_solicitud}&cod_carga=${res.cod_carga}`;
                         })
 
+                        document.getElementById("btn_actualizar_retiro").addEventListener('click', (event) => {
+                            event.preventDefault();
+                            let estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '4' };
+
+
+                            fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify(estadoCarga),
+                                })
+                                .catch(err => { console.log(err); })
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '¡Estado Actualizado!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        })
                     })
                 })
                 .catch(err => { console.log(err); })

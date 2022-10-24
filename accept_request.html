@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
     <!-- <script src="https://sdk.mercadopago.com/js/v2"></script> -->
+    <script>
+        document.cookie = "AC-C=ac-c;expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/;SameSite=Lax;Secure";
+    </script>
     <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
 </head>
 
@@ -27,17 +30,18 @@
     </nav>
 
     <div class="container">
-        <h3>Cargar formulario de Retiro</h3>
+        <h3 style="margin: 15px 0 15px 0 ;">Cargar formulario de Retiro de Carga</h3>
         <div class="drop-area-request">
             <h4>Solo se acepta formato .pdf</h4>
-            <button>Selecciona tu archivo</button>
+            <button>Sube tu archivo</button>
             <input type="file" name="" id="input-file" hidden multiple>
             <div id="preview"></div>
         </div>
         <button class="btn btn-primary btn-lg btn-block mt-5" id="checkout-btn">Generar Botón de Pago</button>
         <div id="btn_checkout" style="margin-top:20px">
-
         </div>
+
+        <button class="btn_acept_request" id="btn_acept_request">Aceptar Solicitud</button>
 
     </div>
 

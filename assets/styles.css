@@ -1071,6 +1071,31 @@ div .cardText {
     background-color: #afa519;
 }
 
+.btn_retirar_carga,
+.btn_entregar_carga {
+    background-color: #0004ff;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.btn_retirar_carga:hover,
+.btn_entregar_carga:hover {
+    background-color: #07096d;
+}
+
+.btn_actualizar_retiro,
+.btn_finalizar_viaje {
+    margin: 20px 0 0 0;
+    background-color: #48c72f;
+    color: #000000;
+    border-radius: 5px;
+}
+
+.btn_actualizar_retiro:hover,
+.btn_finalizar_viaje:hover {
+    background-color: #2bff00;
+}
+
 
 /* ---------------------------------------------------------------------------------- 
    ------------------------------------- Search ------------------------------------- 
@@ -1228,17 +1253,18 @@ div .cardText {
     height: 400px;
 }
 
-.btn_acept_request {
+.btn_avanzar_request {
     background-color: #34bb3f;
     color: #FFFFFF;
     border-color: #289231;
+    border-radius: 5px;
 }
 
-.btn_acept_request:hover {
+.btn_avanzar_request:hover {
     background-color: #1ED12D;
 }
 
-.btn_acept_request_none {
+.btn_avanzar_request_none {
     display: none;
 }
 
@@ -1255,20 +1281,23 @@ div .cardText {
     display: none;
 }
 
-.btns_request {
+
+/* .btns_request {
     display: flex;
     background-color: #c7c7c7;
     justify-content: space-around;
     padding: 10px;
-}
+} */
 
 
 /* drag and drop */
 
-.drop-area-request {
+.drop-area-request,
+.drop-area-fin-viaje {
+    margin: auto;
     border: 5px dashed #D0D3D4;
     height: 200px;
-    width: 100%;
+    width: 50%;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -1276,13 +1305,19 @@ div .cardText {
     flex-direction: column;
 }
 
-.drop-area-request.active {
+.drop-area-fin-viaje {
+    width: 100%;
+}
+
+.drop-area-request.active,
+.drop-area-fin-viaje.active {
     background-color: #b8d4fe;
     color: #000000;
     border: 2px dashed #619ac9;
 }
 
-.drop-area-request button {
+.drop-area-request button,
+.drop-area-fin-viaje button {
     padding: 10px 25px;
     font-size: 20px;
     border: 0;
@@ -1321,4 +1356,23 @@ div .cardText {
     cursor: pointer;
     text-decoration: underline;
     color: #120fe4;
+}
+
+
+/* ---------------------------------------------------------------------------------- 
+   ------------------------------------- Accept Request ----------------------------- 
+   ---------------------------------------------------------------------------------- */
+
+.btn_acept_request {
+    background-color: #34bb3f;
+    color: #FFFFFF;
+    border-color: #289231;
+    border-radius: 5px;
+    height: 40px;
+    width: 400px;
+    margin: 50px 0 0 0;
+}
+
+.btn_acept_request:hover {
+    background-color: #1ED12D;
 }

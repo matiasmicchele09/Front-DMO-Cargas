@@ -9,21 +9,61 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     var initialized_session = 'false';
     initialized_session = sessionStorage.getItem("initialized_session");
-    /*  const mercadopago = new MercadoPago('TEST-b20165cd-0c06-4fe3-b308-7a3610cfb77e', {
-         locale: 'es-AR' // The most common are: 'pt-BR', 'es-AR' and 'en-US'
-     }); */
-    //const jsPDF = require('jspdf');
+
     if (initialized_session == 'true') {
         let btn_back = document.querySelector(".parr_volver"),
+            btn_accept = document.getElementById('btn_acept_request'),
             btn_mercado_pago = document.getElementById('checkout-btn');
 
 
+        fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
+                method: 'GET',
+            }).then(res => res.json())
+            .then(data => {
 
-        /* const drop_area_request = document.querySelector(".drop-area-request"),
+                btn_mercado_pago.addEventListener("click", async(event) => {
+                    event.preventDefault();
+
+                    let fleteCarga = {
+                        descripcion: `${cod_solicitud} - Origen: ${data[0].origen} - Destino: ${data[0].destino}`,
+                        valor_carga: data[0].valor_carga,
+                        cantidad: 1
+                    }
+
+                    console.log(JSON.stringify(fleteCarga));
+
+                    try {
+                        console.log("Comenzando Pago...");
+                        const preference = await (await fetch('http://localhost:3000/payWithMP', {
+                            method: 'POST',
+                            body: JSON.stringify(fleteCarga),
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        })).json()
+
+                        var script = document.createElement('script');
+                        script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
+                        script.type = "text/javascript";
+                        script.dataset.preferenceId = preference.preferenceId;
+                        document.getElementById('btn_checkout').innerHTML = "";
+                        document.querySelector('#btn_checkout').appendChild(script);
+
+                    } catch {
+                        err => { console.log(err); }
+                    }
+
+                })
+
+            })
+
+
+        const drop_area_request = document.querySelector(".drop-area-request"),
             drag_text = drop_area_request.querySelector("h2"),
             button_request = drop_area_request.querySelector("button"),
             input_request = drop_area_request.querySelector("#input-file");
-        let filesUpload;
+        let filesUpload,
+            nombre_archivo;
 
 
         button_request.addEventListener('click', (event) => {
@@ -36,17 +76,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
             event.preventDefault();
             filesUpload = input_request.files;
             drop_area_request.classList.add("active");
-            showFiles(filesUpload);
+            //showFiles(filesUpload);
             drop_area_request.classList.remove("active");
         })
 
-        function showFiles(files) {
-            console.log(files);
-            if (files == undefined) {
+        function showFiles(filesUpload) {
+            if (filesUpload == undefined) {
                 console.log("en undefined");
-                processFile(files);
+                //processFile(filesUpload);
             } else {
-                for (const file of files) {
+                for (const file of filesUpload) {
                     processFile(file)
                 }
             }
@@ -57,22 +96,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.log(docType);
             const validExtensions = ["application/pdf"];
 
+            let p = document.createElement('p');
             if (validExtensions.includes(docType)) {
-                console.log("es valido");
-                const fileReader = new FileReader(),
-                    id = `file-${Math.random().toString(32).substring(7)}`;
-
+                const fileReader = new FileReader();
                 fileReader.addEventListener('load', event => {
                     event.preventDefault()
                     const fileURL = fileReader.result;
-                    const p = `<p>${file.name}</p>`
+                    p.innerHTML = `${file.name}`
+                    nombre_archivo = `${file.name}`;
+
+                    console.log("nombre_archivo", nombre_archivo);
                     const html = document.getElementById('preview');
-                    html.innerHTML = html.innerHTML + p;
+                    //html.innerHTML = html.innerHTML + p;
+                    html.appendChild(p);
 
                 })
-
                 fileReader.readAsDataURL(file);
-                uploadFile(file, id)
+                uploadFile(file)
 
             } else {
                 const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
@@ -83,170 +123,189 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         }
 
-        async function uploadFile(file, id) {
+        async function uploadFile(file) {
             const formData = new FormData();
-            console.log("id", id);
             formData.append("file", file);
 
             try {
-                const response = await fetch(`http://localhost:3000/uploadFiles/${cod_solicitud}`, {
-                    method: "POST",
-                    body: formData
-                })
+                const response = await fetch('http://localhost:3000/uploadFiles', {
+                        method: "POST",
+                        body: formData
+                    })
+                    .catch(err => { console.log(err); })
                 const responseText = await response.text();
                 console.log(responseText);
                 const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
                 const html = document.getElementById('preview');
                 html.innerHTML = html.innerHTML + p;
             } catch (error) {
+                console.log(error);
                 const p = `<h5><span class="failure">¡Ha ocurrido un error al subir el archivo!</span></h5>`
                 const html = document.getElementById('preview');
                 html.innerHTML = html.innerHTML + p;
             }
         }
 
-        var fecha_today = new Date(),
-            today = new Date(),
-            day = today.getDate(),
-            month = today.getMonth() + 1,
-            year = today.getFullYear();
-        if (`${month}`.length > 1 && `${day}`.length > 1) {
-            fecha_today = `${year}-${month}-${day}`;
-        } else if (`${month}`.length == 1 && `${day}`.length == 1) {
-            fecha_today = `${year}-0${month}-0${day}`;
-        } else if (`${month}`.length == 1) {
-            fecha_today = `${year}-0${month}-${day}`;
-        } else if (`${day}`.length == 1) {
-            fecha_today = `${year}-${month}-0${day}`;
-        } */
-
-        fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
+        fetch(`http://localhost:3000/getFreightsRequest/${cod_carga}`, {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-
-
-                btn_mercado_pago.addEventListener("click", async(event) => {
-                    event.preventDefault();
-
-                    let fleteCarga = {
-                        descripcion: `Flete - Origen: ${data[0].origen} - Destino: ${data[0].destino}`,
-                        valor_carga: data[0].valor_carga,
-                        cantidad: 1
-                    }
-
-                    console.log(data);
-                    console.log(fleteCarga);
-                    console.log(JSON.stringify(fleteCarga));
-
-                    /* fetch('http://localhost:3000/payWithMP', {
-                        method: 'POST',
-                        body: JSON.stringify(fleteCarga),
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
- */
-
-
-                    /*fetch("/create_preference", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(fleteCarga),
-                        })
-                        .then(function(response) {
-                            return response.json();
-                        })
-                        .then(function(preference) {
-                            createCheckoutButton(preference.id);
-                        })
-                        .catch(function() {
-                            alert("Unexpected error");
-                            //$('#btn_checkout').attr("disabled", false);
-                        });
-
-                    function createCheckoutButton(preferenceId) {
-                        // Initialize the checkout
-                        mercadopago.checkout({
-                            preference: {
-                                id: preferenceId
-                            },
-                            render: {
-                                container: '#btn_checkout', // Class name where the payment button will be displayed
-                                label: 'Pay', // Change the payment button text (optional)
-                            }
-                        });
-                    }*/
-
-
-                    try {
-                        console.log("PAGANDO............");
-                        const preference = await (await fetch('http://localhost:3000/payWithMP', {
-                            method: 'POST',
-                            body: JSON.stringify(fleteCarga),
-                            headers: {
-                                "Content-Type": "application/json"
-                            }
-                        })).json()
-
-                        console.log("preference", preference);
-
-                        var script = document.createElement('script');
-                        script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
-                        script.type = "text/javascript";
-                        script.dataset.preferenceId = preference.preferenceId;
-                        document.getElementById('btn_checkout').innerHTML = "";
-                        document.querySelector('#btn_checkout').appendChild(script);
-
-
-
-
-
-                    } catch {
-                        err => { console.log(err); }
-                    }
-                    /* 
-                                const preferenceId = await fetch(`http://localhost:3000/payWithMP/`, {
-                                        method: 'POST',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        //body: JSON.stringify(estadoSolicitud),
-                                    }).then(res => res.json())
-                                    .then(data => {
-
-                                    }) */
-
-                    //})
-
+                console.log(data);
+                data.forEach(res => {
+                    console.log(res);
                 })
-
-            })
-
-
-
-        /* let estadoSolicitud = { codigo_carga: cod_carga, cod_estado_solicitud: '2', fec_cambio_estado: fecha_today },
-            estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '3' };
-
-        fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(estadoSolicitud),
             })
             .catch(err => { console.log(err); })
 
-        fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(estadoCarga),
-            })
-            .catch(err => { console.log(err); }) */
+        //Botón Aceptar Solicitud
+        btn_accept.addEventListener('click', async(event) => {
+            event.preventDefault();
+            console.log("cerrando");
+
+            await showFiles(filesUpload);
+
+            fetch(`http://localhost:3000/getPay/${cod_solicitud}`, {
+                    method: 'GET',
+                }).then(res => res.json())
+                .then(data => {
+                    console.log(data[0]);
+
+                    if (nombre_archivo == undefined) {
+                        alert("¡Debe Subir el Formulario de retiro de Carga!")
+                    } else {
+                        let nom_arch = { cod_solicitud: parseInt(cod_solicitud, 10), nombre: nombre_archivo };
+                        fetch(`http://localhost:3000/uploadFileRequest`, {
+                                method: 'PUT',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(nom_arch),
+                            })
+                            .catch(err => { console.log(err); })
+                    }
+
+                    switch (data[0].estado) {
+                        case "approved":
+
+                            if (nombre_archivo != undefined) {
+
+                                var fecha_today = new Date(),
+                                    today = new Date(),
+                                    day = today.getDate(),
+                                    month = today.getMonth() + 1,
+                                    year = today.getFullYear();
+                                if (`${month}`.length > 1 && `${day}`.length > 1) {
+                                    fecha_today = `${year}-${month}-${day}`;
+                                } else if (`${month}`.length == 1 && `${day}`.length == 1) {
+                                    fecha_today = `${year}-0${month}-0${day}`;
+                                } else if (`${month}`.length == 1) {
+                                    fecha_today = `${year}-0${month}-${day}`;
+                                } else if (`${day}`.length == 1) {
+                                    fecha_today = `${year}-${month}-0${day}`;
+                                }
+
+
+                                /* fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify(estadoSolicitud),
+                                    })
+                                    .catch(err => { console.log(err); }) */
+
+                                /* fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify(estadoCarga),
+                                    })
+                                    .catch(err => { console.log(err); }) */
+
+                                fetch(`http://localhost:3000/getFreightsRequest/${cod_carga}`, {
+                                        method: 'GET',
+                                    }).then(res => res.json())
+                                    .then(data => {
+                                        data.forEach(res => {
+
+                                            if (res.cod_solicitud === parseInt(cod_solicitud, 10)) {
+                                                let estadoSolicitud = { cod_solicitud: parseInt(cod_solicitud, 10), cod_estado_solicitud: '2', fec_cambio_estado: fecha_today },
+                                                    estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '3' };
+                                                fetch(`http://localhost:3000/updateEstadoSolicitud`, {
+                                                        method: 'PUT',
+                                                        headers: {
+                                                            "Content-Type": "application/json"
+                                                        },
+                                                        body: JSON.stringify(estadoSolicitud),
+                                                    })
+                                                    .catch(err => { console.log(err); })
+
+                                                fetch(`http://localhost:3000/updateEstadoCarga`, {
+                                                        method: 'PUT',
+                                                        headers: {
+                                                            "Content-Type": "application/json"
+                                                        },
+                                                        body: JSON.stringify(estadoCarga),
+                                                    })
+                                                    .catch(err => { console.log(err); })
+                                            } else {
+                                                let rechazosSolicitud = { cod_solicitud: res.cod_solicitud, cod_estado_solicitud: '3', fec_cambio_estado: fecha_today };
+
+                                                fetch(`http://localhost:3000/updateEstadoSolicitud`, {
+                                                        method: 'PUT',
+                                                        headers: {
+                                                            "Content-Type": "application/json"
+                                                        },
+                                                        body: JSON.stringify(rechazosSolicitud),
+                                                    })
+                                                    .catch(err => { console.log(err); })
+                                            }
+                                        })
+
+                                    })
+                                    .catch(err => { console.log(err); })
+
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '¡Aceptando Solicitud!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
+                                setTimeout(() => {
+                                    window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+                                }, 1500);
+
+                            }
+
+
+                            break;
+                            /* case 2:
+                                alert("No puede aceptar la solicitud. Su pago fue Rechazado por error general")
+                                break;
+                            case 2:
+                                alert("No puede aceptar la solicitud. Su pago Pendiente de pagol")
+                                break;
+                            case 2:
+                                alert("No puede aceptar la solicitud. Su pago fue Rechazado con validación para autorizar")
+                                break;
+                            case 2:
+                                alert("No puede aceptar la solicitud. Su pago fue Rechazado por importe insuficiente")
+                                break;
+                            case 2:
+                                alert("No puede aceptar la solicitud. Su pago fue Rechazado por código de seguridad inválido")
+                                break;
+                            case 2:
+                                alert("No puede aceptar la solicitud. Su pago fue Rechazado debido a un problema de fecha de vencimiento")
+                                break;
+                            case 2:
+                                alert("No puede aceptar la solicitud. Su pago fue Rechazado debido a un error de formulario")
+                                break; */
+                    }
+                })
+        })
 
 
         //Botón Volver

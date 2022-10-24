@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     docPDF.text("alalall");
                     docPDF.save("a4.pdf")
                 })*/
-                let btn_acept = document.getElementById('btn_acept_request'),
+                let btn_avanzar = document.getElementById('btn_avanzar_request'),
                     btn_decline = document.getElementById('btn_decline_request'),
                     divMyRequest = document.getElementById('my_request'),
                     divMyRequestCarga = document.getElementById('datos_carga'),
@@ -39,22 +39,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     let p_nro_orden = document.createElement('p'),
                         p_estado = document.createElement('p'),
                         p_fecha_solicitud = document.createElement('p'),
-                        //download_files = document.createElement('p'),
+                        download_conformidad = document.createElement('a'),
                         download_files = document.createElement('a'),
                         fecha_solicitud = new Date(res.fec_solicitud);
 
                     p_nro_orden.innerHTML = `<b>Nro. Orden:</b> ${data[0].cod_solicitud}`;
                     download_files.innerHTML = 'Descargar Formulario de Retiro de Carga <i class="fa-solid fa-file-pdf"></i>'
+                    download_conformidad.innerHTML = 'Descargar Formulario de Conformidad de Entrega de Carga <i class="fa-solid fa-file-pdf"></i>'
 
-                    /* fetch(`http://localhost:3000/getNameFile/${cod_solicitud}`, {
-                            method: 'GET',
-                        }).then(res => res.json())
-                        .then(data => {
-                            console.log(data[0].nombre_archivo);
-                            download_files.href = `http://localhost:5000/assets/files/${data[0].nombre_archivo}`
-                            download_files.target = '_blank';
-                            download_files.download = `${data[0].nombre_archivo}`
-                        }) */
                     fetch(`http://localhost:3000/getTipoEstadoSolicitud/${res.cod_estado_solicitud}`, {
                             method: 'GET',
                         }).then(res => res.json())
@@ -70,18 +62,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             method: 'GET',
                                         }).then(res => res.json())
                                         .then(data => {
-                                            download_files.href = `http://localhost:5000/assets/files/${data[0].nombre_archivo}`
-                                            download_files.target = '_blank';
-                                            download_files.download = `${data[0].nombre_archivo}`
+                                            console.log(data[0].form_retiro)
+                                            fetch(`http://localhost:3000/downloadFile/${data[0].form_retiro}`, {
+                                                    method: 'GET',
+                                                }).then(res => res.blob())
+                                                .then(data => {
+                                                    download_files.href = URL.createObjectURL(data)
+                                                    download_files.target = '_blank';
+                                                    //download_files.download = `${data[0].form_retiro}`
+                                                })
+                                                .catch(err => { console.log(err); })
                                         })
+                                        .catch(err => { console.log(err); })
                                     break;
                                 case 3:
                                     p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-danger">${data[0].descripcion}</span>`
                                     break;
                             }
                             if (tpo_usuario == '1' || data[0].cod_estado_solicitud != '1') {
-                                btn_acept.classList.add('btn_acept_request_none');
-                                btn_decline.classList.add('btn_decline_request_none');
+                                btn_avanzar.classList.add('btn_avanzar_request_none');
                             }
                             if (tpo_usuario == '1' && data[0].cod_estado_solicitud == '2') {
                                 p_estado.append(download_files);
@@ -91,30 +90,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                     p_fecha_solicitud.innerHTML = `<b>Fecha Solicitud: </b> ${fecha_solicitud.toLocaleDateString()}`;
 
-                    //Download files
-                    /* download_files.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        fetch(`http://localhost:3000/getNameFile/${cod_solicitud}`, {
-                                method: 'GET',
-                            }).then(res => res.json())
-                            .then(data => {
-                                console.log(data[0].nombre_archivo);
-                                download_files.href = `http://localhost:5000/assets/files/${data[0].nombre_archivo}`
-                                download_files.target = '_blank';
-                                download_files.download = `${data[0].nombre_archivo}`
-                                fetch(`http://localhost:3000/downloadFile/${data[0].nombre_archivo}`, {
-                                        method: 'GET',
-                                    }).then(res => res.json())
-                                    .then(data => {
-                                        console.log(data);
-                                    })
-                                    .catch(err => { console.log(err); })
-
-
-                            })
-                    }) */
-
-
                     /* El nombre de getOneCargaUser puede confundir porque lo uso en el view_freigh para ver una carga de un 
                     usuario en específico, pero la carga al tener un id único está asignada a un usuario en específico, entonces
                     si yo mando el id de la carga me va a traer, dentro de los datos de la carga, si o si el usuario al que corresponde.
@@ -123,6 +98,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             method: 'GET',
                         }).then(res => res.json())
                         .then(data => {
+
+                            if (tpo_usuario == '2' && data[0].cod_estado_carga == 5) {
+                                p_estado.append(download_conformidad);
+                                fetch(`http://localhost:3000/getNameFile/${cod_solicitud}`, {
+                                        method: 'GET',
+                                    }).then(res => res.json())
+                                    .then(data => {
+                                        console.log("getNAmeFile", data[0].form_conformidad)
+                                        fetch(`http://localhost:3000/downloadFile/${data[0].form_retiro}`, {
+                                                method: 'GET',
+                                            }).then(res => res.blob())
+                                            .then(data => {
+                                                download_conformidad.href = URL.createObjectURL(data)
+                                                download_conformidad.target = '_blank';
+                                                //download_files.download = `${data[0].form_retiro}`
+                                            })
+                                            .catch(err => { console.log(err); })
+                                    })
+                                    .catch(err => { console.log(err); })
+                            }
+
 
                             console.log(data[0])
                             let loc_origen,
@@ -387,7 +383,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
                 //Botón Aceptar Solicitud
-                btn_acept.addEventListener('click', (event) => {
+                btn_avanzar.addEventListener('click', (event) => {
                     event.preventDefault();
                     setTimeout(() => {
                         window.location.href = `./accept_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&request=${cod_solicitud}&cod_carga=${cod_carga}`;
@@ -396,7 +392,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 })
 
                 //Botón Rechazar Solicitud
-                btn_decline.addEventListener('click', (event) => {
+                /* btn_decline.addEventListener('click', (event) => {
                     event.preventDefault()
 
                     var fecha_today = new Date(),
@@ -445,7 +441,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     setTimeout(() => {
                         javascript: history.back()
                     }, 3000);
-                })
+                }) */
             })
             .catch(err => { console.log(err); })
 

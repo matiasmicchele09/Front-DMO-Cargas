@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     tableData7.appendChild(btnSolicitudes);
                                     break;
                                 case 4:
-                                    tableData5.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                    tableData5.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
                                     tableData7.appendChild(btnSolicitudes);
                                     break;
                                 case 5:
@@ -199,11 +199,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         //Botón Dashboard
         btn_dashboard.addEventListener('click', (event) => {
             event.preventDefault();
-            window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
+            window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
         //Botón Mi Perfil
         btn_mi_perfil.addEventListener('click', () => {
-            window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+            window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Salir

@@ -62,16 +62,63 @@
                     <th class="th_requests">Nro. Orden</th>
                     <th class="th_requests">Carga</th>
                     <th class="th_requests">Fecha Solicitud</th>
-                    <th class="th_requests">Estado</th>
+                    <th class="th_requests">Estado Solicitud</th>
+                    <th class="th_requests">Estado Carga</th>
                     <th colspan="2"></th>
                 </tr>
             </tbody>
         </table>
-    </div>
+        <div class="modal fade" id="updateEstadoCarga" tabindex="-1" data-bs-backdrop="static" aria-labelledby="updateEstadoCargaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateEstadoCargaModalLabel">Actualizar el Estado de la Carga a: RETIRADA</h5>
+                        <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div class="">
+                                <h4 style="color:#f83737;">¡Cuidado! Este botón debe utilizarce sólo cuando el TRANSPORTISTA pase a retirar la Carga y se le haya dado la documentación pertinente.</h4>
+                                <button class="btn_actualizar_retiro" id="btn_actualizar_retiro">Actualizar</button>
+                            </div>
+                        </div>
 
-    <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
-    <script src="./my_request.js "></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="finalizarCarga" tabindex="-1" data-bs-backdrop="static" aria-labelledby="finalizarCargaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="finalizarCargaModalLabel">Finalización del Viaje</h5>
+                        <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div class="">
+                                <p style="color:#f83737;"><b>Al finalizar este viaje el estado de la carga pasará a ser: ENTREGADA</b></p>
+                                <div class="container">
+                                    <h3 style="margin: 15px 0 15px 0 ;">Cargar formulario de Conformidad de entrega de la Carga</h3>
+                                    <div class="drop-area-fin-viaje">
+                                        <!-- <h4>Solo se acepta formato .pdf</h4> -->
+                                        <button>Sube tu archivo</button>
+                                        <input type="file" name="" id="input-file" hidden multiple>
+                                        <div id="preview"></div>
+                                    </div>
+                                    <button class="btn_finalizar_viaje" id="btn_finalizar_viaje">Finalizar Viaje</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
+        <script src="./my_request.js "></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>
