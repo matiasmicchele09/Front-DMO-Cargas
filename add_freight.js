@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault()
     const getURL = new URLSearchParams(window.location.search),
         cod_usuario = getURL.get('cod_usuario'),
+        tpo_usuario = getURL.get('tpo_usuario'),
         tipo_carga = getURL.get('tipo_carga'),
         formAgregarCarga = document.getElementById("form_freight"),
         inputs = document.querySelectorAll('#form_freight input');
@@ -12,32 +13,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
     initialized_session = sessionStorage.getItem("initialized_session");
 
     const expresiones = {
-        // prov_origen: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-        origen: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-        domicilio_origen: /^[a-zA-ZÀ-ÿ\s]+[0-9]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.
-        //prov_destino: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-        ciudad_destino: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+        domicilio_origen: /^[a-zA-ZÀ-ÿ\s]+[0-9]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.       
         domicilio_destino: /^[a-zA-ZÀ-ÿ\s]+[0-9]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.
         cant_unit: /^[0-9]/, // Solo números
-        peso_unit_kg: /^[0-9]/, // Solo números
-        peso_total_kg: /^[0-9]/, // Solo números
-        largo_mts: /^[0-9]/, // Solo números
-        ancho_mts: /^[0-9]/, // Solo números
-        alto_mts: /^[0-9]/, // Solo números
-        peso_unit_tn: /^[0-9]/, // Solo números
-        peso_total_tn: /^[0-9]/, // Solo números 
-        cant_litros: /^[0-9]/ // Solo números
+        peso_unit_kg: /^[0-9]/, // Solo números y coma
+        peso_total_kg: /^[0-9]/, // Solo números y coma
+        largo_mts: /^[0-9]/, // Solo números y coma
+        ancho_mts: /^[0-9]/, // Solo números y coma
+        alto_mts: /^[0-9]/, // Solo números y coma
+        peso_unit_tn: /^[0-9]/, // Solo números y coma
+        peso_total_tn: /^[0-9]/, // Solo números y coma
+        cant_litros: /^[0-9]/, // Solo números y coma
     }
     const campos = {
-        selectProvOrigen: false,
         origen: false,
         domicilio_origen: false,
         fec_retiro: false,
         hora_retiro: false,
+        destino: false,
         fec_destino: false,
-        hora_destino: false,
-        selectProvDestino: false,
-        ciudad_destino: false,
         domicilio_destino: false,
         receptor_carga: false,
         cant_unit: false,
@@ -48,25 +42,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         alto_mts: false,
         peso_unit_tn: false,
         peso_total_tn: false,
-        cant_litros: false
+        cant_litros: false,
+        valor_carga: false
     }
 
     const validarFormulario = (e) => {
         switch (e.target.name) {
-            /* case "prov_origen":
-                validarCampo(expresiones.prov_origen, e.target, 'prov_origen'); //también podría haber pasado solo el e.target en vez de e.target.name
-                break; */
-            /* case "origen":
-                validarCampo(expresiones.origen, e.target, 'origen');
-                break; */
             case "domicilio_origen":
                 validarCampo(expresiones.domicilio_origen, e.target, 'domicilio_origen');
-                break;
-                /* case "prov_destino":
-                    validarCampo(expresiones.prov_destino, e.target, 'prov_destino'); //también podría haber pasado solo el e.target en vez de e.target.name
-                    break; */
-            case "ciudad_destino":
-                validarCampo(expresiones.ciudad_destino, e.target, 'ciudad_destino');
                 break;
             case "domicilio_destino":
                 validarCampo(expresiones.domicilio_destino, e.target, 'domicilio_destino');
@@ -129,7 +112,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         let inputCantUnitaria = document.getElementById("cant_unit"),
             inputPesoUnitario = document.getElementById("peso_unit_kg"),
-            inputPesoUTotal = document.getElementById("peso_total_kg");
+            inputPesoUTotal = document.getElementById("peso_total_kg"),
+            date,
+            today = new Date(),
+            day = today.getDate(),
+            month = today.getMonth() + 1,
+            year = today.getFullYear();
+
+        if (`${month}`.length > 1 && `${day}`.length > 1) {
+            date = `${year}-${month}-${day}`;
+        } else if (`${month}`.length == 1 && `${day}`.length == 1) {
+            date = `${year}-0${month}-0${day}`;
+        } else if (`${month}`.length == 1) {
+            date = `${year}-0${month}-${day}`;
+        } else if (`${day}`.length == 1) {
+            date = `${year}-${month}-0${day}`;
+        }
+
 
         fetch(`http://localhost:3000/getAllTiposProducto/${tipo_carga}`, {
                 method: 'GET',
@@ -345,25 +344,42 @@ document.addEventListener('DOMContentLoaded', (event) => {
             })
             .catch(err => { console.log(err); })
 
+        //Validación de que Fecha de Retiro NO puede ser menor al Día de hoy
+        document.getElementById("fec_retiro").addEventListener('blur', (event) => {
+            event.preventDefault();
+            console.log(document.getElementById("fec_retiro").value);
+            if (date > document.getElementById("fec_retiro").value) {
+                alert("¡No puede ingresar una Fecha de Retiro menor al Día de hoy!")
+            }
+        })
+
+
         //Envío de Formulario
         formAgregarCarga.addEventListener('submit', (event) => {
             event.preventDefault();
             let horaRetiro = document.getElementById("hora_retiro"),
-                horaDestino = document.getElementById("hora_destino"),
                 fecRetiro = document.getElementById("fec_retiro"),
                 fecDestino = document.getElementById("fec_destino"),
-                receptor_carga = document.getElementById("receptor_carga");
+                receptor_carga = document.getElementById("receptor_carga"),
+                origen = document.getElementById("origen"),
+                destino = document.getElementById("destino"),
+                valor = document.getElementById("valor_carga");
 
+            fecDestino.disabled = false;
+            valor.disabled = false;
+
+            if (origen.value != "") { campos.origen = true; }
+            if (destino.value != "") { campos.destino = true; }
             if (horaRetiro.value != "") { campos.hora_retiro = true; }
-            if (horaDestino.value != "") { campos.hora_destino = true; }
-            if (fecRetiro.value != "") { campos.fec_retiro = true; }
-            if (fecDestino.value != "") { campos.fec_destino = true; }
+            if (fecRetiro.value != "" && date < fecRetiro.value) { campos.fec_retiro = true; }
+            if (fecDestino.value != "" && fecRetiro.value < fecDestino.value) { campos.fec_destino = true; }
             if (receptor_carga.value !== "") { campos.receptor_carga = true; }
+            if (valor.value != "") { campos.valor_carga = true; }
 
-            if (campos.domicilio_origen && campos.hora_retiro && campos.fec_retiro && campos.hora_destino &&
+            if (campos.origen && campos.destino && campos.domicilio_origen && campos.hora_retiro && campos.fec_retiro &&
                 campos.fec_destino && campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
                 campos.peso_unit_kg && campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
-                campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros) {
+                campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros && campos.valor_carga) {
                 let registroFormData = new FormData(formAgregarCarga);
 
                 fetch('http://localhost:3000/add_freight/', {
@@ -381,21 +397,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 })
 
                 setTimeout(() => {
-                    javascript: history.back()
+                    window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
                 }, 2500);
             } else {
-                /* aca tendria que hacer que salten los carteles junto con el cartel mayor que se define aca abajo */
                 document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo');
                 setTimeout(() => {
                     document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
                 }, 4000);
+                setTimeout(() => {
+                    fecDestino.disabled = true;
+                }, 500);
             }
         })
 
         //Botón Volver
         btn_back.addEventListener('click', (event) => {
             event.preventDefault();
-            //window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}`;
             javascript: history.back()
         })
     } else {

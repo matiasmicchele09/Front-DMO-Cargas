@@ -37,24 +37,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 data.forEach(res => {
 
-                    let provincia = res.origen.split(",")
-                    if (provincia.length == 3) {
-                        prov_repetidas.push(provincia[1].trim())
-                    }
-                    if (provincia.length == 2) {
-                        prov_repetidas.push(provincia[0].trim())
-                    }
-                    console.log(prov_repetidas);
-
-
-                    for (let i = 0; i < prov_repetidas.length; i++) {
-                        if (prov_no_repetidas.includes(prov_repetidas[i])) {} else {
-                            prov_no_repetidas.push(prov_repetidas[i]);
+                    if (res.cod_estado_carga != 3 && res.cod_estado_carga != 4 && res.cod_estado_carga != 5) {
+                        let provincia = res.origen.split(",")
+                        if (provincia.length == 3) {
+                            prov_repetidas.push(provincia[1].trim())
                         }
+                        if (provincia.length == 2) {
+                            prov_repetidas.push(provincia[0].trim())
+                        }
+                        // console.log(prov_repetidas);
+
+
+                        for (let i = 0; i < prov_repetidas.length; i++) {
+                            if (prov_no_repetidas.includes(prov_repetidas[i])) {} else {
+                                prov_no_repetidas.push(prov_repetidas[i]);
+                            }
+                        }
+                        //No encontré otra manera de poder asignar al option las prov ordenadas. Tuve que hacerlo así, con 3 arreglos
+                        prov_no_repetidas_ordenadas = prov_no_repetidas.sort();
                     }
-                    //No encontré otra manera de poder asignar al option las prov ordenadas. Tuve que hacerlo así, con 3 arreglos
-                    prov_no_repetidas_ordenadas = prov_no_repetidas.sort();
                 })
+
 
                 for (let i = 0; i < prov_no_repetidas_ordenadas.length; i++) {
                     let option = document.createElement('option');
@@ -62,6 +65,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     option.innerHTML = `${prov_no_repetidas_ordenadas[i]}`;
                     selectProvincia.appendChild(option);
                 }
+
             })
             .catch(err => { console.log(err); })
 
@@ -92,7 +96,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 }
 
-                console.log(typeof selectProvincia.value);
+                //console.log(typeof selectProvincia.value);
                 fetch(`http://localhost:3000/searchCarga/${selectProvincia.value}`, {
                         method: 'GET',
                     }).then(res => res.json())
@@ -189,7 +193,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             cardText1.innerHTML = `<b>${loc_origen}</b><br> 
                                           <b>${fecha_retiro.toLocaleDateString()}</b> ${res.hora_retiro.substring(0, 5)} Hs`;
                             cardText2.innerHTML = `<b>${loc_destino}</b><br> 
-                            <b>${fecha_destino.toLocaleDateString()}</b> ${res.hora_destino.substring(0, 5)} Hs`
+                            <b>${fecha_destino.toLocaleDateString()}</b>`
 
                             btnVerDetalle.innerHTML = "Ver Detalle";
 
@@ -210,8 +214,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     cardText3.innerHTML = cardText3.innerHTML + `<b>Dador de la carga: </b> ${data[0].razon_social} <br>`;
                                 })
                                 .catch(err => { console.log(err); })
-
-                            cardText4.innerHTML = `<b>Valor: </b> $${res.valor_carga}`;
+                            let valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(res.valor_carga);
+                            cardText4.innerHTML = `<b>Valor: </b> ${valor_en_pesos}`;
                             cardBody2.appendChild(cardText4);
 
                             card.appendChild(cardBody);

@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             button_request = drop_area_request.querySelector("button"),
             input_request = drop_area_request.querySelector("#input-file");
         let filesUpload,
-            nombre_archivo;
+            archivo;
 
 
         button_request.addEventListener('click', (event) => {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             event.preventDefault();
             filesUpload = input_request.files;
             drop_area_request.classList.add("active");
-            //showFiles(filesUpload);
+            showFiles(filesUpload);
             drop_area_request.classList.remove("active");
         })
 
@@ -92,27 +92,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
 
         function processFile(file) {
+            archivo = file;
             const docType = file.type;
             console.log(docType);
             const validExtensions = ["application/pdf"];
 
-            let p = document.createElement('p');
+            let p = document.getElementById('nom_archivo');
             if (validExtensions.includes(docType)) {
                 const fileReader = new FileReader();
                 fileReader.addEventListener('load', event => {
                     event.preventDefault()
                     const fileURL = fileReader.result;
                     p.innerHTML = `${file.name}`
-                    nombre_archivo = `${file.name}`;
+                        //nombre_archivo = `${file.name}`;
 
-                    console.log("nombre_archivo", nombre_archivo);
+                    //console.log("nombre_archivo", nombre_archivo);
                     const html = document.getElementById('preview');
                     //html.innerHTML = html.innerHTML + p;
-                    html.appendChild(p);
+                    //html.appendChild(p);
 
                 })
                 fileReader.readAsDataURL(file);
-                uploadFile(file)
+                //uploadFile(file)
 
             } else {
                 const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
@@ -146,48 +147,49 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
-        fetch(`http://localhost:3000/getFreightsRequest/${cod_carga}`, {
-                method: 'GET',
-            }).then(res => res.json())
-            .then(data => {
-                console.log(data);
-                data.forEach(res => {
-                    console.log(res);
-                })
-            })
-            .catch(err => { console.log(err); })
-
         //Botón Aceptar Solicitud
         btn_accept.addEventListener('click', async(event) => {
             event.preventDefault();
-            console.log("cerrando");
+            // let nombre_archivo = archivo.name;
+            //console.log("nombre_archivo", nombre_archivo);
+            //console.log("archivo", archivo);
+            //await uploadFile(archivo)
+            ///await showFiles(filesUpload);
+            console.log(document.getElementById('nom_archivo').textContent);
 
-            await showFiles(filesUpload);
+            if (document.getElementById('nom_archivo').textContent == "" || document.getElementById('nom_archivo').textContent == undefined) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: '¡Primero debe subir el Formulario de retiro de Carga!',
+                    showConfirmButton: false,
+                    timer: 4000
+                })
+            } else {
+                fetch(`http://localhost:3000/getPay/${cod_solicitud}`, {
+                        method: 'GET',
+                    }).then(res => res.json())
+                    .then(async data => {
+                        console.log(data[0]);
+                        switch (data[0].estado) {
+                            case "approved":
+                                /* PROBAR QUE ONDA CON EL ASYNC AWAIT. AUN NO LO PROBE */
+                                let nombre_archivo = archivo.name;
+                                console.log("nombre_archivo", nombre_archivo);
+                                console.log("archivo", archivo);
+                                await uploadFile(archivo)
 
-            fetch(`http://localhost:3000/getPay/${cod_solicitud}`, {
-                    method: 'GET',
-                }).then(res => res.json())
-                .then(data => {
-                    console.log(data[0]);
+                                let nom_arch = { cod_solicitud: parseInt(cod_solicitud, 10), nombre: nombre_archivo };
+                                console.log(nom_arch)
 
-                    if (nombre_archivo == undefined) {
-                        alert("¡Debe Subir el Formulario de retiro de Carga!")
-                    } else {
-                        let nom_arch = { cod_solicitud: parseInt(cod_solicitud, 10), nombre: nombre_archivo };
-                        fetch(`http://localhost:3000/uploadFileRequest`, {
-                                method: 'PUT',
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify(nom_arch),
-                            })
-                            .catch(err => { console.log(err); })
-                    }
-
-                    switch (data[0].estado) {
-                        case "approved":
-
-                            if (nombre_archivo != undefined) {
+                                fetch(`http://localhost:3000/uploadFileRequest`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify(nom_arch),
+                                    })
+                                    .catch(err => { console.log(err); })
 
                                 var fecha_today = new Date(),
                                     today = new Date(),
@@ -203,25 +205,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 } else if (`${day}`.length == 1) {
                                     fecha_today = `${year}-${month}-0${day}`;
                                 }
-
-
-                                /* fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
-                                        method: 'PUT',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(estadoSolicitud),
-                                    })
-                                    .catch(err => { console.log(err); }) */
-
-                                /* fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                                        method: 'PUT',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(estadoCarga),
-                                    })
-                                    .catch(err => { console.log(err); }) */
 
                                 fetch(`http://localhost:3000/getFreightsRequest/${cod_carga}`, {
                                         method: 'GET',
@@ -278,33 +261,46 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
                                 }, 1500);
 
-                            }
 
 
-                            break;
-                            /* case 2:
+
+                                break;
+                            case "2":
                                 alert("No puede aceptar la solicitud. Su pago fue Rechazado por error general")
                                 break;
-                            case 2:
+                            case "2":
                                 alert("No puede aceptar la solicitud. Su pago Pendiente de pagol")
                                 break;
-                            case 2:
+                            case "2":
                                 alert("No puede aceptar la solicitud. Su pago fue Rechazado con validación para autorizar")
                                 break;
-                            case 2:
+                            case "2":
                                 alert("No puede aceptar la solicitud. Su pago fue Rechazado por importe insuficiente")
                                 break;
-                            case 2:
+                            case "2":
                                 alert("No puede aceptar la solicitud. Su pago fue Rechazado por código de seguridad inválido")
                                 break;
-                            case 2:
+                            case "2":
                                 alert("No puede aceptar la solicitud. Su pago fue Rechazado debido a un problema de fecha de vencimiento")
                                 break;
-                            case 2:
+                            case "2":
                                 alert("No puede aceptar la solicitud. Su pago fue Rechazado debido a un error de formulario")
-                                break; */
-                    }
-                })
+                                break;
+                        }
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'No puede aceptar una solicitud sin realizar el pago',
+                            showConfirmButton: false,
+                            timer: 4000
+                        })
+
+                    })
+            }
         })
 
 

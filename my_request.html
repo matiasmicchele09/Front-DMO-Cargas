@@ -56,6 +56,7 @@
     </nav>
 
     <div class="container contenedor_solicitudes mt-4">
+        <p id="estado_carga"></p>
         <table class="table">
             <tbody class="t_body_solicitudes">
                 <tr>
@@ -63,7 +64,7 @@
                     <th class="th_requests">Carga</th>
                     <th class="th_requests">Fecha Solicitud</th>
                     <th class="th_requests">Estado Solicitud</th>
-                    <th class="th_requests">Estado Carga</th>
+                    <!-- <th class="th_requests">Estado Carga</th> -->
                     <th colspan="2"></th>
                 </tr>
             </tbody>
@@ -104,7 +105,9 @@
                                         <!-- <h4>Solo se acepta formato .pdf</h4> -->
                                         <button>Sube tu archivo</button>
                                         <input type="file" name="" id="input-file" hidden multiple>
-                                        <div id="preview"></div>
+                                        <div id="preview">
+                                            <p id="nom_archivo"></p>
+                                        </div>
                                     </div>
                                     <button class="btn_finalizar_viaje" id="btn_finalizar_viaje">Finalizar Viaje</button>
                                 </div>

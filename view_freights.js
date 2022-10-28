@@ -1,4 +1,4 @@
-/* 'use strict' */
+'use strict'
 document.addEventListener("DOMContentLoaded", (event) => {
     event.preventDefault();
     const getURL = new URLSearchParams(window.location.search),
@@ -13,11 +13,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     initialized_session = sessionStorage.getItem("initialized_session");
 
     const expresiones = {
-        prov_origen: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-        ciudad_origen: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-        domicilio_origen: /^[a-zA-ZÀ-ÿ\s]+[0-9]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.
-        prov_destino: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-        ciudad_destino: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+        domicilio_origen: /^[a-zA-ZÀ-ÿ\s]+[0-9]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.                
         domicilio_destino: /^[a-zA-ZÀ-ÿ\s]+[0-9]{1,40}$/, // Letras, números y espacios, pueden llevar acentos.
         cant_unit: /^[0-9]/, // Solo números
         peso_unit_kg: /^[0-9]/, // Solo números
@@ -30,15 +26,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         cant_litros: /^[0-9]/ // Solo números
     }
     const campos = {
-        prov_origen: true,
-        ciudad_origen: true,
+        origen: true,
         domicilio_origen: true,
         fec_retiro: true,
         hora_retiro: true,
+        destino: true,
         fec_destino: true,
-        hora_destino: true,
-        prov_destino: true,
-        ciudad_destino: true,
         domicilio_destino: true,
         receptor_carga: true,
         cant_unit: true,
@@ -49,25 +42,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
         alto_mts: true,
         peso_unit_tn: true,
         peso_total_tn: true,
-        cant_litros: true
+        cant_litros: true,
+        valor_carga: true
     }
 
     const validarFormulario = (e) => {
         switch (e.target.name) {
-            case "prov_origen":
-                validarCampo(expresiones.prov_origen, e.target, 'prov_origen'); //también podría haber pasado solo el e.target en vez de e.target.name
-                break;
-            case "ciudad_origen":
-                validarCampo(expresiones.ciudad_origen, e.target, 'ciudad_origen');
-                break;
             case "domicilio_origen":
                 validarCampo(expresiones.domicilio_origen, e.target, 'domicilio_origen');
-                break;
-            case "prov_destino":
-                validarCampo(expresiones.prov_destino, e.target, 'prov_destino'); //también podría haber pasado solo el e.target en vez de e.target.name
-                break;
-            case "ciudad_destino":
-                validarCampo(expresiones.ciudad_destino, e.target, 'ciudad_destino');
                 break;
             case "domicilio_destino":
                 validarCampo(expresiones.domicilio_destino, e.target, 'domicilio_destino');
@@ -134,6 +116,30 @@ document.addEventListener("DOMContentLoaded", (event) => {
             btnRequest = document.getElementById("btn_request_carga"),
             btnCalculaValor = document.getElementById("btn_calcular_valor");
 
+        let date,
+            today = new Date(),
+            day = today.getDate(),
+            month = today.getMonth() + 1,
+            year = today.getFullYear();
+
+        if (`${month}`.length > 1 && `${day}`.length > 1) {
+            date = `${year}-${month}-${day}`;
+        } else if (`${month}`.length == 1 && `${day}`.length == 1) {
+            date = `${year}-0${month}-0${day}`;
+        } else if (`${month}`.length == 1) {
+            date = `${year}-0${month}-${day}`;
+        } else if (`${day}`.length == 1) {
+            date = `${year}-${month}-0${day}`;
+        }
+        //Validación de que Fecha de Retiro NO puede ser menor al Día de hoy
+        document.getElementById("fec_retiro").addEventListener('blur', (event) => {
+            event.preventDefault();
+            console.log(document.getElementById("fec_retiro").value);
+            if (date > document.getElementById("fec_retiro").value) {
+                alert("¡No puede ingresar una Fecha de Retiro menor al Día de hoy!")
+            }
+        })
+
         fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
                 method: 'GET',
             }).then(res => res.json())
@@ -166,10 +172,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 document.getElementById('domicilio_destino').value = data[0].domicilio_destino;
                 document.getElementById('receptor_carga').value = data[0].receptor_carga;
                 document.getElementById('fec_destino').value = data[0].fec_destino.substring(0, 10);
-                document.getElementById('hora_destino').value = data[0].hora_destino.substring(0, 5);
                 document.getElementById('comentario').value = data[0].comentario;
+                document.getElementById('parrafo_dist_recorrido').innerHTML = `<b>Distancia Estimada del recorrido: </b> ${data[0].distancia_recorrido} Km`;
                 document.getElementById('distancia_recorrido').value = data[0].distancia_recorrido;
                 document.getElementById('valor_carga').value = data[0].valor_carga;
+                document.getElementById('valor_carga_en_pesos').value = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(data[0].valor_carga);
+                console.log(new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(data[0].valor_carga));
+                console.log(document.getElementById('valor_carga').value);
 
                 const tipo_producto = data[0].cod_tipo_producto;
 
@@ -278,9 +287,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     btnSave.classList.add("btn_save_carga_oculto");
                     btnDelete.classList.add("btn_delete_carga_oculto");
                     btnCalculaValor.classList.add("btn_calcular_valor_oculto");
+
                     //Botón Solicitar
                     btnRequest.addEventListener('click', (event) => {
                         event.preventDefault();
+
+
+
                         var today = new Date(),
                             day = today.getDate(),
                             month = today.getMonth() + 1,
@@ -297,8 +310,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             fecha_destino = new Date(data[0].fec_destino);
 
                         p.innerHTML = `<b>Origen: </b> ${data[0].origen} - ${fecha_retiro.toLocaleDateString()}<br>
-                                    <b>Destino: </b> ${data[0].destino} - ${fecha_destino.toLocaleDateString()} <br>
-                                    <b>Carga: </b> ${option.text}`
+                                                    <b>Destino: </b> ${data[0].destino} - ${fecha_destino.toLocaleDateString()} <br>
+                                                    <b>Carga: </b> ${option.text}`
 
                         modalUsuario.value = cod_usuario;
                         modalEstadoSolicitud.value = "1";
@@ -321,7 +334,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                 //console.log(data);
                                 let select = document.getElementById('selectCamion_modal');
 
-                                for (i in data) {
+                                for (let i in data) {
 
                                     let option = document.createElement('option');
                                     option.setAttribute('id', `option_camion_${i}`);
@@ -342,8 +355,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                             // console.log(data[0])
                                             let parrafo_informacion = document.querySelector(".info_camion");
                                             parrafo_informacion.innerHTML = `<b>Marca: </b> ${data[0].marca} <br>
-                                                                          <b>Modelo: </b>${data[0].modelo} <br>
-                                                                          <b>Año: </b> ${data[0].anio}`;
+                                                                                        <b>Modelo: </b>${data[0].modelo} <br>
+                                                                                        <b>Año: </b> ${data[0].anio}`;
 
                                             fetch(`http://localhost:3000/getOneTypeTruck/${data[0].cod_tipo_camion}`, {
                                                     method: 'GET',
@@ -372,7 +385,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                 //console.log(data);
                                 let select = document.getElementById('selectCarroceria_modal');
 
-                                for (i in data) {
+                                for (let i in data) {
 
                                     let option = document.createElement('option');
                                     option.setAttribute('id', `option_carroceria_${i}`);
@@ -390,7 +403,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                             //console.log(data[0])
                                             let parrafo_informacion = document.querySelector(".info_carroceria");
                                             parrafo_informacion.innerHTML = `<b>Cant. Ejes: </b> ${data[0].cant_ejes} <br>                                                                     
-                                                                          <b>Año: </b> ${data[0].anio}`;
+                                                                                        <b>Año: </b> ${data[0].anio}`;
 
                                             fetch(`http://localhost:3000/getOneTipoCarroceria/${data[0].cod_tipo_carroceria}`, {
                                                     method: 'GET',
@@ -413,67 +426,122 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                         formRequest.addEventListener('submit', (event) => {
                             event.preventDefault();
-                            let selectCamion = document.getElementById('selectCamion_modal'),
-                                selectCarroceria = document.getElementById('selectCarroceria_modal');
 
-                            if (selectCamion.value != 99 && selectCarroceria.value != 99) {
+                            fetch(`http://localhost:3000/dashboard/${cod_usuario}`, {
+                                    method: 'GET',
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    console.log(data[0])
+                                    let datos_transpor = Object.values(data[0]);
 
+                                    //Si no incluye nulos saca el cartel. 
+                                    if (datos_transpor.includes(null)) {
+                                        document.getElementById("form__mensaje_error_solicitar_carga").classList.add("form__mensaje_error_activo");
+                                        setTimeout(() => {
+                                            document.getElementById("form__mensaje_error_solicitar_carga").classList.remove("form__mensaje_error_activo");
+                                        }, 3000);
+                                    } else {
 
-                                let registroFormData = new FormData(formRequest),
-                                    estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '2' };
+                                        let selectCamion = document.getElementById('selectCamion_modal'),
+                                            selectCarroceria = document.getElementById('selectCarroceria_modal');
 
-                                fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                                        method: 'PUT',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(estadoCarga),
-                                    })
-                                    .catch(err => { console.log(err); })
+                                        if (selectCamion.value != 99 && selectCarroceria.value != 99) {
 
-                                fetch('http://localhost:3000/confirm_request/', {
-                                        method: 'POST',
-                                        body: registroFormData,
-                                    })
-                                    .catch(err => { console.log(err); })
+                                            let registroFormData = new FormData(formRequest),
+                                                estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '2' };
 
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: '¡Solicitud Enviada!',
-                                    showConfirmButton: false,
-                                    timer: 2500
+                                            fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                                                    method: 'PUT',
+                                                    headers: {
+                                                        "Content-Type": "application/json"
+                                                    },
+                                                    body: JSON.stringify(estadoCarga),
+                                                })
+                                                .catch(err => { console.log(err); })
+
+                                            fetch('http://localhost:3000/confirm_request/', {
+                                                    method: 'POST',
+                                                    body: registroFormData,
+                                                })
+                                                .catch(err => { console.log(err); })
+
+                                            Swal.fire({
+                                                position: 'center',
+                                                icon: 'success',
+                                                title: '¡Solicitud Enviada!',
+                                                showConfirmButton: false,
+                                                timer: 2500
+                                            })
+
+                                            setTimeout(() => {
+                                                javascript: history.back();
+                                            }, 2500);
+                                        } else {
+                                            document.getElementById('form__mensaje_error_request_freight').classList.add('form__mensaje_error_activo')
+                                            setTimeout(() => {
+                                                document.getElementById('form__mensaje_error_request_freight').classList.remove('form__mensaje_error_activo')
+                                            }, 3500);
+                                        }
+                                    }
                                 })
 
-                                setTimeout(() => {
-                                    javascript: history.back();
-                                }, 2500);
-                            } else {
-                                document.getElementById('form__mensaje_error_request_freight').classList.add('form__mensaje_error_activo')
-                                setTimeout(() => {
-                                    document.getElementById('form__mensaje_error_request_freight').classList.remove('form__mensaje_error_activo')
-                                }, 3500);
-                            }
+
+
                         })
+
                     });
 
                 } else if (tpo_usuario == '2') {
                     {
                         btnRequest.classList.add("btn_request_carga_oculto");
-
                     }
+
+                    document.getElementById('peso_total_kg').addEventListener('change', (event) => {
+                        event.preventDefault();
+                        alert("Ha modificado el peso, deberá recalcular el valor del flete de la Carga");
+                        document.getElementById('valor_carga').value = "";
+                    })
+                    document.getElementById('peso_total_tn').addEventListener('change', (event) => {
+                        event.preventDefault();
+                        alert("Ha modificado el peso, deberá recalcular el valor del flete de la Carga");
+                        document.getElementById('valor_carga').value = "";
+                    })
+                    document.getElementById('cant_litros').addEventListener('change', (event) => {
+                        event.preventDefault();
+                        alert("Ha modificado los litros, deberá recalcular el valor del flete de la Carga");
+                        document.getElementById('valor_carga').value = "";
+                    })
+
+
 
                     //Botón Editar
                     btnEdit.addEventListener('click', (event) => {
                         event.preventDefault();
-                        const inputs = document.querySelectorAll('#form_freight input');
-                        inputs.forEach((input) => {
-                            input.disabled = false;
-                        });
-                        document.getElementById('selectTipoProducto').disabled = false;
-                        btnSave.disabled = false;
-                        btnEdit.disabled = true;
-                        btnCalculaValor.disabled = false;
+                        if (data[0].cod_estado_carga != 1) {
+                            Swal.fire({
+                                title: '¡Esta Carga ya se encuentra Solicitada y/o Asignada y NO puede editarla. Si sólo esta Solicitada elimínela y vuelva a crearla!',
+                                icon: 'error',
+                                allowOutsideClick: false,
+
+                            })
+
+                        } else {
+
+                            const inputs = document.querySelectorAll('#form_freight input');
+                            inputs.forEach((input) => {
+                                input.disabled = false;
+                            });
+                            /* document.getElementById('req_refrigeracion').value = false;
+                            document.getElementById('es_carga_peligrosa').value = false;
+                            document.getElementById('es_carga_apilable').value = false; */
+                            document.getElementById('selectTipoProducto').disabled = false;
+                            document.getElementById('fec_destino').disabled = true;
+                            document.getElementById('valor_carga_en_pesos').disabled = true;
+                            btnSave.disabled = false;
+                            btnEdit.disabled = true;
+                            btnCalculaValor.disabled = false;
+                        }
                     });
 
                     //Botón Cancelar
@@ -516,33 +584,29 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     formEdicionCarga.addEventListener('submit', (event) => {
                         event.preventDefault();
                         let horaRetiro = document.getElementById("hora_retiro"),
-                            horaDestino = document.getElementById("hora_destino"),
                             fecRetiro = document.getElementById("fec_retiro"),
                             fecDestino = document.getElementById("fec_destino"),
-                            receptor_carga = document.getElementById("receptor_carga");
-                        if (horaRetiro.value == "") {
-                            campos.hora_retiro = false;
-                        } else { campos.hora_retiro = true; }
-                        if (horaDestino.value == "") {
-                            campos.hora_destino = false;
-                        } else { campos.hora_destino = true; }
-                        if (fecRetiro.value == "") {
-                            campos.fec_retiro = false;
-                        } else { campos.fec_retiro = true; }
-                        if (fecDestino.value == "") {
-                            campos.fec_destino = false;
-                        } else { campos.fec_destino = true; }
-                        if (receptor_carga.value == "") {
-                            campos.receptor_carga = false;
-                        } else { campos.receptor_carga = true; }
-                        /* falta que salga el cartel en todos esos campos que definí acá arriba */
+                            receptor_carga = document.getElementById("receptor_carga"),
+                            origen = document.getElementById("origen"),
+                            destino = document.getElementById("destino"),
+                            valor = document.getElementById("valor_carga");
 
-                        if (campos.prov_origen && campos.ciudad_origen && campos.domicilio_origen &&
-                            campos.hora_retiro && campos.fec_retiro && campos.hora_destino &&
-                            campos.fec_destino && campos.prov_destino && campos.ciudad_destino &&
-                            campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
+                        if (origen.value == "") { campos.origen = false; } else { campos.origen = true; }
+                        if (destino.value == "") { campos.destino = false; } else { campos.destino = true; }
+                        if (horaRetiro.value == "") { campos.hora_retiro = false; } else { campos.hora_retiro = true; }
+                        if (fecRetiro.value == "" && date > fecRetiro.value) { campos.fec_retiro = false; } else { campos.fec_retiro = true; }
+                        if (fecDestino.value == "" && fecRetiro.value > fecDestino.value) { campos.fec_destino = false; } else { campos.fec_destino = true; }
+                        if (receptor_carga.value == "") { campos.receptor_carga = false; } else { campos.receptor_carga = true; }
+                        if (valor.value == "") { campos.valor_carga = false; } else { campos.valor_carga = true; }
+
+
+                        valor.disabled = false;
+                        fecDestino.disabled = false;
+
+                        if (campos.origen && campos.destino && campos.domicilio_origen && campos.hora_retiro && campos.fec_retiro &&
+                            campos.fec_destino && campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
                             campos.peso_unit_kg && campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
-                            campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros) {
+                            campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros && campos.valor_carga) {
 
                             let registroFormData = new FormData(formEdicionCarga);
 
@@ -569,6 +633,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             setTimeout(() => {
                                 document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
                             }, 4000);
+                            setTimeout(() => {
+                                valor.disabled = true;
+                            }, 500);
+                            setTimeout(() => {
+                                fecDestino.disabled = true;
+                            }, 500);
                         }
 
                     })
@@ -577,44 +647,52 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     btnDelete.addEventListener("click", (event) => {
                         event.preventDefault();
 
-                        Swal.fire({
-                                title: '¿Está seguro que desea eliminar esta Carga?',
-                                icon: 'warning',
-                                showDenyButton: false,
-                                showConfirmButton: true,
-                                showCancelButton: true,
-                                confirmButtonText: `Confirmar`,
-                                cancelButtonText: 'Cancelar',
-                                reverseButtons: true,
+                        if (data[0].cod_estado_carga == 3) {
+                            Swal.fire({
+                                title: '¡Esta Carga ya se encuentra Asignada y NO puede eliminarla. Por favor, comuniquese con el TRANSPORTISTA DE INMEDIATO si desea cancelar el retiro de la misma!',
+                                icon: 'error',
                                 allowOutsideClick: false,
 
                             })
-                            .then((result) => {
-                                fetch(`http://localhost:3000/delete_carga/${data[0].cod_carga}`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(data[0])
-                                    })
-                                    .catch(err => { console.log(err); })
 
-                                if (result.isConfirmed) {
-                                    Swal.fire({
-                                        title: 'La Carga ha sido eliminado',
-                                        icon: 'success',
-                                        showConfirmButton: false,
-                                        timer: 2000
-                                    })
-                                }
+                        } else {
+                            Swal.fire({
+                                    title: '¿Está seguro que desea eliminar esta Carga?',
+                                    icon: 'warning',
+                                    showDenyButton: false,
+                                    showConfirmButton: true,
+                                    showCancelButton: true,
+                                    confirmButtonText: `Confirmar`,
+                                    cancelButtonText: 'Cancelar',
+                                    reverseButtons: true,
+                                    allowOutsideClick: false,
 
-                                setTimeout(() => {
-                                    javascript: history.back()
-                                }, 2000);
+                                })
+                                .then((result) => {
+                                    fetch(`http://localhost:3000/delete_carga/${data[0].cod_carga}`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(data[0])
+                                        })
+                                        .catch(err => { console.log(err); })
 
+                                    if (result.isConfirmed) {
+                                        Swal.fire({
+                                            title: 'La Carga ha sido eliminado',
+                                            icon: 'success',
+                                            showConfirmButton: false,
+                                            timer: 2000
+                                        })
 
-                            })
-                            .catch(err => { console.log(err); })
+                                        setTimeout(() => {
+                                            javascript: history.back()
+                                        }, 2000);
+                                    }
+                                })
+                                .catch(err => { console.log(err); })
+                        }
                     });
 
 

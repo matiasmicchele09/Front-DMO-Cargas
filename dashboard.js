@@ -29,17 +29,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     h3 = document.createElement('h3'),
                     p = document.createElement('p');
 
-
-
                 btn_perfil.innerHTML = `${data[0].razon_social}`;
-
                 btn__manual_usuario.href = 'http://localhost:5000/assets/files/manual_de_usuario.pdf';
                 btn__manual_usuario.target = '_blank';
                 btn__manual_usuario.download = 'manual_de_usuario.pdf';
-
-
                 h3.innerHTML = `Bienvenido <b>${data[0].razon_social}</b>`;
+
                 if (data[0].tipo_usuario == '1') {
+
+                    let datos_transpor = Object.values(data[0]);
+
+                    //Si no incluye nulos saca el cartel. 
+                    if (!datos_transpor.includes(null)) {
+                        document.getElementById("alerta_datos").classList.add("alerta_datos_none")
+                    }
+
+
                     let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
                     nav_mis_cargas.classList.add("nav-mis-cargas-none");
                     p.innerHTML = 'Usted está registrado como <b>Transportista</b>';
@@ -105,6 +110,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     nav_buscar_carga.classList.add("nav-buscar-carga-none");
                     p.innerHTML = 'Usted está registrado como <b>Dador de Carga</b>';
 
+                    document.getElementById("alerta_datos").classList.add("alerta_datos_none")
                     fetch(`http://localhost:3000/getCargasUser/${cod_usuario}`, {
                             method: 'GET',
                         }).then(res => res.json())

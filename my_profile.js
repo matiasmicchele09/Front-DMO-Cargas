@@ -11,12 +11,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var initialized_session = 'false';
 
     const expresiones = {
-        //usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+
         razon_social: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
         cuit_cuil: /^\d{11,11}$/, // Supongo así valido que solo sean 11 números
         email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-        password: /^.{4,50}$/ // 4 a 50 digitos.
-            /*fec_nacim: /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/*/
+        password: /^.{4,50}$/, // 4 a 50 digitos.
+        nro_telefono: /^[0-9]/ // Solo números        
     }
 
     const campos = {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         cuit_cuil: true,
         email: true,
         password: true,
-        /*fec_nacim: true*/
+        nro_telefono: true
     }
 
     const validarFormulario = (e) => {
@@ -41,9 +41,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             case "password":
                 validarCampo(expresiones.password, e.target, 'password');
                 break;
-                /*case "fec_nacim":
-                    validarCampo(expresiones.fec_nacim, e.target, 'fec_nacim');
-                    break;*/
+            case "nro_telefono":
+                validarCampo(expresiones.nro_telefono, e.target, 'nro_telefono');
+                break;
         }
     }
 
@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     email = document.getElementById('email'),
                     password = document.getElementById('password'),
                     fec_nacim = document.getElementById('fec_nacim'),
+                    nro_telefono = document.getElementById('nro_telefono'),
                     imagenFrente = document.getElementById('img_lic_frente'),
                     imagenDorso = document.getElementById('img_lic_dorso'),
                     imagenCurso = document.getElementById('img_curso'),
@@ -124,7 +125,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 razon_social.value = datosUsuario.razon_social;
                 cuit_cuil.value = datosUsuario.cuit_cuil;
                 email.value = datosUsuario.email;
-                password.value = datosUsuario.password
+                password.value = datosUsuario.password;
+                nro_telefono.value = datosUsuario.nro_telefono;
                 if (datosUsuario.fec_nacim != "" & datosUsuario.fec_nacim != null) {
                     fec_nacim.value = datosUsuario.fec_nacim.substring(0, 10);
                 }
@@ -159,6 +161,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         .catch(err => { console.log(err); })
                 } else {
                     imagenFrente.classList.add("img-docs-perfil");
+                    button_request_frente.disabled = true;
                 }
 
                 if (data[0].nom_img_lic_dorso != null && data[0].nom_img_lic_dorso != "") {
@@ -170,6 +173,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         .catch(err => { console.log(err); })
                 } else {
                     imagenDorso.classList.add("img-docs-perfil");
+                    button_request_dorso.disabled = true;
                 }
 
                 if (data[0].nom_img_curso != null && data[0].nom_img_curso != "") {
@@ -180,8 +184,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         .then(img => imagenCurso.src = URL.createObjectURL(img))
                         .catch(err => { console.log(err); })
                 } else {
-
                     imagenCurso.classList.add("img-docs-perfil");
+                    button_request_curso.disabled = true;
                 }
 
                 /* drag and drop */
@@ -476,6 +480,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     imagenDorso.classList.add("img-docs-perfil");
                     imagenCurso.classList.add("img-docs-perfil");
                     btn_save_profile.disabled = false;
+                    button_request_frente.disabled = false;
+                    button_request_dorso.disabled = false;
+                    button_request_curso.disabled = false;
                 });
 
                 //Botón Cancelar

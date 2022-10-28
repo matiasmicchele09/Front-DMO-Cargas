@@ -65,11 +65,8 @@
             <div class="formulario_grupo" id="grupo__origen" style="display: block;">
                 <label for="origen" class="form__label">Origen</label>
                 <div class="form__grupo_input">
-                    <!-- <input type="text" placeholder="Origen" class="form__input form-control" id="ciudad_origen" name="ciudad_origen"> -->
                     <input type="text" placeholder="Ubicación Origen" class="form__input form-control" id="origen" name="origen">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
-                <p class="form__input_error">La Ciudad solo acepta letras</p>
             </div>
 
             <!-- Grupo: Domicilio Origen -->
@@ -79,7 +76,7 @@
                     <input type="text" placeholder="Calle + Número" class="form__input form-control" id="domicilio_origen" name="domicilio_origen">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
-                <p class="form__input_error">Debe ingresar primero la calle y luego el número</p>
+                <p class="form__input_error">Calle + Nro sin puntos ni comas</p>
             </div>
 
             <!-- Grupo: Fecha Retiro -->
@@ -88,19 +85,18 @@
                 <div class="form__grupo_input">
                     <input type="date" class="form__input form-control" id="fec_retiro" name="fec_retiro">
                 </div>
-                <p class="form__input_error">Debe ingresar una Fecha</p>
             </div>
 
             <!-- Grupo: Hora Retiro -->
             <div class="formulario_grupo" id="grupo__hora_retiro" style="display: inline-block;">
-                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
                 <label for="hora_retiro" class="form__label">Hora Retiro</label>
                 <div class="form__grupo_input">
                     <input type="time" class="form__input form-control" id="hora_retiro" name="hora_retiro">
                 </div>
-                <p class="form__input_error">Debe ingresar una Hora</p>
             </div>
+
             <hr>
+
             <!-- Grupo: Comentario -->
             <div class="formulario_grupo mt-3" id="grupo__comentario" style="grid-column: span 3;">
                 <label for="comentario" class="form__label">Comentario</label>
@@ -152,7 +148,7 @@
 
             <!-- Grupo: Peso Unitario KG -->
             <div class="formulario_grupo form_peso_unit_kg" id="grupo__peso_unit_kg">
-                <label for="peso_unit_kg" class="form__label">Peso Unitario</label>
+                <label for="peso_unit_kg" class="form__label">Peso Unitario (Kg)</label>
                 <div class="form__grupo_input">
                     <input type="number" placeholder="En Kg" class="form__input form-control" id="peso_unit_kg" name="peso_unit_kg">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
@@ -162,7 +158,7 @@
 
             <!-- Grupo: Peso Total KG -->
             <div class="formulario_grupo form_peso_total_kg" id="grupo__peso_total_kg">
-                <label for="peso_total_kg" class="form__label">Peso Total</label>
+                <label for="peso_total_kg" class="form__label">Peso Total (Kg)</label>
                 <div class="form__grupo_input">
                     <input type="number" placeholder="En Kg" class="form__input form-control" id="peso_total_kg" name="peso_total_kg">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
@@ -172,7 +168,7 @@
 
             <!-- Grupo: Largo -->
             <div class="formulario_grupo form_largo_mts" id="grupo__largo_mts">
-                <label for="largo_mts" class="form__label">Largo</label>
+                <label for="largo_mts" class="form__label">Largo (metros)</label>
                 <div class="form__grupo_input">
                     <input type="number" placeholder="En metros" class="form__input form-control" id="largo_mts" name="largo_mts">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
@@ -182,7 +178,7 @@
 
             <!-- Grupo: Ancho -->
             <div class="formulario_grupo form_ancho_mts" id="grupo__ancho_mts">
-                <label for="ancho_mts" class="form__label">Ancho</label>
+                <label for="ancho_mts" class="form__label">Ancho (metros)</label>
                 <div class="form__grupo_input">
                     <input type="number" placeholder="En metros" class="form__input form-control" id="ancho_mts" name="ancho_mts">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
@@ -192,7 +188,7 @@
 
             <!-- Grupo: Alto -->
             <div class="formulario_grupo form_alto_mts" id="grupo__alto_mts">
-                <label for="alto_mts" class="form__label">Alto</label>
+                <label for="alto_mts" class="form__label">Alto (metros)</label>
                 <div class="form__grupo_input">
                     <input type="number" placeholder="En metros" class="form__input form-control" id="alto_mts" name="alto_mts">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
@@ -202,7 +198,7 @@
 
             <!-- Grupo: Peso Unitario TN -->
             <div class="formulario_grupo form_peso_unit_tn" id="grupo__peso_unit_tn">
-                <label for="peso_unit_tn" class="form__label">Peso Unitario</label>
+                <label for="peso_unit_tn" class="form__label">Peso Unitario (Tn) </label>
                 <div class="form__grupo_input">
                     <input type="number" placeholder="En Tn" class="form__input form-control" id="peso_unit_tn" name="peso_unit_tn">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
@@ -212,7 +208,7 @@
 
             <!-- Grupo: Peso Total TN -->
             <div class="formulario_grupo form_peso_total_tn" id="grupo__peso_total_tn">
-                <label for="peso_total_tn" class="form__label">Peso Total</label>
+                <label for="peso_total_tn" class="form__label">Peso Total (Tn)</label>
                 <div class="form__grupo_input">
                     <input type="number" placeholder="En Tn" class="form__input form-control" id="peso_total_tn" name="peso_total_tn">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
@@ -237,11 +233,8 @@
             <div class="formulario_grupo" id="grupo__destino" style="display: block;">
                 <label for="destino" class="form__label">Destino</label>
                 <div class="form__grupo_input">
-                    <!-- <input type="text" class="form__input form-control" id="place_destination" placeholder="Destino" style="width: 100%; height:35px; margin-top:15px"> -->
                     <input type="text" placeholder="Ubicación Destino" class="form__input form-control" id="destino" name="destino">
-                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
-                <p class="form__input_error">La Ciudad solo acepta letras</p>
             </div>
 
             <!-- Grupo: Domicilio Destino -->
@@ -251,7 +244,7 @@
                     <input type="text" placeholder="Calle + Número" class="form__input form-control" id="domicilio_destino" name="domicilio_destino">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
-                <p class="form__input_error">Debe ingresar primero la calle y luego el número</p>
+                <p class="form__input_error">Calle + Nro sin puntos ni comas</p>
             </div>
 
             <!-- Grupo: Receptor de Carga -->
@@ -264,38 +257,30 @@
                 <p class="form__input_error">Debe ingresar un Receptor de la Carga</p>
             </div>
 
+            <hr>
+
+            <button class="btn_calcular_valor" id="btn_calcular_valor">Calcular Valor de la Carga</button>
+
+            <div class="formulario_grupo form_distancia_recorrido mt-4" id="grupo__distancia_recorrido">
+                <div class="form__grupo_input">
+                    <input type="number" class="form__input form-control" id="distancia_recorrido" name="distancia_recorrido" hidden>
+                    <p id="parrafo_dist_recorrido"></p>
+                </div>
+            </div>
+
             <!-- Grupo: Fecha Llegada -->
             <div class="formulario_grupo" id="grupo__fec_destino" style="display: inline-block;">
-                <!--El name es para JS, class para CSS el, el id para JS y tbm para el label for-->
                 <label for="fec_destino" class="form__label">Fecha Llegada</label>
                 <div class="form__grupo_input">
                     <input type="date" class="form__input form-control" id="fec_destino" name="fec_destino">
                 </div>
-                <p class="form__input_error">Debe ingresar una Fecha</p>
-            </div>
-
-            <!-- Grupo: Hora Llegada -->
-            <div class="formulario_grupo" id="grupo__hora_destino" style="display: inline-block;">
-                <label for="hora_destino" class="form__label">Hora Llegada</label>
-                <div class="form__grupo_input">
-                    <input type="time" class="form__input form-control" id="hora_destino" name="hora_destino">
-                </div>
-                <p class="form__input_error">Debe ingresar una Hora</p>
-            </div>
-
-            <button class="btn_calcular_valor" id="btn_calcular_valor">Calcular Valor de la Carga</button>
-
-            <div class="formulario_grupo form_distancia_recorrido" id="grupo__distancia_recorrido">
-                <label for="distancia_recorrido" class="form__label">Distancia estimada para el recorrido:</label>
-                <div class="form__grupo_input">
-                    <input type="number" class="form__input form-control" id="distancia_recorrido" name="distancia_recorrido">
-                </div>
             </div>
 
             <div class="formulario_grupo form_valor_carga" id="grupo__valor_carga">
-                <label for="valor_carga" class="form__label">Valor Carga</label>
+                <label for="valor_carga" class="form__label">Valor Flete de la Carga</label>
                 <div class="form__grupo_input">
-                    <input type="number" class="form__input form-control" id="valor_carga" name="valor_carga">
+                    <input type="number" class="form__input form-control" id="valor_carga" name="valor_carga" hidden>
+                    <input type="text" class="form__input form-control" id="valor_carga_en_pesos" name="">
                 </div>
             </div>
 
@@ -343,7 +328,7 @@
                                     <input type="text" class="form__input form-control" id="cod_carga_modal" name="cod_carga">
                                 </div>
                             </div>
-                            <div class="formulario_grupo" id="grupo__fec_solicitud">
+                            <div class="formulario_grupo d-none" id="grupo__fec_solicitud">
                                 <label for="fec_solicitud" class="form__label">Fecha Solicitud</label>
                                 <div class="form__grupo_input">
                                     <input type="date" class="form__input form-control" id="fec_solicitud_modal" name="fec_solicitud">
@@ -372,6 +357,10 @@
                                 </div>
                             </div>
 
+                            <div class="form__mensaje_error_solicitar_carga" id="form__mensaje_error_solicitar_carga">
+                                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Su Perfil contiene datos incompletos</p>
+                            </div>
+
                             <div class="form__mensaje_error_request_freight" id="form__mensaje_error_request_freight">
                                 <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Falta seleccionar Camión y/o Carrocería</p>
                             </div>
@@ -395,7 +384,18 @@
         <script>
             const input_place_origin = document.getElementById("origen"),
                 input_place_destination = document.getElementById("destino"),
-                btn_calcula_valor = document.getElementById("btn_calcular_valor");
+                btn_calcula_valor = document.getElementById("btn_calcular_valor"),
+                input_valor_carga = document.getElementById("valor_carga"),
+                input_distancia_recorrido = document.getElementById("distancia_recorrido"),
+                parr_dist_recorrido = document.getElementById("parrafo_dist_recorrido"),
+                valor_km_recorrido = 100,
+                valor_unit_tn = 1500,
+                valor_unit_kg = 1.5,
+                valor_litro = 200,
+                selectProducto = document.getElementById("selectTipoProducto"),
+                peso_total_kg = document.getElementById("peso_total_kg"),
+                peso_total_tn = document.getElementById("peso_total_tn"),
+                cant_litros = document.getElementById("cant_litros");
 
             let autocompleteOrigin,
                 autocompleteDestination,
@@ -408,7 +408,7 @@
                 autocompleteOrigin.addListener('place_changed', function() {
                     const placeOrigin = autocompleteOrigin.getPlace();
                     placeID_Origen = placeOrigin.place_id;
-                    console.log(placeID_Origen);
+                    //console.log(placeID_Origen);
                 });
 
                 autocompleteDestination.addListener('place_changed', function() {
@@ -416,6 +416,11 @@
                     placeID_destino = placeDestination.place_id;
 
                 })
+            }
+
+            function sumarDias(fecha, dias) {
+                fecha.setDate(fecha.getDate() + dias);
+                return fecha;
             }
 
 
@@ -426,19 +431,80 @@
                     url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=place_id:${placeID_Origen}&destinations=place_id:${placeID_destino}&key=AIzaSyCNlsS5ZWXx_l8kzgjGyRRZ8uJ0YodeYyE`,
                 };
 
-                axios(config)
-                    .then(function(response) {
-                        //console.log(JSON.stringify(response.data));
-                        let data = JSON.stringify(response.data);
-                        //console.log(JSON.parse(data));
-                        let datos = JSON.parse(data);
-                        console.log("datos", datos);
-                        console.log("datos.destination_addresses", datos.destination_addresses[0]);
-                        console.log("Distancia: ", datos.rows[0].elements[0].distance.text);
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
+                if (selectProducto.value == 0) {
+                    alert("Debe elegir un Tipo de Producto")
+                } else {
+                    if (peso_total_kg.value == "" || peso_total_tn.value == "" || cant_litros.value == "") {
+                        alert("¡Datos Incorrectos/Incompletos!")
+                    } else {
+                        axios(config)
+                            .then(function(response) {
+                                let data = JSON.stringify(response.data),
+                                    datos = JSON.parse(data),
+                                    distancia_km = datos.rows[0].elements[0].distance.text.replace(".", ""),
+                                    distancia_tiempo = datos.rows[0].elements[0].duration.text.split(" "),
+                                    pais_origen = datos.origin_addresses[0].split(","),
+                                    pais_destino = datos.destination_addresses[0].split(",");
+                                console.log("datos", datos);
+                                console.log("Distancia: ", datos.rows[0].elements[0].distance.text);
+                                console.log("distancia_tiempo", distancia_tiempo);
+                                //Deje el espacio adelante de Argentina porque total siempre lo arma con el espacio, debido a que antes hay una coma 
+                                if (pais_origen.includes(' Argentina') && pais_destino.includes(' Argentina')) {
+                                    if (peso_total_kg.value != 0) {
+                                        let valor1 = (parseInt(peso_total_kg.value, 10) * valor_unit_kg),
+                                            valor2 = (valor_km_recorrido * parseInt(distancia_km, 10));
+                                        input_valor_carga.value = valor1 + valor2;
+                                    }
+                                    if (peso_total_tn.value != 0) {
+                                        let valor1 = (parseInt(peso_total_tn.value, 10) * valor_unit_tn),
+                                            valor2 = (valor_km_recorrido * parseInt(distancia_km, 10));
+                                        input_valor_carga.value = valor1 + valor2;
+                                    }
+                                    if (cant_litros.value != 0) {
+                                        let valor1 = (parseInt(cant_litros.value, 10) * valor_litro),
+                                            valor2 = (valor_km_recorrido * parseInt(distancia_km, 10));
+                                        input_valor_carga.value = valor1 + valor2;
+                                    }
+
+                                    input_distancia_recorrido.value = parseInt(distancia_km, 10);
+                                    parr_dist_recorrido.innerHTML = ""
+                                    parr_dist_recorrido.innerHTML = `<b>Distancia Estimada del recorrido: </b> ${datos.rows[0].elements[0].distance.text}`;
+
+                                    let fec_retiro = new Date(document.getElementById("fec_retiro").value),
+                                        dias = 0;
+
+                                    if (distancia_tiempo.includes('día') || distancia_tiempo.includes('días')) {
+                                        dias = parseInt(distancia_tiempo[0]) + 2;
+                                    } else {
+                                        dias = parseInt(distancia_tiempo[0] / 12, 10) + 2;
+                                    }
+
+
+                                    var fec_ret = new Date(sumarDias(fec_retiro, dias)),
+                                        day = fec_ret.getDate(),
+                                        month = fec_ret.getMonth() + 1,
+                                        year = fec_ret.getFullYear();
+
+                                    if (`${month}`.length > 1 && `${day}`.length > 1) {
+                                        document.getElementById("fec_destino").value = `${year}-${month}-${day}`;
+                                    } else if (`${month}`.length == 1 && `${day}`.length == 1) {
+                                        document.getElementById("fec_destino").value = `${year}-0${month}-0${day}`;
+                                    } else if (`${month}`.length == 1) {
+                                        document.getElementById("fec_destino").value = `${year}-0${month}-${day}`;
+                                    } else if (`${day}`.length == 1) {
+                                        document.getElementById("fec_destino").value = `${year}-${month}-0${day}`;
+                                    }
+                                } else {
+                                    alert("¡Ha ingresado Localidades Fuera de Argentina o ha ingresado mal la localidad!")
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                                //Por defecto esta API tiene transporte terrestre, si no especifico otro tipo de transporte e ingreso localidades como origen: Argentina y destino: USA entonces no lo calcula y tira error
+                                alert("¡No se puede llegar a esa localidad vía terrestre!")
+                            });
+                    }
+                }
             })
         </script>
 </body>

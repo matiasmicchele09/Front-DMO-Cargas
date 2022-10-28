@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_my_request = document.querySelector(".a-mis-solicitudes"),
         btn_mis_cargas = document.querySelector(".a-mis-cargas"),
         btn_mi_perfil = document.querySelector(".a-perfil"),
-        btn_logOut = document.querySelector(".btn-salir");
+        btn_logOut = document.querySelector(".btn-salir"),
+        cod_soli,
+        carga;
     var initialized_session = 'false';
 
     initialized_session = sessionStorage.getItem("initialized_session");
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button_request = drop_area_request.querySelector("button"),
                 input_request = drop_area_request.querySelector("#input-file");
             let filesUpload,
-                nombre_archivo;
+                archivo;
 
 
             button_request.addEventListener('click', (event) => {
@@ -48,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
                 filesUpload = input_request.files;
                 drop_area_request.classList.add("active");
-                //showFiles(filesUpload);
+                showFiles(filesUpload);
                 drop_area_request.classList.remove("active");
             })
 
@@ -64,27 +66,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             function processFile(file) {
+                archivo = file;
                 const docType = file.type;
                 console.log(docType);
                 const validExtensions = ["image/jpeg", "image/png", "image/jpg"];
 
-                let p = document.createElement('p');
+                let p = document.getElementById('nom_archivo');
                 if (validExtensions.includes(docType)) {
                     const fileReader = new FileReader();
                     fileReader.addEventListener('load', event => {
                         event.preventDefault()
                         const fileURL = fileReader.result;
                         p.innerHTML = `${file.name}`
-                        nombre_archivo = `${file.name}`;
-
-                        console.log("nombre_archivo", nombre_archivo);
                         const html = document.getElementById('preview');
                         //html.innerHTML = html.innerHTML + p;
-                        html.appendChild(p);
+                        //html.appendChild(p);
 
                     })
                     fileReader.readAsDataURL(file);
-                    uploadFile(file)
+                    // uploadFile(file)
 
                 } else {
                     const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
@@ -127,12 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(data);
 
                     data.forEach(res => {
-                        let tableRow = document.createElement('tr'),
+
+                        var tableRow = document.createElement('tr'),
                             tableData1 = document.createElement('td'),
                             tableData2 = document.createElement('td'),
                             tableData3 = document.createElement('td'),
                             tableData4 = document.createElement('td'),
-                            tableData5 = document.createElement('td'),
+                            //  tableData5 = document.createElement('td'),
                             tableData6 = document.createElement('td'),
                             tableData7 = document.createElement('td'),
                             btnEntregada = document.createElement('button'),
@@ -140,12 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             fecha_solicitud = new Date(res.fec_solicitud);
                         btnMas.classList.add("btn_mas_carga");
                         btnMas.innerHTML = 'Ver más';
-
-                        btnEntregada.innerHTML = 'Entregar Carga';
-
-                        btnEntregada.classList.add("btn_entregar_carga");
-                        btnEntregada.setAttribute("data-bs-toggle", "modal");
-                        btnEntregada.setAttribute("data-bs-target", "#finalizarCarga");
 
                         tableData1.innerHTML = `${res.cod_solicitud}`;
                         fetch(`http://localhost:3000/getOneCargaUser/${res.cod_carga}`, {
@@ -164,23 +159,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                     }).then(res => res.json())
                                     .then(data => {
                                         switch (data[0].cod_estado_carga) {
-                                            case 1:
-                                                tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
-                                                break;
-                                            case 2:
-                                                tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`;
-                                                break;
-                                            case 3:
-                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
-                                                break;
                                             case 4:
-                                                tableData5.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                                btnEntregada.innerHTML = 'Entregar Carga';
+                                                btnEntregada.classList.add("btn_entregar_carga");
+                                                btnEntregada.setAttribute("data-bs-toggle", "modal");
+                                                btnEntregada.setAttribute("data-bs-target", "#finalizarCarga");
+                                                btnEntregada.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}`);
                                                 tableData7.appendChild(btnEntregada);
                                                 break;
-                                            case 5:
-                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
-                                                tableData7.remove(btnEntregada);
-                                                break;
+                                                /* case 5:
+                                                    tableData7.remove(btnEntregada);
+                                                    break; */
                                         }
                                         console.log(data);
                                     }).catch(err => { console.log(err); })
@@ -212,11 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         tableData6.appendChild(btnMas);
 
+
                         tableRow.appendChild(tableData1);
                         tableRow.appendChild(tableData2);
                         tableRow.appendChild(tableData3);
                         tableRow.appendChild(tableData4);
-                        tableRow.appendChild(tableData5);
+                        // tableRow.appendChild(tableData5);
                         tableRow.appendChild(tableData6);
                         tableRow.appendChild(tableData7);
                         tableBodyRequest.appendChild(tableRow);
@@ -226,98 +216,81 @@ document.addEventListener('DOMContentLoaded', () => {
                             window.location.href = `./view_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&request=${res.cod_solicitud}&cod_carga=${res.cod_carga}`;
                         })
 
+
+
+                        btnEntregada.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            let codigos = btnEntregada.getAttribute("id").split("-")
+                            console.log(codigos);
+                            cod_soli = codigos[0];
+                            carga = codigos[1];
+                            //console.log("entregar", cod_soli);
+                        })
                     })
 
 
-                    async function updateFinalViaje() {
-                        console.log("final Viaje");
-                        console.log("NomFinal ", nombre_archivo);
-                        /*let nom_arch = { cod_solicitud: parseInt(data[0].cod_solicitud, 10), nombre: nombre_archivo },
-                                 estadoCarga = { codigo_carga: data[0].cod_carga, cod_estado_carga: '5' };
-                             fetch(`http://localhost:3000/uploadFileFinViaje`, {
-                                     method: 'PUT',
-                                     headers: {
-                                         "Content-Type": "application/json"
-                                     },
-                                     body: JSON.stringify(nom_arch),
-                                 })
-                                 .catch(err => { console.log(err); })
+                    //Botón Finalizar Viaje
+                    document.getElementById("btn_finalizar_viaje").addEventListener('click', async(event) => {
+
+                        if (document.getElementById('nom_archivo').textContent == "" || document.getElementById('nom_archivo').textContent == undefined) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: '¡Primero debe subir el Formulario de Conformidad!',
+                                showConfirmButton: false,
+                                timer: 4000
+                            })
+                        } else {
+                            //validar que primero se suba el archivo
+                            console.log(document.getElementById('nom_archivo').textContent);
+                            console.log("entregar", cod_soli)
+                            event.preventDefault();
+                            let nombre_archivo = archivo.name;
+                            console.log("nombre_archivo", nombre_archivo);
+                            console.log("archivo", archivo);
+                            await uploadFile(archivo)
+
+                            let nom_arch = { cod_solicitud: parseInt(cod_soli, 10), nombre: nombre_archivo },
+                                estadoCarga = { codigo_carga: carga, cod_estado_carga: '5' };
+
+                            fetch(`http://localhost:3000/uploadFileFinViaje`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify(nom_arch),
+                                })
+                                .catch(err => { console.log(err); })
 
 
 
-                             fetch(`http://localhost:3000/updateEstadoCarga`, {
-                                     method: 'PUT',
-                                     headers: {
-                                         "Content-Type": "application/json"
-                                     },
-                                     body: JSON.stringify(estadoCarga),
-                                 })
-                                 .catch(err => { console.log(err); }) */
+                            fetch(`http://localhost:3000/updateEstadoCarga`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify(estadoCarga),
+                                })
+                                .catch(err => { console.log(err); })
 
-                        /* Swal.fire({
+                            Swal.fire({
                                 position: 'center',
                                 icon: 'success',
                                 title: '¡Viaje Finalizado!',
                                 showConfirmButton: false,
-                                timer: 2000
-                            }) */
-                        /* 
-                                                    setTimeout(() => {
-                                                        window.location.reload();
-                                                    }, 2000); */
-                    }
+                                timer: 3000
+                            })
 
-
-                    document.getElementById("btn_finalizar_viaje").addEventListener('click', async(event) => {
-                        event.preventDefault();
-
-                        await showFiles(filesUpload);
-                        await updateFinalViaje();
-
-                        if (nombre_archivo == undefined) {
-                            //alert("¡Debe Subir el Formulario de Entrega de Carga!")
-                            console.log("¡Debe Subir el Formulario de Entrega de Carga!");
-                        } else {
-
-
-                            /*  let nom_arch = { cod_solicitud: parseInt(data[0].cod_solicitud, 10), nombre: nombre_archivo },
-                                 estadoCarga = { codigo_carga: data[0].cod_carga, cod_estado_carga: '5' };
-                             fetch(`http://localhost:3000/uploadFileFinViaje`, {
-                                     method: 'PUT',
-                                     headers: {
-                                         "Content-Type": "application/json"
-                                     },
-                                     body: JSON.stringify(nom_arch),
-                                 })
-                                 .catch(err => { console.log(err); })
-
-
-
-                             fetch(`http://localhost:3000/updateEstadoCarga`, {
-                                     method: 'PUT',
-                                     headers: {
-                                         "Content-Type": "application/json"
-                                     },
-                                     body: JSON.stringify(estadoCarga),
-                                 })
-                                 .catch(err => { console.log(err); }) */
-
-                            /* Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: '¡Viaje Finalizado!',
-                                    showConfirmButton: false,
-                                    timer: 2000
-                                }) */
-                            /* 
-                                                        setTimeout(() => {
-                                                            window.location.reload();
-                                                        }, 2000); */
+                            setTimeout(() => {
+                                window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+                            }, 3000);
                         }
+
                     })
                 })
                 .catch(err => { console.log(err); })
         } else {
+
             let nav_mis_camiones = document.querySelector(".nav-mis-camiones"),
                 nav_buscar_carga = document.querySelector(".nav-buscar-carga"),
                 nav_mis_solicitudes = document.querySelector(".nav-mis-solicitudes");
@@ -340,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             tableData2 = document.createElement('td'),
                             tableData3 = document.createElement('td'),
                             tableData4 = document.createElement('td'),
-                            tableData5 = document.createElement('td'),
+                            //tableData5 = document.createElement('td'),
                             tableData6 = document.createElement('td'),
                             tableData7 = document.createElement('td'),
                             btnMas = document.createElement('button'),
@@ -397,22 +370,23 @@ document.addEventListener('DOMContentLoaded', () => {
                                         method: 'GET',
                                     }).then(res => res.json())
                                     .then(data => {
+                                        let estado_carga = document.getElementById('estado_carga');
                                         switch (data[0].cod_estado_carga) {
                                             case 1:
-                                                tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
+                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-info">${data[0].descripcion}</span>`
                                                 break;
                                             case 2:
-                                                tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`;
+                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-warning">${data[0].descripcion}</span>`;
                                                 break;
                                             case 3:
-                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-success">${data[0].descripcion}</span>`
                                                 break;
                                             case 4:
-                                                tableData5.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-dark">${data[0].descripcion}</span>`
                                                 tableData7.remove(btnRetirada);
                                                 break;
                                             case 5:
-                                                tableData5.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-success">${data[0].descripcion}</span>`
                                                 tableData7.remove(btnRetirada);
                                                 break;
                                         }
@@ -427,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         tableRow.appendChild(tableData2);
                         tableRow.appendChild(tableData3);
                         tableRow.appendChild(tableData4);
-                        tableRow.appendChild(tableData5);
+                        //tableRow.appendChild(tableData5);
                         tableRow.appendChild(tableData6);
                         tableRow.appendChild(tableData7);
                         tableBodyRequest.appendChild(tableRow);
@@ -468,27 +442,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //Mis Camiones
-        btn_mis_camiones.addEventListener('click', () => {
+        btn_mis_camiones.addEventListener('click', (event) => {
+            event.preventDefault();
             window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
+
         //Botón Dashboard
         btn_dashboard.addEventListener('click', (event) => {
             event.preventDefault();
             window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
+
         //Buscar Cargas - Transportista
-        btn_buscar_carga.addEventListener('click', () => {
+        btn_buscar_carga.addEventListener('click', (event) => {
+            event.preventDefault();
             window.location.href = `./search.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Mis Cargas - Dador de Carga
-        btn_mis_cargas.addEventListener('click', () => {
+        btn_mis_cargas.addEventListener('click', (event) => {
+            event.preventDefault();
             window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Mi Perfil
-        btn_mi_perfil.addEventListener('click', () => {
-            window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+        btn_mi_perfil.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Salir

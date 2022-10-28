@@ -63,56 +63,76 @@ inputs.forEach((input) => {
 
 formularioRegistro.addEventListener('submit', (event) => {
     event.preventDefault();
-
-    const terminos = document.getElementById('terminos');
-    const CUIT = document.getElementById('cuit_cuil');
+    const terminos = document.getElementById('terminos'),
+    CUIT = document.getElementById('cuit_cuil'),
+    transportista = document.getElementById('tipo_usuario_transportista'),
+    dador_carga = document.getElementById('tipo_usuario_dador_carga'),
+    mail = document.getElementById('email');
     var es_fisica_y_transportista = true;
-    const transportista = document.getElementById('tipo_usuario_transportista');
-    const dador_carga = document.getElementById('tipo_usuario_dador_carga');
+    
 
-    if (terminos.checked == false) {
-        document.querySelector('#grupo__terminos .form__input_error').classList.add('form__input_error_activo');
-    } else {
-        document.querySelector('#grupo__terminos .form__input_error').classList.remove('form__input_error_activo');
-    }
+    fetch(`http://localhost:3000/buscoEmail/${mail.value}`, {
+                method: 'GET',                
+            }).then(res => res.json())
+            .then(data => {
 
-    if (transportista.checked == false && dador_carga.checked == false) {
-        document.querySelector('#grupo__tipo_usuario .form__input_error').classList.add('form__input_error_activo');
-    } else {
-        document.querySelector('#grupo__tipo_usuario .form__input_error').classList.remove('form__input_error_activo');
-    }
+                if (data.length == 0){
+                    if (terminos.checked == false) {
+                        document.querySelector('#grupo__terminos .form__input_error').classList.add('form__input_error_activo');
+                    } else {
+                        document.querySelector('#grupo__terminos .form__input_error').classList.remove('form__input_error_activo');
+                    }
+                
+                    if (transportista.checked == false && dador_carga.checked == false) {
+                        document.querySelector('#grupo__tipo_usuario .form__input_error').classList.add('form__input_error_activo');
+                    } else {
+                        document.querySelector('#grupo__tipo_usuario .form__input_error').classList.remove('form__input_error_activo');
+                    }
+                
+                    //Filtro para que si una persona elige "transportista" entonces sea física
+                    if (transportista.checked == true && CUIT.value.substring(0, 1) == '3') {
+                        document.querySelector('#grupo__tipo_usuario .form__input_error_transportista').classList.add('form__input_error_transportista_activo');
+                        es_fisica_y_transportista = false;
+                    } else {
+                        document.querySelector('#grupo__tipo_usuario .form__input_error_transportista').classList.remove('form__input_error_transportista_activo');
+                        es_fisica_y_transportista = true;
+                    }
+                
+                    if (campos.razon_social && campos.cuit_cuil && campos.email && campos.password && terminos.checked && (transportista.checked || dador_carga.checked) && es_fisica_y_transportista) {
+                
+                        let registroFormData = new FormData(formularioRegistro);
+                
+                        document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
+                        document.getElementById('form__mensaje_exito').classList.add('form__mensaje_exito_activo')
+                
+                        fetch('http://localhost:3000/register', {
+                                method: 'POST',
+                                body: registroFormData,
+                            })
+                            .catch(err => { console.log(err); })
+                
+                        setTimeout(() => {
+                            document.getElementById('form__mensaje_exito').classList.remove('form__mensaje_exito_activo')
+                        }, 3000);
+                
+                        setTimeout(() => {
+                            window.location.href = './logIn.html';
+                        }, 3000); 
+                
+                     } else {
+                        document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo')
+                    } 
 
-    //Filtro para que si una persona elige "transportista" entonces sea física
-    if (transportista.checked == true && CUIT.value.substring(0, 1) == '3') {
-        document.querySelector('#grupo__tipo_usuario .form__input_error_transportista').classList.add('form__input_error_transportista_activo');
-        es_fisica_y_transportista = false;
-    } else {
-        document.querySelector('#grupo__tipo_usuario .form__input_error_transportista').classList.remove('form__input_error_transportista_activo');
-        es_fisica_y_transportista = true;
-    }
+                } else {
+                    document.getElementById('form__mensaje_error_email').classList.add('form__mensaje_error_email_activo')
+                    setTimeout(() => {
+                        document.getElementById('form__mensaje_error_email').classList.remove('form__mensaje_error_email_activo')
+                    }, 3000);
+                                        
+                }
 
-    if (campos.razon_social && campos.cuit_cuil && campos.email && campos.password && terminos.checked && (transportista.checked || dador_carga.checked) && es_fisica_y_transportista) {
-
-        let registroFormData = new FormData(formularioRegistro);
-
-        document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
-        document.getElementById('form__mensaje_exito').classList.add('form__mensaje_exito_activo')
-
-        fetch('http://localhost:3000/register', {
-                method: 'POST',
-                body: registroFormData,
             })
-            .catch(err => { console.log(err); })
+            .catch(err => { console.log(err); })  
 
-        setTimeout(() => {
-            document.getElementById('form__mensaje_exito').classList.remove('form__mensaje_exito_activo')
-        }, 3000);
-
-        setTimeout(() => {
-            window.location.href = './logIn.html';
-        }, 3000);
-
-    } else {
-        document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo')
-    }
+    
 })

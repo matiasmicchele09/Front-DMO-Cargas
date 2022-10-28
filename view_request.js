@@ -21,16 +21,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .then(data => {
 
                 console.log(data[0]);
-                /* let btnpdf = document.getElementById('generarPDF');
-                btnpdf.addEventListener("click", (event) => {
-                    event.preventDefault();
-                    console.log("clikpdf");
-                    var docPDF = new jsPDF();
-                    docPDF.text("alalall");
-                    docPDF.save("a4.pdf")
-                })*/
                 let btn_avanzar = document.getElementById('btn_avanzar_request'),
-                    btn_decline = document.getElementById('btn_decline_request'),
                     divMyRequest = document.getElementById('my_request'),
                     divMyRequestCarga = document.getElementById('datos_carga'),
                     divMyRequestCamion = document.getElementById('datos_camion');
@@ -106,7 +97,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     }).then(res => res.json())
                                     .then(data => {
                                         console.log("getNAmeFile", data[0].form_conformidad)
-                                        fetch(`http://localhost:3000/downloadFile/${data[0].form_retiro}`, {
+                                        fetch(`http://localhost:3000/downloadFile/${data[0].form_conformidad}`, {
                                                 method: 'GET',
                                             }).then(res => res.blob())
                                             .then(data => {
@@ -174,6 +165,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 p_es_apilable = document.createElement('p');
 
                             h5.innerHTML = '<u>Datos de la Carga</u>';
+                            let valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(data[0].valor_carga);
                             p_origen_destino.innerHTML = `<b>Origen: </b>${loc_origen} - <b>Fecha: </b> ${fecha_retiro.toLocaleDateString()} - ${data[0].hora_retiro} Hs</br>
                                             <b>Domicilio: </b>${data[0].domicilio_origen}</br>                                            
                                             <hr>
@@ -182,7 +174,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             <b>Receptor de Carga: </b> ${data[0].receptor_carga} </br>                                             
                                             <b>Comentario: </b> ${data[0].comentario} </br>
                                             <b>Distancia Aprox.: </b> ${data[0].distancia_recorrido} Km </br>
-                                            <b>Valor Flete: </b> $ ${data[0].valor_carga} <hr>`;
+                                            <b>Valor Flete: </b> ${valor_en_pesos} <hr>`;
 
                             divMyRequestCarga.appendChild(h5);
                             divMyRequestCarga.appendChild(p_origen_destino);
@@ -335,7 +327,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             console.log(data);
                             let p_chofer = document.createElement('p');
                             p_chofer.innerHTML = `<b>Conductor: </b> ${data[0].razon_social} </br>
-                                                  <b>CUIT: </b>${data[0].cuit_cuil}`;
+                                                  <b>CUIT: </b>${data[0].cuit_cuil} </br>
+                                                  <b>Tel.: </b>${data[0].nro_telefono} </br>
+                                                  <b>Email: </b>${data[0].email} </br>`;
                             docsTransportista.appendChild(p_chofer);
 
 
@@ -363,7 +357,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 })
                                 .catch(err => { console.log(err); })
 
-                            fetch(`http://localhost:3000/downloadImg/${data[0].nom_img_doc}`, {
+                            fetch(`http://localhost:3000/downloadImg/${data[0].nom_img_curso}`, {
                                     method: 'GET',
                                 }).then(res => res.blob())
                                 .then(img => {
@@ -390,58 +384,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     }, 3000);
 
                 })
-
-                //Botón Rechazar Solicitud
-                /* btn_decline.addEventListener('click', (event) => {
-                    event.preventDefault()
-
-                    var fecha_today = new Date(),
-                        today = new Date(),
-                        day = today.getDate(),
-                        month = today.getMonth() + 1,
-                        year = today.getFullYear();
-                    if (`${month}`.length > 1 && `${day}`.length > 1) {
-                        fecha_today = `${year}-${month}-${day}`;
-                    } else if (`${month}`.length == 1 && `${day}`.length == 1) {
-                        fecha_today = `${year}-0${month}-0${day}`;
-                    } else if (`${month}`.length == 1) {
-                        fecha_today = `${year}-0${month}-${day}`;
-                    } else if (`${day}`.length == 1) {
-                        fecha_today = `${year}-${month}-0${day}`;
-                    }
-                    let estadoSolicitud = { codigo_carga: cod_carga, cod_estado_solicitud: '3', fec_cambio_estado: fecha_today },
-                        estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '1' };
-
-                    fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
-                            method: 'PUT',
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(estadoSolicitud),
-                        })
-                        .catch(err => { console.log(err); })
-
-                    fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                            method: 'PUT',
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(estadoCarga),
-                        })
-                        .catch(err => { console.log(err); })
-
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: '¡Solicitud Rechazada!',
-                        showConfirmButton: false,
-                        timer: 2500
-                    })
-
-                    setTimeout(() => {
-                        javascript: history.back()
-                    }, 3000);
-                }) */
             })
             .catch(err => { console.log(err); })
 
