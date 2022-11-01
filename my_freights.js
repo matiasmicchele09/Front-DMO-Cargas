@@ -205,6 +205,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             event.preventDefault();
             window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
+
+        //Botón documentos
+        document.querySelector(".a-documentos-dc").addEventListener('click', () => {
+            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
+        });
+
         //Botón Mi Perfil
         btn_mi_perfil.addEventListener('click', () => {
             window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;

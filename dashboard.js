@@ -2,7 +2,8 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault()
     const getURL = new URLSearchParams(window.location.search),
-        cod_usuario = getURL.get('cod_usuario');
+        cod_usuario = getURL.get('cod_usuario'),
+        tpo_usuario = getURL.get('tpo_usuario');
 
     var initialized_session = 'false';
 
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     btn_mis_camiones = document.querySelector(".a-mis-camiones"),
                     btn_buscar_carga = document.querySelector(".a-buscar-cargas"),
                     btn_my_request = document.querySelector(".a-mis-solicitudes"),
+                    btn_documents = document.querySelector(".a-documentos-dc"),
                     btn_mis_cargas = document.querySelector(".a-mis-cargas"),
                     btn__manual_usuario = document.querySelector(".a-manual-usuario"),
                     div_card_info_usuario = document.getElementById('card_body_info_usuario'),
@@ -29,7 +31,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     h3 = document.createElement('h3'),
                     p = document.createElement('p');
 
-                btn_perfil.innerHTML = `${data[0].razon_social}`;
+                if (tpo_usuario == 1) { btn_perfil.innerHTML = `${data[0].razon_social} (Transportista)`; } else { btn_perfil.innerHTML = `${data[0].razon_social} (Dador Carga)`; }
+
                 btn__manual_usuario.href = 'http://localhost:5000/assets/files/manual_de_usuario.pdf';
                 btn__manual_usuario.target = '_blank';
                 btn__manual_usuario.download = 'manual_de_usuario.pdf';
@@ -45,8 +48,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     }
 
 
-                    let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
+                    let nav_mis_cargas = document.querySelector(".nav-mis-cargas"),
+                        nav_documentos = document.querySelector(".nav-documentos");
                     nav_mis_cargas.classList.add("nav-mis-cargas-none");
+                    nav_documentos.classList.add("nav-documentos-none");
                     p.innerHTML = 'Usted está registrado como <b>Transportista</b>';
                     fetch(`http://localhost:3000/getTrucksUser/${cod_usuario}`, {
                             method: 'GET',
@@ -181,6 +186,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 //Mis Cargas - Dador de Carga
                 btn_mis_cargas.addEventListener('click', () => {
                     window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
+                });
+
+                //Documentos - Dador de carga
+                btn_documents.addEventListener('click', () => {
+                    window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
                 });
 
                 //Cerrar Sesión

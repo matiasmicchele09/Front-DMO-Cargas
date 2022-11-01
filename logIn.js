@@ -28,7 +28,7 @@ form_login.addEventListener('submit', (e) => {
                         document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
                     }, 4000);
                 } else {
-                    //console.log(data[0].cod_usuario);
+                    console.log(data[0]);
                     let cod_usuario = data[0].cod_usuario;
 
                     document.getElementById('form__mensaje_exito').classList.add('form__mensaje_exito_activo');
@@ -37,7 +37,7 @@ form_login.addEventListener('submit', (e) => {
                     sessionStorage.setItem("initialized_session", "true");
 
                     setTimeout(() => {
-                        window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}`;
+                        window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
                     }, 2000);
 
                 }

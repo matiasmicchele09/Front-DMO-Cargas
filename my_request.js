@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_mis_camiones = document.querySelector(".a-mis-camiones"),
         btn_buscar_carga = document.querySelector(".a-buscar-cargas"),
         btn_my_request = document.querySelector(".a-mis-solicitudes"),
+        btn_documents = document.querySelector(".a-documentos-dc"),
         btn_mis_cargas = document.querySelector(".a-mis-cargas"),
         btn_mi_perfil = document.querySelector(".a-perfil"),
         btn_logOut = document.querySelector(".btn-salir"),
@@ -29,7 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => { console.log(err); })
 
         if (tpo_usuario == '1') {
-            let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
+            let nav_mis_cargas = document.querySelector(".nav-mis-cargas"),
+                nav_documentos = document.querySelector(".nav-documentos");
+            nav_documentos.classList.add("nav-documentos-none");
             nav_mis_cargas.classList.add("nav-mis-cargas-none");
 
             const drop_area_request = document.querySelector(".drop-area-fin-viaje"),
@@ -142,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         btnMas.classList.add("btn_mas_carga");
                         btnMas.innerHTML = 'Ver más';
 
-                        tableData1.innerHTML = `${res.cod_solicitud}`;
+                        //tableData1.innerHTML = `${res.cod_solicitud} - ${data[0].descripcion}`;
                         fetch(`http://localhost:3000/getOneCargaUser/${res.cod_carga}`, {
                                 method: 'GET',
                             }).then(res => res.json())
@@ -151,7 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         method: 'GET',
                                     }).then(res => res.json())
                                     .then(data => {
-                                        tableData2.innerHTML = data[0].descripcion;
+                                        tableData1.innerHTML = `${res.cod_solicitud} - ${data[0].descripcion}`;
+                                        //tableData2.innerHTML = data[0].descripcion;
                                     })
                                     .catch(err => { console.log(err); })
                                 fetch(`http://localhost:3000/getOneTipoEstado/${data[0].cod_estado_carga}`, {
@@ -204,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                         tableRow.appendChild(tableData1);
-                        tableRow.appendChild(tableData2);
+                        //tableRow.appendChild(tableData2);
                         tableRow.appendChild(tableData3);
                         tableRow.appendChild(tableData4);
                         // tableRow.appendChild(tableData5);
@@ -343,7 +347,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         method: 'GET',
                                     }).then(res => res.json())
                                     .then(data => {
-                                        tableData2.innerHTML = data[0].descripcion;
+                                        document.getElementById("descri_carga").innerHTML = `<b>Carga: </b>${data[0].descripcion}`;
+                                        // tableData2.innerHTML = data[0].descripcion;
                                     });
                             })
                             .catch(err => { console.log(err); })
@@ -415,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                         tableRow.appendChild(tableData1);
-                        tableRow.appendChild(tableData2);
+                        //tableRow.appendChild(tableData2);
                         tableRow.appendChild(tableData3);
                         tableRow.appendChild(tableData4);
                         //tableRow.appendChild(tableData5);
@@ -543,6 +548,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_mis_cargas.addEventListener('click', (event) => {
             event.preventDefault();
             window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+        });
+
+        //Documentos - Dador de carga
+        btn_documents.addEventListener('click', () => {
+            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
         });
 
         //Botón Mi Perfil

@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 //Botón Volver
                 btn_back.addEventListener('click', (event) => {
                     event.preventDefault();
-                    window.location.href = `./my_trucks.html?cod_usuario=${data[0].cod_usuario}`;
+                    javascript: history.back();
                 })
             })
             .catch(err => { console.log(err); })

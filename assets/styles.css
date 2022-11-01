@@ -10,11 +10,6 @@
 
 /* Set the size of the div element that contains the map */
 
-html {
-    min-height: 100%;
-    position: relative;
-}
-
 #map {
     height: 400px;
     /* The height is 400 pixels */
@@ -185,7 +180,8 @@ html {
 .nav-buscar-carga-none,
 .nav-mis-cargas-none,
 .nav-cargas-solicitadas-none,
-.nav-mis-solicitudes-none {
+.nav-mis-solicitudes-none,
+.nav-documentos-none {
     display: none;
 }
 
@@ -194,7 +190,8 @@ html {
 .a-buscar-cargas,
 .a-cargas-solicitadas,
 .a-dashboard,
-.a-mis-solicitudes {
+.a-mis-solicitudes,
+.a-documentos-dc {
     color: #241F74;
     font-family: Helvetica, Arial, sans-serif;
     cursor: pointer;
@@ -205,6 +202,7 @@ html {
 .a-mis-cargas:hover,
 .a-buscar-cargas:hover,
 .a-cargas-solicitadas:hover,
+.a-documentos-dc:hover,
 .a-dashboard:hover,
 .navigation:hover,
 .a-mis-solicitudes:hover,
@@ -515,7 +513,7 @@ html {
 ----------------------------------------------------------------------------------------------------- */
 
 .footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
 }
 
@@ -597,8 +595,10 @@ footer .redes {
 /* Términos y Condiciones*/
 
 div .termsAndconds {
-    padding-top: 8%;
+    padding-top: 20px;
     font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    position: relative;
 }
 
 div .termsAndconds p {
@@ -916,6 +916,11 @@ div .cardText {
 /*--------------------------------------------------------------------------------------------
 ------------------------------------- My Trucks --------------------------------------------- 
 --------------------------------------------------------------------------------------------*/
+
+.contenedor_camiones {
+    min-height: 93vh;
+    position: relative;
+}
 
 .th_trucks,
 .th_requests {
@@ -1257,6 +1262,11 @@ div .cardText {
    ------------------------------------- Requests -----------------------------------
    ---------------------------------------------------------------------------------- */
 
+.contenedor_solicitudes {
+    min-height: 93vh;
+    position: relative;
+}
+
 .info-request p {
     font-size: large;
     font-weight: 400;
@@ -1266,6 +1276,8 @@ div .cardText {
 
 .info-request {
     margin: auto;
+    min-height: 93vh;
+    position: relative;
 }
 
 .info-request h5,
