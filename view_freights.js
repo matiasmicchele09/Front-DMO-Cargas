@@ -288,11 +288,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     btnDelete.classList.add("btn_delete_carga_oculto");
                     btnCalculaValor.classList.add("btn_calcular_valor_oculto");
 
+                    if (data[0].valor_carga <= 30000) {
+                        let valor_reducido = data[0].valor_carga * 0.90;
+                        document.getElementById('valor_carga_en_pesos').value = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                    } else if (data[0].valor_carga <= 60000) {
+                        let valor_reducido = data[0].valor_carga * 0.93;
+                        document.getElementById('valor_carga_en_pesos').value = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                    } else if (data[0].valor_carga <= 100000) {
+                        let valor_reducido = data[0].valor_carga * 0.95;
+                        document.getElementById('valor_carga_en_pesos').value = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                    } else {
+                        let valor_reducido = data[0].valor_carga * 0.97;
+                        document.getElementById('valor_carga_en_pesos').value = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                    }
+
                     //Botón Solicitar
                     btnRequest.addEventListener('click', (event) => {
                         event.preventDefault();
-
-
 
                         var today = new Date(),
                             day = today.getDate(),
@@ -649,10 +661,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                         if (data[0].cod_estado_carga == 3) {
                             Swal.fire({
-                                title: '¡Esta Carga ya se encuentra Asignada y NO puede eliminarla. Por favor, comuniquese con el TRANSPORTISTA DE INMEDIATO si desea cancelar el retiro de la misma!',
+                                title: '¡Esta Carga ya se encuentra Asignada y NO puede eliminarla. Por favor, comuniquese con el Servicio de Atención al Cliente de DMO Cargas (0800-444-7878) si desea cancelar el retiro de la misma!',
                                 icon: 'error',
                                 allowOutsideClick: false,
-
                             })
 
                         } else {

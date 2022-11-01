@@ -10,6 +10,11 @@
 
 /* Set the size of the div element that contains the map */
 
+html {
+    min-height: 100%;
+    position: relative;
+}
+
 #map {
     height: 400px;
     /* The height is 400 pixels */
@@ -189,8 +194,7 @@
 .a-buscar-cargas,
 .a-cargas-solicitadas,
 .a-dashboard,
-.a-mis-solicitudes,
-.a-manual-usuario {
+.a-mis-solicitudes {
     color: #241F74;
     font-family: Helvetica, Arial, sans-serif;
     cursor: pointer;
@@ -202,7 +206,6 @@
 .a-buscar-cargas:hover,
 .a-cargas-solicitadas:hover,
 .a-dashboard:hover,
-.a-manual-usuario:hover,
 .navigation:hover,
 .a-mis-solicitudes:hover,
 .a-quienes-somos:hover,
@@ -510,6 +513,33 @@
 /* ----------------------------------------------------------------------------------------------------- 
 ------------------------------------- Footer -----------------------------------------------------------
 ----------------------------------------------------------------------------------------------------- */
+
+.footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.footer-usuarios {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #241F74;
+}
+
+.a-manual-usuario {
+    color: #E6E6E6;
+    font-size: large;
+}
+
+.a-manual-usuario:hover {
+    color: #4136df;
+}
+
+.icon-fontawesome-manual {
+    color: #E6E6E6;
+    cursor: pointer;
+    margin-right: 10px;
+}
 
 footer {
     width: 100%;
@@ -1089,6 +1119,16 @@ div .cardText {
 .btn_retirar_carga:hover,
 .btn_entregar_carga:hover {
     background-color: #07096d;
+}
+
+.btn_finalizar_carga {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.btn_finalizar_carga:hover {
+    background-color: #616161;
 }
 
 .btn_actualizar_retiro,

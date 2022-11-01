@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         btnSolicitudes = document.createElement('button');
                     btnMas.classList.add("btn_mas_carga");
                     btnSolicitudes.classList.add("btn_solicitudes_carga");
-                    btnMas.innerHTML = 'Ver más';
+                    btnMas.innerHTML = 'Ver';
                     btnSolicitudes.innerHTML = 'Solicitudes';
 
                     let tableRow = document.createElement('tr'),
@@ -119,11 +119,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     tableData7.appendChild(btnSolicitudes);
                                     break;
                                 case 4:
-                                    tableData5.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                    tableData5.innerHTML = `<span class="badge text-bg-light">${data[0].descripcion}</span>`
                                     tableData7.appendChild(btnSolicitudes);
                                     break;
                                 case 5:
-                                    tableData5.innerHTML = `<span class="badge text-bg-secondary">${data[0].descripcion}</span>`
+                                    tableData5.innerHTML = `<span class="badge text-bg-primary">${data[0].descripcion}</span>`
+                                    tableData7.appendChild(btnSolicitudes);
+                                    break;
+                                case 6:
+                                    tableData5.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
                                     tableData7.appendChild(btnSolicitudes);
                                     break;
                             }

@@ -214,10 +214,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     cardText3.innerHTML = cardText3.innerHTML + `<b>Dador de la carga: </b> ${data[0].razon_social} <br>`;
                                 })
                                 .catch(err => { console.log(err); })
-                            let valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(res.valor_carga);
-                            cardText4.innerHTML = `<b>Valor: </b> ${valor_en_pesos}`;
-                            cardBody2.appendChild(cardText4);
+                            let valor_en_pesos = 0;
 
+                            if (res.valor_carga <= 30000) {
+                                let valor_reducido = res.valor_carga * 0.90;
+                                valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                            } else if (res.valor_carga <= 60000) {
+                                let valor_reducido = res.valor_carga * 0.93;
+                                valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                            } else if (res.valor_carga <= 100000) {
+                                let valor_reducido = res.valor_carga * 0.95;
+                                valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                            } else {
+                                let valor_reducido = res.valor_carga * 0.97;
+                                valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                            }
+
+                            cardText4.innerHTML = `<b>Valor Flete: </b> ${valor_en_pesos}`;
+
+                            cardBody2.appendChild(cardText4);
                             card.appendChild(cardBody);
                             card.appendChild(cardBody2);
                             card.appendChild(btnVerDetalle);

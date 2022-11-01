@@ -194,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         break;
                                     case 3:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                        tableData7.remove(btnEntregada);
                                         break;
                                 }
                             })
@@ -316,14 +317,20 @@ document.addEventListener('DOMContentLoaded', () => {
                             //tableData5 = document.createElement('td'),
                             tableData6 = document.createElement('td'),
                             tableData7 = document.createElement('td'),
+                            tableData8 = document.createElement('td'),
                             btnMas = document.createElement('button'),
                             btnRetirada = document.createElement('button'),
+                            btnFinalizar = document.createElement('button'),
                             fecha_solicitud = new Date(res.fec_solicitud);
+
                         btnMas.classList.add("btn_mas_carga");
                         btnMas.innerHTML = 'Ver más';
                         btnRetirada.innerHTML = 'Actualizar Estado';
+                        btnFinalizar.innerHTML = 'Finalizar Proceso';
+                        btnFinalizar.setAttribute("id", res.cod_solicitud);
 
                         btnRetirada.classList.add("btn_retirar_carga");
+                        btnFinalizar.classList.add("btn_finalizar_carga");
                         btnRetirada.setAttribute("data-bs-toggle", "modal");
                         btnRetirada.setAttribute("data-bs-target", "#updateEstadoCarga");
 
@@ -358,6 +365,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     case 3:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
                                         break;
+                                    case 4:
+                                        tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                        break;
                                 }
                             })
                             .catch(err => { console.log(err); })
@@ -382,13 +392,18 @@ document.addEventListener('DOMContentLoaded', () => {
                                                 estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-success">${data[0].descripcion}</span>`
                                                 break;
                                             case 4:
-                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-light">${data[0].descripcion}</span>`
                                                 tableData7.remove(btnRetirada);
                                                 break;
                                             case 5:
-                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                                estado_carga.innerHTML = `<b>Estado Carga: </b><span class="badge text-bg-primary">${data[0].descripcion}</span>`
                                                 tableData7.remove(btnRetirada);
+                                                tableData8.appendChild(btnFinalizar);
                                                 break;
+                                        }
+
+                                        if (data[0].cod_estado_carga) {
+
                                         }
                                         console.log(data);
                                     }).catch(err => { console.log(err); })
@@ -397,6 +412,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         tableData6.appendChild(btnMas);
 
+
+
                         tableRow.appendChild(tableData1);
                         tableRow.appendChild(tableData2);
                         tableRow.appendChild(tableData3);
@@ -404,12 +421,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         //tableRow.appendChild(tableData5);
                         tableRow.appendChild(tableData6);
                         tableRow.appendChild(tableData7);
+                        tableRow.appendChild(tableData8);
                         tableBodyRequest.appendChild(tableRow);
+
+                        //Botón Ver Más
                         btnMas.addEventListener('click', (event) => {
                             event.preventDefault();
                             window.location.href = `./view_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&request=${res.cod_solicitud}&cod_carga=${res.cod_carga}`;
                         })
 
+                        //Actualizar Carga a estado: Retirada
                         document.getElementById("btn_actualizar_retiro").addEventListener('click', (event) => {
                             event.preventDefault();
                             let estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '4' };
@@ -435,6 +456,65 @@ document.addEventListener('DOMContentLoaded', () => {
                             setTimeout(() => {
                                 window.location.reload();
                             }, 1500);
+                        })
+
+                        //Botón Finalizar Proceso
+                        btnFinalizar.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            let solicitud = btnFinalizar.getAttribute("id")
+                            Swal.fire({
+                                    title: 'Finalizar Proceso',
+                                    text: 'Al Finalizar el Proceso estará diciendo a DMO que la Carga ha sido entregada y usted lo ha confirmado',
+                                    icon: 'warning',
+                                    showDenyButton: false,
+                                    showConfirmButton: true,
+                                    showCancelButton: true,
+                                    confirmButtonText: `Confirmar`,
+                                    cancelButtonText: 'Cancelar',
+                                    reverseButtons: true,
+                                    allowOutsideClick: false,
+
+                                })
+                                .then((result) => {
+                                    var fecha_today = new Date()
+                                    console.log("fecha_today", fecha_today.toLocaleDateString());
+                                    let estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '6' },
+                                        estadoSolicitud = { cod_solicitud: solicitud, cod_estado_solicitud: '4', fec_cambio_estado: fecha_today };
+
+
+                                    fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                                            method: 'PUT',
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(estadoCarga),
+                                        })
+                                        .catch(err => { console.log(err); })
+
+                                    fetch(`http://localhost:3000/updateEstadoSolicitud`, {
+                                            method: 'PUT',
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(estadoSolicitud),
+                                        })
+                                        .catch(err => { console.log(err); })
+
+
+                                    if (result.isConfirmed) {
+                                        Swal.fire({
+                                            title: 'EL PROCESO HA FINALIZADO CON ÉXITO',
+                                            icon: 'success',
+                                            showConfirmButton: false,
+                                            timer: 3000
+                                        })
+
+                                        setTimeout(() => {
+                                            window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+                                        }, 3000);
+                                    }
+                                })
+                                .catch(err => { console.log(err); })
                         })
                     })
                 })

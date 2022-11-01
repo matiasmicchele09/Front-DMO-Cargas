@@ -32,7 +32,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         p_fecha_solicitud = document.createElement('p'),
                         download_conformidad = document.createElement('a'),
                         download_files = document.createElement('a'),
-                        fecha_solicitud = new Date(res.fec_solicitud);
+                        fecha_solicitud = new Date(res.fec_solicitud),
+                        fec_cambio_estado = new Date(res.fec_cambio_estado);
+
 
                     p_nro_orden.innerHTML = `<b>Nro. Orden:</b> ${data[0].cod_solicitud}`;
                     download_files.innerHTML = 'Descargar Formulario de Retiro de Carga <i class="fa-solid fa-file-pdf"></i>'
@@ -42,12 +44,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             method: 'GET',
                         }).then(res => res.json())
                         .then(data => {
+                            console.log(data);
                             switch (data[0].cod_estado_solicitud) {
                                 case 1:
-                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-secondary">${data[0].descripcion}</span>`
+                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-secondary">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}</b>`
                                     break;
                                 case 2:
-                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-success">${data[0].descripcion}</span> </br>`
+                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-success">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}</b></br>`
                                         // p_estado.append(download_files);
                                     fetch(`http://localhost:3000/getNameFile/${cod_solicitud}`, {
                                             method: 'GET',
@@ -67,15 +70,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                         .catch(err => { console.log(err); })
                                     break;
                                 case 3:
-                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-danger">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}</b></br>`
+                                    break;
+                                case 4:
+                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-dark">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}</b></br>`
                                     break;
                             }
+
                             if (tpo_usuario == '1' || data[0].cod_estado_solicitud != '1') {
                                 btn_avanzar.classList.add('btn_avanzar_request_none');
                             }
                             if (tpo_usuario == '1' && data[0].cod_estado_solicitud == '2') {
                                 p_estado.append(download_files);
                             }
+
                         })
                         .catch(err => { console.log(err); })
 
@@ -90,7 +98,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         }).then(res => res.json())
                         .then(data => {
 
-                            if (tpo_usuario == '2' && data[0].cod_estado_carga == 5) {
+                            if (tpo_usuario == '2' && (data[0].cod_estado_carga == 5 || data[0].cod_estado_carga == 6)) {
                                 p_estado.append(download_conformidad);
                                 fetch(`http://localhost:3000/getNameFile/${cod_solicitud}`, {
                                         method: 'GET',
@@ -165,16 +173,42 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 p_es_apilable = document.createElement('p');
 
                             h5.innerHTML = '<u>Datos de la Carga</u>';
-                            let valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(data[0].valor_carga);
+                            let valor_en_pesos = 0; //new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(data[0].valor_carga);
+
                             p_origen_destino.innerHTML = `<b>Origen: </b>${loc_origen} - <b>Fecha: </b> ${fecha_retiro.toLocaleDateString()} - ${data[0].hora_retiro} Hs</br>
                                             <b>Domicilio: </b>${data[0].domicilio_origen}</br>                                            
                                             <hr>
-                                            <b>Destino: </b> ${loc_destino} - <b>Fecha: </b> ${fecha_destino.toLocaleDateString()} - ${data[0].hora_destino} Hs</br>
+                                            <b>Destino: </b> ${loc_destino} - <b>Fecha: </b> ${fecha_destino.toLocaleDateString()}</br>
                                             <b>Domicilio: </b>${data[0].domicilio_destino} </br>
                                             <b>Receptor de Carga: </b> ${data[0].receptor_carga} </br>                                             
                                             <b>Comentario: </b> ${data[0].comentario} </br>
-                                            <b>Distancia Aprox.: </b> ${data[0].distancia_recorrido} Km </br>
-                                            <b>Valor Flete: </b> ${valor_en_pesos} <hr>`;
+                                            <b>Distancia Aprox.: </b> ${data[0].distancia_recorrido} Km </br>`
+
+                            if (tpo_usuario == '1') {
+                                if (data[0].valor_carga <= 30000) {
+                                    let valor_reducido = data[0].valor_carga * 0.90;
+                                    valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                                    p_origen_destino.innerHTML = p_origen_destino.innerHTML + `<b>Valor Flete: </b> ${valor_en_pesos} <hr>`;
+                                } else if (data[0].valor_carga <= 60000) {
+                                    let valor_reducido = data[0].valor_carga * 0.93;
+                                    valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                                    p_origen_destino.innerHTML = p_origen_destino.innerHTML + `<b>Valor Flete: </b> ${valor_en_pesos} <hr>`;
+                                } else if (data[0].valor_carga <= 100000) {
+                                    let valor_reducido = data[0].valor_carga * 0.95;
+                                    valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                                    p_origen_destino.innerHTML = p_origen_destino.innerHTML + `<b>Valor Flete: </b> ${valor_en_pesos} <hr>`;
+                                } else {
+                                    let valor_reducido = data[0].valor_carga * 0.97;
+                                    valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
+                                    p_origen_destino.innerHTML = p_origen_destino.innerHTML + `<b>Valor Flete: </b> ${valor_en_pesos} <hr>`;
+                                }
+
+                            } else {
+                                valor_en_pesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(data[0].valor_carga);
+                                p_origen_destino.innerHTML = p_origen_destino.innerHTML + `<b>Valor Flete: </b> ${valor_en_pesos} <hr>`;
+
+                            }
+
 
                             divMyRequestCarga.appendChild(h5);
                             divMyRequestCarga.appendChild(p_origen_destino);
