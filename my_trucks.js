@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-                btn_mi_perfil.innerHTML = `${data[0].razon_social}`;
+                if (tpo_usuario == 1) { btn_mi_perfil.innerHTML = `${data[0].razon_social} <b>(Transportista)</b>`; } else { btn_mi_perfil.innerHTML = `${data[0].razon_social} <b>(Dador Carga)</b>`; }
             })
             .catch(err => { console.log(err); })
 

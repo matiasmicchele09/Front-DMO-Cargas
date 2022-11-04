@@ -32,8 +32,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         p_fecha_solicitud = document.createElement('p'),
                         download_conformidad = document.createElement('a'),
                         download_files = document.createElement('a'),
-                        fecha_solicitud = new Date(res.fec_solicitud),
+                        fecha_solicitud = new Date(res.fec_solicitud);
+                    let fec_cambio_estado = new Date(res.fec_cambio_estado);
+                    /* if (res.fec_cambio_estado != null) {
                         fec_cambio_estado = new Date(res.fec_cambio_estado);
+                    } else {
+                        fec_cambio_estado = "";
+                    }
+
+                    console.log(fec_cambio_estado);
+
+
+                    console.log("res.fec_cambio_estado", res.fec_cambio_estado); */
 
 
                     p_nro_orden.innerHTML = `<b>Nro. Orden:</b> ${data[0].cod_solicitud}`;
@@ -47,7 +57,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             console.log(data);
                             switch (data[0].cod_estado_solicitud) {
                                 case 1:
-                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-secondary">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}</b>`
+                                    /* if (fec_cambio_estado != null) {
+                                        p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-secondary">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}</b>`
+                                    } else {
+                                        p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-secondary">${data[0].descripcion}</span>`
+                                    } */
+
+                                    /*  let year = fec_cambio_estado.toLocaleDateString();
+                                     console.log(year.getFullYear()); */
+                                    //if 
+                                    p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-secondary">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}`
+
+
                                     break;
                                 case 2:
                                     p_estado.innerHTML = `<b>Estado Solicitud: </b><span class="badge text-bg-success">${data[0].descripcion}</span> <b>${fec_cambio_estado.toLocaleDateString()}</b></br>`

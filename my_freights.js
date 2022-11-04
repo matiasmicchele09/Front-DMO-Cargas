@@ -18,11 +18,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     if (initialized_session == 'true') {
 
+
         fetch(`http://localhost:3000/getNameUser/${cod_usuario}`, {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-                btn_mi_perfil.innerHTML = `${data[0].razon_social}`;
+                if (tpo_usuario == 1) { btn_mi_perfil.innerHTML = `${data[0].razon_social} <b>(Transportista)</b>`; } else { btn_mi_perfil.innerHTML = `${data[0].razon_social} <b>(Dador Carga)</b>`; }
             })
             .catch(err => { console.log(err); })
 
@@ -208,7 +209,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         //Botón documentos
         document.querySelector(".a-documentos-dc").addEventListener('click', () => {
-            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
+            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Mi Perfil

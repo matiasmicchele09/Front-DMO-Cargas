@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         await uploadFileFrente(archivo_frente);
                         await uploadFileDorso(archivo_dorso);
                         await uploadFileCurso(archivo_curso);
-                        let p_frente = document.getElementById('nom_archivo_frente'),
+                        /* let p_frente = document.getElementById('nom_archivo_frente'),
                             p_dorso = document.getElementById('nom_archivo_dorso'),
                             p_curso = document.getElementById('nom_archivo_curso');
 
@@ -542,27 +542,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
                             }, 3500);
                         } else {
+                            LO COMENTÉ LUEGO DE LA PRIMERA VEZ UNO NO VA A ANDAR MODIFICANDO LAS 3 IMAGENES AL MISMO TIEMPO, ENTONCES 
+                            CON ESA CONDICIÓN IBA A OBLIGARLO A SUBIR LAS 3 IMAGENES CADA VEZ QUE QUIERA ACTUALIZAR UNA.
+
+
+                            TENDRÍA QUE VER QUE PASA SI MODIFICO UNA SI A LAS OTRAS DOS GUARDA LOS NOMBRES VACIOS, PORQUE LOS INPUTS
+                            VAN A ESTAR VACIOS CUANDO LE DE AL BOTÓN EDITAR
+                            */
 
 
 
-                            let registroFormData = new FormData(formularioPerfil);
-                            fetch('http://localhost:3000/update_profile', {
-                                    method: 'POST',
-                                    body: registroFormData,
-                                })
-                                .catch(err => { console.log(err); })
-
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: '¡Guardando Cambios!',
-                                showConfirmButton: false,
-                                timer: 1500
+                        let registroFormData = new FormData(formularioPerfil);
+                        fetch('http://localhost:3000/update_profile', {
+                                method: 'POST',
+                                body: registroFormData,
                             })
-                            setTimeout(() => {
-                                window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
-                            }, 1500);
-                        }
+                            .catch(err => { console.log(err); })
+
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: '¡Guardando Cambios!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        setTimeout(() => {
+                            window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+                        }, 1500);
+                        //}
                     } else {
                         document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo');
                         setTimeout(() => {

@@ -517,6 +517,14 @@
     bottom: 0;
 }
 
+@media screen and (max-width:100px) {
+    .footer-usuarios {
+        flex-direction: column;
+        display: inline;
+        align-items: center;
+    }
+}
+
 .footer-usuarios {
     padding: 20px;
     display: flex;

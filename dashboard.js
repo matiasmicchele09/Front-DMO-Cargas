@@ -25,28 +25,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     btn_my_request = document.querySelector(".a-mis-solicitudes"),
                     btn_documents = document.querySelector(".a-documentos-dc"),
                     btn_mis_cargas = document.querySelector(".a-mis-cargas"),
-                    btn__manual_usuario = document.querySelector(".a-manual-usuario"),
+                    //  btn__manual_usuario = document.querySelector(".a-manual-usuario"),
                     div_card_info_usuario = document.getElementById('card_body_info_usuario'),
                     btn_logOut = document.querySelector(".btn-salir"),
                     h3 = document.createElement('h3'),
                     p = document.createElement('p');
 
-                if (tpo_usuario == 1) { btn_perfil.innerHTML = `${data[0].razon_social} (Transportista)`; } else { btn_perfil.innerHTML = `${data[0].razon_social} (Dador Carga)`; }
+                if (tpo_usuario == 1) { btn_perfil.innerHTML = `${data[0].razon_social} <b>(Transportista)</b>`; } else { btn_perfil.innerHTML = `${data[0].razon_social} <b>(Dador Carga)</b>`; }
 
-                btn__manual_usuario.href = 'http://localhost:5000/assets/files/manual_de_usuario.pdf';
-                btn__manual_usuario.target = '_blank';
-                btn__manual_usuario.download = 'manual_de_usuario.pdf';
+                /*  btn__manual_usuario.href = 'http://localhost:5000/assets/files/manual_de_usuario.pdf';
+                 btn__manual_usuario.target = '_blank';
+                 btn__manual_usuario.download = 'manual_de_usuario.pdf'; */
                 h3.innerHTML = `Bienvenido <b>${data[0].razon_social}</b>`;
 
                 if (data[0].tipo_usuario == '1') {
 
                     let datos_transpor = Object.values(data[0]);
 
-                    //Si no incluye nulos saca el cartel. 
-                    if (!datos_transpor.includes(null)) {
+                    //Si no incluye nulos ni vacios entonces saca el cartel. 
+                    if (!datos_transpor.includes(null) && !datos_transpor.includes("")) {
                         document.getElementById("alerta_datos").classList.add("alerta_datos_none")
                     }
-
 
                     let nav_mis_cargas = document.querySelector(".nav-mis-cargas"),
                         nav_documentos = document.querySelector(".nav-documentos");

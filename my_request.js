@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-                btn_mi_perfil.innerHTML = `${data[0].razon_social}`;
+                if (tpo_usuario == 1) { btn_mi_perfil.innerHTML = `${data[0].razon_social} <b>(Transportista)</b>`; } else { btn_mi_perfil.innerHTML = `${data[0].razon_social} <b>(Dador Carga)</b>`; }
             })
             .catch(err => { console.log(err); })
 
@@ -200,6 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
                                         tableData7.remove(btnEntregada);
                                         break;
+                                    case 4:
+                                        tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                        break;
                                 }
                             })
                             .catch(err => { console.log(err); })
@@ -347,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         method: 'GET',
                                     }).then(res => res.json())
                                     .then(data => {
-                                        document.getElementById("descri_carga").innerHTML = `<b>Carga: </b>${data[0].descripcion}`;
+                                        document.getElementById("descri_carga").innerHTML = `<b>Carga: </b>${data[0].descripcion} <b>Cod.:</b> ${cod_carga}`;
                                         // tableData2.innerHTML = data[0].descripcion;
                                     });
                             })
@@ -369,6 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         break;
                                     case 3:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                        tableData8.remove(btnFinalizar);
                                         break;
                                     case 4:
                                         tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
@@ -552,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //Documentos - Dador de carga
         btn_documents.addEventListener('click', () => {
-            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
+            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Mi Perfil

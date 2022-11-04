@@ -1,6 +1,6 @@
 'use strict'
 document.addEventListener('DOMContentLoaded', (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const getURL = new URLSearchParams(window.location.search),
         cod_usuario = getURL.get('cod_usuario'),
         tpo_usuario = getURL.get('tpo_usuario'),
@@ -12,51 +12,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     if (initialized_session == 'true') {
         let btn_back = document.querySelector(".parr_volver"),
-            btn_accept = document.getElementById('btn_acept_request'),
+            //   btn_accept = document.getElementById('btn_acept_request'),
             btn_mercado_pago = document.getElementById('checkout-btn');
-
-
-        fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
-                method: 'GET',
-            }).then(res => res.json())
-            .then(data => {
-
-                btn_mercado_pago.addEventListener("click", async(event) => {
-                    event.preventDefault();
-
-                    let fleteCarga = {
-                        descripcion: `${cod_solicitud} - Origen: ${data[0].origen} - Destino: ${data[0].destino}`,
-                        valor_carga: data[0].valor_carga,
-                        cantidad: 1
-                    }
-
-                    console.log(JSON.stringify(fleteCarga));
-
-                    try {
-                        console.log("Comenzando Pago...");
-                        const preference = await (await fetch('http://localhost:3000/payWithMP', {
-                            method: 'POST',
-                            body: JSON.stringify(fleteCarga),
-                            headers: {
-                                "Content-Type": "application/json"
-                            }
-                        })).json()
-
-                        var script = document.createElement('script');
-                        script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
-                        script.type = "text/javascript";
-                        script.dataset.preferenceId = preference.preferenceId;
-                        document.getElementById('btn_checkout').innerHTML = "";
-                        document.querySelector('#btn_checkout').appendChild(script);
-
-                    } catch {
-                        err => { console.log(err); }
-                    }
-
-                })
-
-            })
-
 
         const drop_area_request = document.querySelector(".drop-area-request"),
             drag_text = drop_area_request.querySelector("h2"),
@@ -100,20 +57,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
             let p = document.getElementById('nom_archivo');
             if (validExtensions.includes(docType)) {
                 const fileReader = new FileReader();
+                const id = `form_retiro_carga_${Math.random().toString(32).substring(7)}`
                 fileReader.addEventListener('load', event => {
                     event.preventDefault()
                     const fileURL = fileReader.result;
+                    console.log("file.name", file.name);
+                    console.log(file)
+                    //console.log(file.getAttribute('name'))                   
+                    //file.name = id;
+                    //file.setAttribute("nom", `${id}`)
+                    //console.log("nom", file.nom)
+                    console.log("file.name", file.name);
+                    
                     p.innerHTML = `${file.name}`
+                    //p.innerHTML = `${id}`
                         //nombre_archivo = `${file.name}`;
 
                     //console.log("nombre_archivo", nombre_archivo);
                     const html = document.getElementById('preview');
                     //html.innerHTML = html.innerHTML + p;
-                    //html.appendChild(p);
+                    html.appendChild(p);
 
                 })
                 fileReader.readAsDataURL(file);
-                //uploadFile(file)
+                uploadFile(file)
 
             } else {
                 const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
@@ -136,9 +103,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     .catch(err => { console.log(err); })
                 const responseText = await response.text();
                 console.log(responseText);
-                const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
-                const html = document.getElementById('preview');
-                html.innerHTML = html.innerHTML + p;
+                /*  const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
+                 const html = document.getElementById('preview');
+                 html.innerHTML = html.innerHTML + p; */
             } catch (error) {
                 console.log(error);
                 const p = `<h5><span class="failure">¡Ha ocurrido un error al subir el archivo!</span></h5>`
@@ -147,8 +114,77 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
+        fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
+                method: 'GET',
+            }).then(res => res.json())
+            .then(data => {
+
+
+                btn_mercado_pago.addEventListener("click", async(event) => {
+                    event.preventDefault();
+
+                    if (document.getElementById('nom_archivo').textContent == "" || document.getElementById('nom_archivo').textContent == undefined) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: '¡Primero debe subir el Formulario de retiro de Carga!',
+                            showConfirmButton: false,
+                            timer: 4000
+                        })
+                    } else {
+                        let nombre_archivo = archivo.name;
+                        let nom_arch = { cod_solicitud: parseInt(cod_solicitud, 10), nombre: nombre_archivo };
+                                console.log(nom_arch)
+
+                                fetch(`http://localhost:3000/uploadFileRequest`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify(nom_arch),
+                                    })
+                                    .catch(err => { console.log(err); })
+
+                        document.getElementById('avanzar_pago').innerHTML = "Arhivo subido correctamente. Por favor, continue con el pago. Haga Click en 'Pagar'"
+                        let fleteCarga = {
+                            descripcion: `${cod_solicitud} - ${cod_carga} - Origen: ${data[0].origen} - Destino: ${data[0].destino}`,
+                            valor_carga: data[0].valor_carga,
+                            cantidad: 1
+                        }
+
+                        console.log(JSON.stringify(fleteCarga));
+
+                        try {
+                            console.log("Comenzando Pago...");
+                            const preference = await (await fetch('http://localhost:3000/payWithMP', {
+                                method: 'POST',
+                                body: JSON.stringify(fleteCarga),
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            })).json()
+
+                            var script = document.createElement('script');
+                            script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
+                            script.type = "text/javascript";
+                            script.dataset.preferenceId = preference.preferenceId;
+                            document.getElementById('btn_checkout').innerHTML = "";
+                            document.querySelector('#btn_checkout').appendChild(script);
+
+                        } catch {
+                            err => { console.log(err); }
+                        }
+                    }
+
+                })
+
+
+            })
+
+
+
         //Botón Aceptar Solicitud
-        btn_accept.addEventListener('click', async(event) => {
+        /*     btn_accept.addEventListener('click', async(event) => {
             event.preventDefault();
             // let nombre_archivo = archivo.name;
             //console.log("nombre_archivo", nombre_archivo);
@@ -173,7 +209,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         console.log(data[0]);
                         switch (data[0].estado) {
                             case "approved":
-                                /* PROBAR QUE ONDA CON EL ASYNC AWAIT. AUN NO LO PROBE */
+                                
                                 let nombre_archivo = archivo.name;
                                 console.log("nombre_archivo", nombre_archivo);
                                 console.log("archivo", archivo);
@@ -303,7 +339,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         })
 
-
+*/
         //Botón Volver
         btn_back.addEventListener('click', (event) => {
             event.preventDefault();

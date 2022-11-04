@@ -144,7 +144,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-                console.log(data);
+                console.log("carga", data);
+                console.log(data[0].fec_publicacion);
+
+                document.getElementById("parr_cod_carga").innerHTML = `<b>Cod. Carga: </b>${cod_carga} - <b> Fecha Publicación de la Carga: </b>${data[0].fec_publicacion.substring(0, 10)}`
 
 
                 btnSave.disabled = true;
@@ -316,6 +319,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             modalEstadoSolicitud = document.getElementById('cod_estado_solicitud_modal'),
                             modalCarga = document.getElementById('cod_carga_modal'),
                             modalFecSolicitud = document.getElementById('fec_solicitud_modal'),
+                            cambioEstado = document.getElementById('fec_estado'),
                             option = document.getElementById(`option_tipo_prod_${tipo_producto}`),
                             formRequest = document.getElementById('formulario_request'),
                             fecha_retiro = new Date(data[0].fec_retiro),
@@ -331,12 +335,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         //Tuve que ponerlo así porque lo meses de un dígito van con cero adelante
                         if (`${month}`.length > 1 && `${day}`.length > 1) {
                             modalFecSolicitud.value = `${year}-${month}-${day}`;
+                            cambioEstado.value = `${year}-${month}-${day}`;
                         } else if (`${month}`.length == 1 && `${day}`.length == 1) {
                             modalFecSolicitud.value = `${year}-0${month}-0${day}`;
+                            cambioEstado.value = `${year}-0${month}-0${day}`;
                         } else if (`${month}`.length == 1) {
                             modalFecSolicitud.value = `${year}-0${month}-${day}`;
+                            cambioEstado.value = `${year}-0${month}-${day}`;
                         } else if (`${day}`.length == 1) {
                             modalFecSolicitud.value = `${year}-${month}-0${day}`;
+                            cambioEstado.value = `${year}-${month}-0${day}`;
                         }
 
                         fetch(`http://localhost:3000/getTrucksUser/${cod_usuario}`, {

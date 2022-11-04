@@ -353,6 +353,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         })
 
+        //Fecha Publicación
+        document.getElementById("fec_publicacion").value = date;
+
+
+
+
 
         //Envío de Formulario
         formAgregarCarga.addEventListener('submit', (event) => {
@@ -365,22 +371,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 destino = document.getElementById("destino"),
                 valor = document.getElementById("valor_carga");
 
-            fecDestino.disabled = false;
-            valor.disabled = false;
+
+
 
             if (origen.value != "") { campos.origen = true; }
             if (destino.value != "") { campos.destino = true; }
             if (horaRetiro.value != "") { campos.hora_retiro = true; }
-            if (fecRetiro.value != "" && date < fecRetiro.value) { campos.fec_retiro = true; }
-            if (fecDestino.value != "" && fecRetiro.value < fecDestino.value) { campos.fec_destino = true; }
+            if (fecRetiro.value != "" && date <= fecRetiro.value) { campos.fec_retiro = true; }
+            if (fecDestino.value != "" && fecRetiro.value <= fecDestino.value) {
+                campos.fec_destino = true;
+                fecDestino.disabled = false;
+            }
             if (receptor_carga.value !== "") { campos.receptor_carga = true; }
             if (valor.value != "") { campos.valor_carga = true; }
+            console.log("campos.fec_destino", campos.fec_destino);
+            console.log(campos.origen, campos.destino, campos.domicilio_origen, campos.hora_retiro, campos.fec_retiro,
+                campos.fec_destino, campos.domicilio_destino, campos.receptor_carga, campos.cant_unit,
+                campos.peso_unit_kg, campos.peso_total_kg, campos.largo_mts, campos.ancho_mts,
+                campos.alto_mts, campos.peso_unit_tn, campos.peso_total_tn, campos.cant_litros, campos.valor_carga);
 
             if (campos.origen && campos.destino && campos.domicilio_origen && campos.hora_retiro && campos.fec_retiro &&
                 campos.fec_destino && campos.domicilio_destino && campos.receptor_carga && campos.cant_unit &&
                 campos.peso_unit_kg && campos.peso_total_kg && campos.largo_mts && campos.ancho_mts &&
                 campos.alto_mts && campos.peso_unit_tn && campos.peso_total_tn && campos.cant_litros && campos.valor_carga) {
+
+
                 let registroFormData = new FormData(formAgregarCarga);
+
 
                 fetch('http://localhost:3000/add_freight/', {
                         method: 'POST',
@@ -404,6 +421,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 setTimeout(() => {
                     document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
                 }, 4000);
+
                 setTimeout(() => {
                     fecDestino.disabled = true;
                 }, 500);

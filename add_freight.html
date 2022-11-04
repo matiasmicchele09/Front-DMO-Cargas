@@ -46,6 +46,14 @@
                 </div>
             </div>
 
+            <!-- Grupo: Fecha Publicación Carga -->
+            <div class="formulario_grupo" id="grupo__fec_publicacion" style="display: inline-block;">
+                <label for="fec_publicacion" class="form__label">Fecha Publicación</label>
+                <div class="form__grupo_input">
+                    <input type="date" class="form__input form-control" id="fec_publicacion" name="fec_publicacion">
+                </div>
+            </div>
+
             <!-- Grupo: Origen -->
             <div class="formulario_grupo" id="grupo__origen" style="display: block;">
                 <label for="origen" class="form__label">Origen</label>
@@ -405,7 +413,7 @@
                                     dias = 0;
 
 
-                                if (distancia_tiempo[1] != "min") {
+                                if (!distancia_tiempo.includes('min')) {
 
                                     if (distancia_tiempo.includes('día') || distancia_tiempo.includes('días')) {
                                         dias = parseInt(distancia_tiempo[0]) * 2;
@@ -413,9 +421,10 @@
                                         dias = parseInt(distancia_tiempo[0] / 12, 10) + 1;
                                     }
                                 } else {
-                                    console.log(dias);
+
                                     dias = 1;
                                 }
+                                console.log(dias);
 
 
                                 var fec_ret = new Date(sumarDias(fec_retiro, dias)),
@@ -432,6 +441,8 @@
                                 } else if (`${day}`.length == 1) {
                                     document.getElementById("fec_destino").value = `${year}-${month}-0${day}`;
                                 }
+
+                                console.log(document.getElementById("fec_destino").value)
                             } else {
                                 alert("¡Ha ingresado Localidades Fuera de Argentina o ha ingresado mal la localidad!")
                             }
