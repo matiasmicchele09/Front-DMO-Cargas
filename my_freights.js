@@ -103,13 +103,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                     tableData4.innerHTML = `${loc_origen} - ${loc_destino}`;
 
+                    tableData6.classList.add('th_ver_mas')
+                    tableData7.classList.add('th_solicitudes')
                     fetch(`http://localhost:3000/getOneTipoEstado/${res.cod_estado_carga}`, {
                             method: 'GET',
                         }).then(res => res.json())
                         .then(data => {
+                            //Puede parecer repetitivo este CASE pero cad estado lleva un nombre y un color distinto
                             switch (data[0].cod_estado_carga) {
                                 case 1:
                                     tableData5.innerHTML = `<span class="badge text-bg-info">${data[0].descripcion}</span>`
+                                    tableData7.appendChild(btnSolicitudes);
                                     break;
                                 case 2:
                                     tableData5.innerHTML = `<span class="badge text-bg-warning">${data[0].descripcion}</span>`;
@@ -205,11 +209,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         btn_dashboard.addEventListener('click', (event) => {
             event.preventDefault();
             window.location.href = `./dashboard.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
-        });
-
-        //Botón documentos
-        document.querySelector(".a-documentos-dc").addEventListener('click', () => {
-            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Mi Perfil

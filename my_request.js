@@ -30,9 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => { console.log(err); })
 
         if (tpo_usuario == '1') {
-            let nav_mis_cargas = document.querySelector(".nav-mis-cargas"),
-                nav_documentos = document.querySelector(".nav-documentos");
-            nav_documentos.classList.add("nav-documentos-none");
+
+            let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
             nav_mis_cargas.classList.add("nav-mis-cargas-none");
 
             const drop_area_request = document.querySelector(".drop-area-fin-viaje"),
@@ -140,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             tableData6 = document.createElement('td'),
                             tableData7 = document.createElement('td'),
                             btnEntregada = document.createElement('button'),
+                            btnCancelarRequest = document.createElement('button'),
                             btnMas = document.createElement('button'),
                             fecha_solicitud = new Date(res.fec_solicitud);
                         btnMas.classList.add("btn_mas_carga");
@@ -189,12 +189,21 @@ document.addEventListener('DOMContentLoaded', () => {
                                 method: 'GET',
                             }).then(res => res.json())
                             .then(data => {
+                                console.log(data);
                                 switch (data[0].cod_estado_solicitud) {
                                     case 1:
                                         tableData4.innerHTML = `<span class="badge text-bg-secondary">${data[0].descripcion}</span>`
+                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
+                                        btnCancelarRequest.classList.add("btn_cancel_request");
+                                        btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
+                                        tableData7.appendChild(btnCancelarRequest);
                                         break;
                                     case 2:
                                         tableData4.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
+                                        btnCancelarRequest.classList.add("btn_cancel_request");
+                                        btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
+                                        tableData7.appendChild(btnCancelarRequest);
                                         break;
                                     case 3:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
@@ -203,11 +212,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                     case 4:
                                         tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
                                         break;
+                                    case 5:
+                                        tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                        break;
                                 }
                             })
                             .catch(err => { console.log(err); })
 
                         tableData6.appendChild(btnMas);
+                        tableData6.classList.add('btn_vermas');
+                        tableData7.classList.add('btn_cancel');
 
 
                         tableRow.appendChild(tableData1);
@@ -219,10 +233,84 @@ document.addEventListener('DOMContentLoaded', () => {
                         tableRow.appendChild(tableData7);
                         tableBodyRequest.appendChild(tableRow);
 
+                        //Botón Ver Más
                         btnMas.addEventListener('click', (event) => {
                             event.preventDefault();
                             window.location.href = `./view_request.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}&request=${res.cod_solicitud}&cod_carga=${res.cod_carga}`;
-                        })
+                        });
+
+                        //Botón Cancelar Solicitud
+                        btnCancelarRequest.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            let id_request = btnCancelarRequest.getAttribute("id").split("-")
+
+                            Swal.fire({
+                                    title: 'Cancelar Solicitud',
+                                    text: '¿Está seguro que desea cancelar esta solicitud? !Luego no podrá volver a solicitarla!',
+                                    icon: 'warning',
+                                    showDenyButton: false,
+                                    showConfirmButton: true,
+                                    showCancelButton: true,
+                                    confirmButtonText: `Confirmar`,
+                                    cancelButtonText: 'Cancelar',
+                                    reverseButtons: true,
+                                    allowOutsideClick: false,
+
+                                })
+                                .then(async(result) => {
+
+                                    if (result.isConfirmed) {
+                                        let fecha_today = new Date(),
+                                            estadoCarga = { codigo_carga: id_request[1], cod_estado_carga: '1' },
+                                            estadoSolicitud = { cod_solicitud: id_request[0], cod_estado_solicitud: '5', fec_cambio_estado: fecha_today };
+
+                                        let cant_solicitudes = await fetch(`http://localhost:3000/getFreightsRequest/${id_request[1]}`, {
+                                                method: 'GET',
+                                            }).then(res => res.json())
+                                            .then(data => {
+                                                console.log(data)
+                                                return data.length;
+                                            })
+
+
+                                        //Si esta en "Solicitada" puede tener mas de una solicitud. Por lo que el estado de la carga no debe modificarse. Caso contrario, sí.
+                                        //Si esta "Aceptada" puede tener 1 o mas solicitudes, pero eso es indistinto ya que lo que marca la diferencia es el estado == 2
+                                        //Si el estado es == 2 (Aceptada) si hubiera mas de una solicitud las demas estarian rechazadas
+                                        if (cant_solicitudes == 1 || id_request[2] == 2) {
+                                            fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                                                    method: 'PUT',
+                                                    headers: {
+                                                        "Content-Type": "application/json"
+                                                    },
+                                                    body: JSON.stringify(estadoCarga),
+                                                })
+                                                .catch(err => { console.log(err); })
+
+                                        }
+
+                                        fetch(`http://localhost:3000/updateEstadoSolicitud`, {
+                                                method: 'PUT',
+                                                headers: {
+                                                    "Content-Type": "application/json"
+                                                },
+                                                body: JSON.stringify(estadoSolicitud),
+                                            })
+                                            .catch(err => { console.log(err); })
+
+                                        Swal.fire({
+                                            title: 'La Solicitud ha sido Cancelada',
+                                            icon: 'success',
+                                            showConfirmButton: false,
+                                            timer: 3000
+                                        })
+
+                                        setTimeout(() => {
+                                            window.location.reload();
+                                        }, 3000);
+                                    }
+                                })
+                                .catch(err => { console.log(err); })
+                        });
 
 
 
@@ -377,6 +465,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     case 4:
                                         tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
                                         break;
+                                    case 5:
+                                        tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                        break;
                                 }
                             })
                             .catch(err => { console.log(err); })
@@ -485,32 +576,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 })
                                 .then((result) => {
-                                    var fecha_today = new Date()
-                                    console.log("fecha_today", fecha_today.toLocaleDateString());
-                                    let estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '6' },
-                                        estadoSolicitud = { cod_solicitud: solicitud, cod_estado_solicitud: '4', fec_cambio_estado: fecha_today };
-
-
-                                    fetch(`http://localhost:3000/updateEstadoCarga/`, {
-                                            method: 'PUT',
-                                            headers: {
-                                                "Content-Type": "application/json"
-                                            },
-                                            body: JSON.stringify(estadoCarga),
-                                        })
-                                        .catch(err => { console.log(err); })
-
-                                    fetch(`http://localhost:3000/updateEstadoSolicitud`, {
-                                            method: 'PUT',
-                                            headers: {
-                                                "Content-Type": "application/json"
-                                            },
-                                            body: JSON.stringify(estadoSolicitud),
-                                        })
-                                        .catch(err => { console.log(err); })
-
-
                                     if (result.isConfirmed) {
+                                        var fecha_today = new Date()
+                                        console.log("fecha_today", fecha_today.toLocaleDateString());
+                                        let estadoCarga = { codigo_carga: cod_carga, cod_estado_carga: '6' },
+                                            estadoSolicitud = { cod_solicitud: solicitud, cod_estado_solicitud: '4', fec_cambio_estado: fecha_today };
+
+
+                                        fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                                                method: 'PUT',
+                                                headers: {
+                                                    "Content-Type": "application/json"
+                                                },
+                                                body: JSON.stringify(estadoCarga),
+                                            })
+                                            .catch(err => { console.log(err); })
+
+                                        fetch(`http://localhost:3000/updateEstadoSolicitud`, {
+                                                method: 'PUT',
+                                                headers: {
+                                                    "Content-Type": "application/json"
+                                                },
+                                                body: JSON.stringify(estadoSolicitud),
+                                            })
+                                            .catch(err => { console.log(err); })
                                         Swal.fire({
                                             title: 'EL PROCESO HA FINALIZADO CON ÉXITO',
                                             icon: 'success',
@@ -552,11 +641,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_mis_cargas.addEventListener('click', (event) => {
             event.preventDefault();
             window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
-        });
-
-        //Documentos - Dador de carga
-        btn_documents.addEventListener('click', () => {
-            window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Mi Perfil

@@ -10,53 +10,54 @@
     <link rel="stylesheet" href="./assets/normalize.css">
     <link rel="stylesheet" href="./assets/libs/bootstrap-5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
-    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>    
+    <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div class="card-form">
 
         <form id="form_password">
-        <!-- Grupo: Email -->
-        <div class="formulario_grupo" id="grupo__email">
-            <label for="email" class="form__label">Ingrese su Email</label>
-            <div class="form__grupo_input">
-                <input type="email" class="form__input form-control" id="email" name="email">
-                <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+            <h2>Recuperar Contraseña</h2>
+            <!-- Grupo: Email -->
+            <div class="formulario_grupo" id="grupo__email">
+                <label for="email" class="form__label">Ingrese su Email</label>
+                <div class="form__grupo_input">
+                    <input type="email" class="form__input form-control" id="email" name="email">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">El mail es inválido</p>
             </div>
-            <p class="form__input_error">El mail es inválido</p>
-        </div>
 
-        <!-- Grupo: Contraseña  -->
-        <div class="formulario_grupo" id="grupo__password">
-            <label for="password" class="form__label">Contraseña</label>
-            <div class="form__grupo_input">
-                <input type="password" class="form__input form-control" id="password" name="password">
-                <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+            <!-- Grupo: Contraseña  -->
+            <div class="formulario_grupo" id="grupo__password">
+                <label for="password" class="form__label">Contraseña</label>
+                <div class="form__grupo_input">
+                    <input type="password" class="form__input form-control" id="password" name="password">
+                    <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class="form__input_error">La contraseña debe tener al menos 4 dígitos</p>
             </div>
-            <p class="form__input_error">La contraseña debe tener al menos 4 dígitos</p>
-        </div>
 
-        <!-- Grupo: Contraseña 2 -->
-        <div class="formulario_grupo div_pass_2" id="grupo__password_2">
-            <label for="password_2" class="form__label">Repetir Contraseña</label>
-            <div class="form__grupo_input">
-                <input type="password" class="form__input form-control" id="password_2" name="password_2">
+            <!-- Grupo: Contraseña 2 -->
+            <div class="formulario_grupo div_pass_2" id="grupo__password_2">
+                <label for="password_2" class="form__label">Repetir Contraseña</label>
+                <div class="form__grupo_input">
+                    <input type="password" class="form__input form-control" id="password_2" name="password_2">
+                </div>
             </div>
-        </div>
-        <div class="form__mensaje_error_no_email" id="form__mensaje_error_no_email">
-            <p><b>¡El Email ingresado NO EXISTE!</b></p>
-        </div>
-        <div class="form__mensaje_error" id="form__mensaje_error">
-            <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
-        </div>
-        <div class="form__mensaje_error_pass" id="form__mensaje_error_pass">
-            <p><b>¡Las contraseñas no coinciden!</b></p>
-        </div>
-        <div class="formulario_grupo form__grupo-btn-enviar">
-            <button type="submit" name="" id="" class="btn form_btn mt-3 mb-3">Enviar</button>
-        </div>
-    </form>
+            <div class="form__mensaje_error_no_email" id="form__mensaje_error_no_email">
+                <p><b>¡El Email ingresado NO EXISTE!</b></p>
+            </div>
+            <div class="form__mensaje_error" id="form__mensaje_error">
+                <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
+            </div>
+            <div class="form__mensaje_error_pass" id="form__mensaje_error_pass">
+                <p><b>¡Las contraseñas no coinciden!</b></p>
+            </div>
+            <div class="formulario_grupo form__grupo-btn-enviar">
+                <button type="submit" name="" id="" class="btn form_btn mt-3 mb-3">Enviar</button>
+            </div>
+        </form>
     </div>
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js"></script>
     <script src="./forgot_pass.js"></script>

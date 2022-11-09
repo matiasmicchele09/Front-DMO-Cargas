@@ -148,6 +148,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 if (tpo_usuario == 2) {
                     divProfTransp.classList.add("perfil_prof_transportista_none");
+                    //divProfTransp.remove("perfil_prof_transportista");
                 }
 
                 if (data[0].nom_img_lic_frente != null && data[0].nom_img_lic_frente != "") {

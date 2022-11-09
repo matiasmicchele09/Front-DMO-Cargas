@@ -113,6 +113,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let inputCantUnitaria = document.getElementById("cant_unit"),
             inputPesoUnitario = document.getElementById("peso_unit_kg"),
             inputPesoUTotal = document.getElementById("peso_total_kg"),
+            inputPesoUniTonelada = document.getElementById("peso_unit_tn"),
+            inputPesoUTotTonelada = document.getElementById("peso_total_tn"),
             date,
             today = new Date(),
             day = today.getDate(),
@@ -339,6 +341,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 inputCantUnitaria.addEventListener('keyup', () => {
                     inputPesoUTotal.value = inputCantUnitaria.value * inputPesoUnitario.value;
+                    campos.peso_total_kg = true;
+                });
+
+                inputPesoUniTonelada.addEventListener('keyup', () => {
+                    inputPesoUTotTonelada.value = inputCantUnitaria.value * inputPesoUniTonelada.value;
+                    campos.peso_total_kg = true;
+                });
+
+                inputCantUnitaria.addEventListener('keyup', () => {
+                    inputPesoUTotTonelada.value = inputCantUnitaria.value * inputPesoUniTonelada.value;
                     campos.peso_total_kg = true;
                 });
             })

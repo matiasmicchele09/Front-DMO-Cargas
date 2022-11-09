@@ -44,43 +44,38 @@
         <div class="btns_request">
             <!-- <button class="btn btn_acept_request" data-bs-toggle="modal" data-bs-target="#aceptRequestModal" id="btn_acept_request">Aceptar Solicitud</button> -->
             <button class="btn_avanzar_request" id="btn_avanzar_request">Avanzar con la Solicitud</button>
-            <!-- <button class="btn btn_decline_request" id="btn_decline_request">Rechazar Solicitud</button> -->
+            <button class="btn_decline_request" id="btn_decline_request">Rechazar Solicitud</button>
+            <button class="btn_cancelar_request" id="btn_cancelar_request">Cancelar Solicitud</button>
+            <p class="p_btn_cancelar_request" id="p_btn_cancelar_request">¿Cuándo utilizar el botón "Cancelar Solicitud"?</p>
+            <hr>
+            <form id="form-conformidad-carga">
+                <h3>Formulario de Entrega de Carga</h3>
+                <p style="margin: 0;">Este es un documento usted (Dador de Carga) debe descargar e imprimir para dárselo en mano al Transportista a la hora que pase a retirar la Carga. </br>
+                    Una vez entregada, dicho Transportista debe pedirle al Receptor de la Carga que firme el documento, para así luego subirlo a nuestra aplicación y enviárselo a Usted (Dador de Carga) como muestra de que la Carga ha sido entregada con éxito.</p>
+                <input type="text" name="asunto_retiro" id="asunto" value="Asunto: Entrega de Carga" style="width:100%; margin: 15px 0 15px 0;">
+                <textarea name="cuerpo" id="cuerpo_asunto" style="width:100%; min-height:150px;"></textarea>
+                <textarea name="observaciones" id="cuerpo_observaciones" style="width:100%; min-height:50px;">Observaciones:</textarea>
+                <textarea name="firma_receptor" id="cuerpo_firma_receptor" style="width:100%; min-height:50px;" hidden>Firma Receptor:</textarea>
 
-            <!-- <div class="modal fade" id="aceptRequestModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="aceptRequestModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="aceptRequestModalLabel">Suba Formulario de Retiro de Carga para Finalizar</h5>
-                            <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body modal_acept_request">
-                            <div>
-                                <div class="drop-area-request">
-                                    <h4>Solo se acepta formato .pdf</h4>
-                                    <button>Selecciona tu archivo</button>
-                                    <input type="file" name="" id="input-file" hidden multiple>
-                                    <div id="preview"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+                <input type="text" name="firma_dmo" id="firma" value="" style="width:100%; margin: 15px 0 15px 0;" hidden>
+                <button class="btn_generar_pdf" id="generar_pdf">Generar PDF</button>
+            </form>
         </div>
+
     </div>
 
     <footer class="footer">
         <p class="footer-usuarios">
             <a class="a-manual-usuario nav-link" href="http://localhost:5000/assets/files/manual_de_usuario.pdf" target="_blank"><i class="fa-solid fa-book icon-fontawesome-manual"></i>Manual del Usuario</a>
-            <b style="color: #FFFFFF;">Atención al Cliente de DMO Cargas (0800-444-7878) - Email: info@dmocargas.com</b>
-            <a href="quienes-somos.html" target="_blank">¿Quiénes Somos?</a>
-            <a href="terms_conds.html" target="_blank">Términos y condiciones</a>
+            <b style="color: #FFFFFF;">Atención al Cliente (0800-444-7878) - Email: info@dmocargas.com</b>
+            <a style="color: #FFFFFF;" href="quienes-somos.html" target="_blank">¿Quiénes Somos?</a>
+            <a style="color: #FFFFFF;" href="terms_conds.html" target="_blank">Términos y condiciones</a>
         </p>
     </footer>
 
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
     <script src="./view_request.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

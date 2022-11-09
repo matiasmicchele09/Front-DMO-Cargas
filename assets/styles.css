@@ -517,7 +517,7 @@
     bottom: 0;
 }
 
-@media screen and (max-width:100px) {
+@media screen and (max-width:800px) {
     .footer-usuarios {
         flex-direction: column;
         display: inline;
@@ -695,26 +695,21 @@ div .cardText {
     text-align: center;
 }
 
-.info_usuario {
-    /* display: grid;
-    place-content: center; */
-}
-
 .card_body_info_usuario {
     padding: 25px;
     width: 400px;
-    /*border-radius: 30px;*/
-    /* border: solid; */
-    margin: 20px;
+    margin: auto;
     background-color: #dbdaec;
-    /* width: 270px;
-    height: 280px; */
-    /* flex-grow: 1; */
-    /* box-shadow: 5px 5px 5px 3px #4136df; */
 }
 
 .alerta_datos_none {
     display: none;
+}
+
+@media screen and (max-width:800px) {
+    .card_body_info_usuario {
+        width: 70%;
+    }
 }
 
 
@@ -823,7 +818,8 @@ div .cardText {
     display: none;
 }
 
-.btn_editar_cuenta {
+.btn_editar_cuenta,
+.btn_generar_pdf {
     margin-top: 15px;
     background: #241F74;
     color: #FAFAFA;
@@ -981,6 +977,17 @@ div .cardText {
     font-size: 20px;
 }
 
+@media screen and (max-width:500px) {
+    .btn_edit,
+    .btn_delete,
+    .btn_edit_carro,
+    .btn_delete_carro,
+    .btn_vermas,
+    .btn_cancel {
+        display: block;
+    }
+}
+
 
 /*--------------------------------------------------------------------------------------------
 ------------------------------------- Edit Truck --------------------------------------------- 
@@ -1007,7 +1014,8 @@ div .cardText {
     border-radius: 5px;
 }
 
-.btn_modal_tipo_carga:hover {
+.btn_modal_tipo_carga:hover,
+.btn_generar_pdf:hover {
     background-color: #4136df;
     /* border: 5px solid #1100fa; */
 }
@@ -1129,6 +1137,16 @@ div .cardText {
     border-radius: 5px;
 }
 
+.btn_cancel_request {
+    background-color: #7a7a7a;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.btn_cancel_request:hover {
+    background-color: #4a4a4a;
+}
+
 .btn_retirar_carga:hover,
 .btn_entregar_carga:hover {
     background-color: #07096d;
@@ -1157,6 +1175,13 @@ div .cardText {
 .btn_actualizar_retiro:hover,
 .btn_finalizar_viaje:hover {
     background-color: #358b24;
+}
+
+@media screen and (max-width:500px) {
+    .th_ver_mas,
+    .th_solicitudes {
+        display: block;
+    }
 }
 
 
@@ -1335,13 +1360,21 @@ div .cardText {
     background-color: #1ED12D;
 }
 
-.btn_avanzar_request_none {
+.btn_avanzar_request_none,
+.btn_cancelar_request_none,
+.p_btn_cancelar_request_none {
+    display: none;
+}
+
+.conformidad-carga-none {
     display: none;
 }
 
 .btn_decline_request {
+    height: 40px;
     background-color: #dc3545;
     color: #FFFFFF;
+    border-radius: 5px;
 }
 
 .btn_decline_request:hover {
@@ -1353,9 +1386,25 @@ div .cardText {
 }
 
 .btns_request {
-    display: flex;
+    /*  display: flex; */
     margin: 10px 0 25px 0;
     padding: 10px;
+}
+
+.btn_cancelar_request {
+    height: 40px;
+    background-color: #000000;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.btn_cancelar_request:hover {
+    background-color: #535353;
+}
+
+.p_btn_cancelar_request {
+    cursor: pointer;
+    color: #0004ff;
 }
 
 

@@ -14,6 +14,7 @@
     <script>
         document.cookie = "AC-C=ac-c;expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/;SameSite=Lax;Secure";
     </script>
+    <!--  -->
     <script src="https://kit.fontawesome.com/a40ecc8ef9.js" crossorigin="anonymous"></script>
 </head>
 
@@ -30,14 +31,23 @@
     </nav>
 
     <div class="container" style="min-height: 93vh;
-    position: relative;">
+    position: relative; margin-bottom: 20px;">
         <!-- <a href="http://localhost:5000/assets/files/form_retiro_carga.docx" target="_blank">Descargar Molde de Formulario de Retiro de Carga</a> -->
-        <p>Recuerde descargar el Formulario desde la sección "Documentos", y luego guardarlo en formato .pdf antes de subirlo </p>
+        <!-- <p>Recuerde descargar el Formulario desde la sección "Documentos", y luego guardarlo en formato .pdf antes de subirlo </p> -->
+        <form id="form-retiro-carga">
+            <h3 class="mt-3">Formulario de Retiro de Carga</h3>
+            <p style="margin: 0;">Este documento avala al Transportista al momento de pasar a retirar la carga que solicitó mediante ésta Aplicación Web.</p>
+            <input type="text" name="asunto_retiro" id="asunto" value="Asunto: Retiro de Carga" style="width:100%; margin: 15px 0 15px 0;">
+            <textarea name="cuerpo" id="cuerpo_asunto" style="width:100%; min-height:150px;"></textarea>
+            <input type="text" name="firma_dmo" id="firma" value="" style="width:100%; margin: 15px 0 15px 0;" hidden>
+            <button class="btn_generar_pdf" id="generar_pdf">Generar PDF</button>
+        </form>
+        <p id="preview_form_retiro" style="text-align:justify ;">
+        </p>
         <h3 style="margin: 15px 0 15px 0 ;">Cargar formulario de Retiro de Carga</h3>
         <div class="drop-area-request">
-            <h4>Solo se acepta formato .pdf</h4>
             <button>Sube tu archivo</button>
-            <input type="file" name="" id="input-file" hidden multiple>
+            <input type="file" name="" id="input-file" multiple hidden>
             <div id="preview">
                 <p id="nom_archivo"></p>
             </div>
@@ -55,15 +65,16 @@
     <footer class="footer">
         <p class="footer-usuarios">
             <a class="a-manual-usuario nav-link" href="http://localhost:5000/assets/files/manual_de_usuario.pdf" target="_blank"><i class="fa-solid fa-book icon-fontawesome-manual"></i>Manual del Usuario</a>
-            <b style="color: #FFFFFF;">Atención al Cliente de DMO Cargas (0800-444-7878) - Email: info@dmocargas.com</b>
-            <a href="quienes-somos.html" target="_blank">¿Quiénes Somos?</a>
-            <a href="terms_conds.html" target="_blank">Términos y condiciones</a>
+            <b style="color: #FFFFFF;">Atención al Cliente (0800-444-7878) - Email: info@dmocargas.com</b>
+            <a style="color: #FFFFFF;" href="quienes-somos.html" target="_blank">¿Quiénes Somos?</a>
+            <a style="color: #FFFFFF;" href="terms_conds.html" target="_blank">Términos y condiciones</a>
         </p>
     </footer>
 
     <script src="./assets/libs/bootstrap-5.2.0/js/bootstrap.min.js "></script>
     <script src="./accept_request.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
 
 </body>
 

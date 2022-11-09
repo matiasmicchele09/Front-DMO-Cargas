@@ -61,9 +61,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         let tableData7 = document.createElement('td');
 
                         tableData1.innerHTML = `${res.patente_camion}`;
-                        tableData2.innerHTML = `${res.marca}`;
-                        tableData3.innerHTML = `${res.modelo}`;
-                        tableData4.innerHTML = `${res.anio}`;
+                        tableData2.innerHTML = `${res.marca} ${res.modelo} ${res.anio}`;
+                        /* tableData3.innerHTML = `${res.modelo}`;
+                        tableData4.innerHTML = `${res.anio}`; */
 
                         fetch(`http://localhost:3000/getOneTypeTruck/${res.cod_tipo_camion}`, {
                                 method: 'GET',
@@ -74,13 +74,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             })
                             .catch(err => { console.log(err); })
 
+                        tableData6.classList.add('btn_edit')
+                        tableData7.classList.add('btn_delete')
                         tableData6.appendChild(btnEditCamion);
                         tableData7.appendChild(btnDeleteCamion);
 
                         tableRow.appendChild(tableData1);
                         tableRow.appendChild(tableData2);
-                        tableRow.appendChild(tableData3);
-                        tableRow.appendChild(tableData4);
+                        /*  tableRow.appendChild(tableData3);
+                         tableRow.appendChild(tableData4); */
                         tableRow.appendChild(tableData5);
                         tableRow.appendChild(tableData6);
                         tableRow.appendChild(tableData7);
@@ -101,27 +103,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 allowOutsideClick: false,
 
                             }).then((result) => {
-                                fetch(`http://localhost:3000/delete_camion/${res.patente_camion}`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(res)
-                                    })
-                                    .catch(err => { console.log(err); })
-                                    /* Read more about isConfirmed, isDenied below */
+
                                 if (result.isConfirmed) {
+                                    fetch(`http://localhost:3000/delete_camion/${res.patente_camion}`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(res)
+                                        }).then(data => {
+                                            console.log(data);
+                                        })
+                                        .catch(err => { console.log(err); })
+                                        /* Read more about isConfirmed, isDenied below */
+
                                     Swal.fire({
                                         title: 'El Camión ha sido eliminado',
                                         icon: 'success',
                                         showConfirmButton: false,
                                         timer: 2000
                                     })
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 2000);
                                 }
 
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 2000);
+
 
 
                             })
@@ -178,6 +185,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         })
                         .catch(err => { console.log(err); })
 
+                    tableData5.classList.add('btn_edit_carro');
+                    tableData6.classList.add('btn_delete_carro');
                     tableData5.appendChild(btnEditCarroceria);
                     tableData6.appendChild(btnDeleteCarroceria);
 
@@ -205,26 +214,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                             })
                             .then((result) => {
-                                fetch(`http://localhost:3000/delete_carroceria/${res.patente_carroceria}`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(res)
-                                    })
-                                    /* Read more about isConfirmed, isDenied below */
+
                                 if (result.isConfirmed) {
+                                    fetch(`http://localhost:3000/delete_carroceria/${res.patente_carroceria}`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(res)
+                                        })
+                                        /* Read more about isConfirmed, isDenied below */
+
+
                                     Swal.fire({
                                         title: 'La Carrocería ha sido eliminada',
                                         icon: 'success',
                                         showConfirmButton: false,
                                         timer: 2000
                                     })
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 2000);
                                 }
 
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 2000);
+
 
 
                             })

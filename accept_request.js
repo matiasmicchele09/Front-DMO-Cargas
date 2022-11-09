@@ -1,9 +1,10 @@
-'use strict'
 document.addEventListener('DOMContentLoaded', (event) => {
+
     event.preventDefault();
+
     const getURL = new URLSearchParams(window.location.search),
         cod_usuario = getURL.get('cod_usuario'),
-        tpo_usuario = getURL.get('tpo_usuario'),
+        cod_request = getURL.get('request'),
         cod_solicitud = getURL.get('request'),
         cod_carga = getURL.get('cod_carga');
 
@@ -29,8 +30,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         })
 
         input_request.addEventListener('change', (event) => {
-            //Este no se si va, creo que es para archivos multiples. Ver despues
             event.preventDefault();
+            console.log(input_request.value);
             filesUpload = input_request.files;
             drop_area_request.classList.add("active");
             showFiles(filesUpload);
@@ -57,20 +58,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
             let p = document.getElementById('nom_archivo');
             if (validExtensions.includes(docType)) {
                 const fileReader = new FileReader();
-                const id = `form_retiro_carga_${Math.random().toString(32).substring(7)}`
+
                 fileReader.addEventListener('load', event => {
                     event.preventDefault()
                     const fileURL = fileReader.result;
                     console.log("file.name", file.name);
                     console.log(file)
-                    //console.log(file.getAttribute('name'))                   
-                    //file.name = id;
-                    //file.setAttribute("nom", `${id}`)
-                    //console.log("nom", file.nom)
+                        //console.log(file.getAttribute('name'))                   
+                        //file.name = id;
+                        //file.setAttribute("nom", `${id}`)
+                        //console.log("nom", file.nom)
                     console.log("file.name", file.name);
-                    
+
                     p.innerHTML = `${file.name}`
-                    //p.innerHTML = `${id}`
+                        //p.innerHTML = `${id}`
                         //nombre_archivo = `${file.name}`;
 
                     //console.log("nombre_archivo", nombre_archivo);
@@ -117,8 +118,99 @@ document.addEventListener('DOMContentLoaded', (event) => {
         fetch(`http://localhost:3000/getOneCargaUser/${cod_carga}`, {
                 method: 'GET',
             }).then(res => res.json())
-            .then(data => {
+            .then(async data => {
 
+                let cuerpo = document.getElementById("cuerpo_asunto"),
+                    pie = document.getElementById("firma");
+                let descri_producto = await fetch(`http://localhost:3000/getOneTipoProducto/${data[0].cod_tipo_producto}`, {
+                        method: 'GET',
+                    }).then(res => res.json())
+                    .then(data => {
+                        return data
+                    })
+
+                let dador_carga = await fetch(`http://localhost:3000/dashboard/${cod_usuario}`, {
+                        method: 'GET',
+                    }).then(res => res.json())
+                    .then(data => {
+                        return data
+                    })
+
+                let solicitud = await fetch(`http://localhost:3000/getOneSolicitud/${cod_request}`, {
+                        method: 'GET',
+                    }).then(res => res.json())
+                    .then(data => {
+                        return fetch(`http://localhost:3000/dashboard/${data[0].cod_usuario_transp}`, {
+                                method: 'GET',
+                            }).then(res => res.json())
+                            .then(data => {
+                                return data
+                            })
+                    })
+
+                cuerpo.innerHTML = `Yo dador de carga ${dador_carga[0].razon_social}, identificado con D.N.I./C.U.I.T N° ${dador_carga[0].cuit_cuil}, mediante el presente otorgo el poder al Sr/Sra. ${solicitud[0].razon_social}, identificado/a con D.N.I/C.U.I.T. N° ${solicitud[0].cuit_cuil}, para el retiro de la carga con código N°${cod_carga} - ${descri_producto[0].descripcion}, solicitada, a través de la aplicación web de DMO CARGAS, el ${data[0].fec_retiro.substring(0, 10)} hacia ${data[0].destino}, a recibir por ${data[0].receptor_carga}.
+                Un cordial saludo.`
+                var today = new Date();
+                pie.value = `Documento emitido desde www.dmocargas.com.ar el ${today.toLocaleDateString()}. Firma: DMO - Cargas `
+
+                //Generación PDF
+                const id = `${Math.random().toString(32).substring(7)}`
+                const generatePDF = (characterData) => {
+                    window.jsPDF = window.jspdf.jsPDF;
+                    const doc = new jsPDF()
+                    doc.setFontSize(20);
+                    doc.setFont("helvetica", "bold");
+                    doc.text(characterData.asunto_retiro, 60, 30);
+                    const docWidth = doc.internal.pageSize.getWidth();
+                    const docHeight = doc.internal.pageSize.getHeight();
+                    doc.line(0, 60, docWidth, 60);
+                    doc.setFont("helvetica", "italic");
+                    const splitDescription = doc.splitTextToSize(
+                        characterData.cuerpo,
+                        docWidth - 20
+                    );
+                    doc.text(splitDescription, 10, 80);
+                    doc.setFontSize(10);
+                    doc.setFont("helvetica", "bold");
+                    doc.text(characterData.firma_dmo, 10, 200);
+                    //doc.text(characterData.type.name, docWidth - 20, 45, { align: "right" });
+                    //doc.line(0, docHeight - 60, docWidth, docHeight - 60);
+                    doc.save(`Form_retiro_carga_${id}`);
+                };
+
+                const handleOnSubmitForm = (e) => {
+                    e.preventDefault();
+                    try {
+                        const characterProperties = Array.from(e.target.querySelectorAll("[name]"));
+                        const characterData = {};
+                        //errorMessageContainer.classList.add("hidden");
+                        for (let i = 0, j = characterProperties.length; i < j; i++) {
+                            const field = characterProperties[i];
+                            const attribute = field.getAttribute("name");
+                            const value = field.value;
+                            if (!field.value) {
+                                throw new Error(`El campo ${attribute} está vacio!`);
+                            }
+                            characterData[attribute] = value;
+                            if (attribute === "type") {
+                                const option = field.querySelector(`[value=${value}]`);
+                                characterData[attribute] = {
+                                    name: option.innerHTML,
+                                    image: option.dataset.imageUrl,
+                                };
+                            }
+                        }
+                        generatePDF(characterData);
+                    } catch (err) {
+                        console.log(err);
+                        // errorMessageContainer.innerHTML = err.message;
+                        //errorMessageContainer.classList.remove("hidden");
+                    }
+                };
+
+                let form_retiro = document.getElementById('form-retiro-carga');
+
+                form_retiro.addEventListener("submit", handleOnSubmitForm);
 
                 btn_mercado_pago.addEventListener("click", async(event) => {
                     event.preventDefault();
@@ -134,16 +226,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     } else {
                         let nombre_archivo = archivo.name;
                         let nom_arch = { cod_solicitud: parseInt(cod_solicitud, 10), nombre: nombre_archivo };
-                                console.log(nom_arch)
+                        console.log(nom_arch)
 
-                                fetch(`http://localhost:3000/uploadFileRequest`, {
-                                        method: 'PUT',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(nom_arch),
-                                    })
-                                    .catch(err => { console.log(err); })
+                        fetch(`http://localhost:3000/uploadFileRequest`, {
+                                method: 'PUT',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(nom_arch),
+                            })
+                            .catch(err => { console.log(err); })
 
                         document.getElementById('avanzar_pago').innerHTML = "Arhivo subido correctamente. Por favor, continue con el pago. Haga Click en 'Pagar'"
                         let fleteCarga = {

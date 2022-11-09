@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 method: 'GET',
             })
             .then(res => res.json())
-            .then(data => {
+            .then(async data => {
                 console.log(data[0]);
 
                 let div = document.querySelector(".dashboard"),
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     btn_mis_camiones = document.querySelector(".a-mis-camiones"),
                     btn_buscar_carga = document.querySelector(".a-buscar-cargas"),
                     btn_my_request = document.querySelector(".a-mis-solicitudes"),
-                    btn_documents = document.querySelector(".a-documentos-dc"),
                     btn_mis_cargas = document.querySelector(".a-mis-cargas"),
                     //  btn__manual_usuario = document.querySelector(".a-manual-usuario"),
                     div_card_info_usuario = document.getElementById('card_body_info_usuario'),
@@ -33,9 +32,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 if (tpo_usuario == 1) { btn_perfil.innerHTML = `${data[0].razon_social} <b>(Transportista)</b>`; } else { btn_perfil.innerHTML = `${data[0].razon_social} <b>(Dador Carga)</b>`; }
 
-                /*  btn__manual_usuario.href = 'http://localhost:5000/assets/files/manual_de_usuario.pdf';
-                 btn__manual_usuario.target = '_blank';
-                 btn__manual_usuario.download = 'manual_de_usuario.pdf'; */
                 h3.innerHTML = `Bienvenido <b>${data[0].razon_social}</b>`;
 
                 if (data[0].tipo_usuario == '1') {
@@ -47,22 +43,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         document.getElementById("alerta_datos").classList.add("alerta_datos_none")
                     }
 
-                    let nav_mis_cargas = document.querySelector(".nav-mis-cargas"),
-                        nav_documentos = document.querySelector(".nav-documentos");
+                    let nav_mis_cargas = document.querySelector(".nav-mis-cargas");
                     nav_mis_cargas.classList.add("nav-mis-cargas-none");
-                    nav_documentos.classList.add("nav-documentos-none");
+
                     p.innerHTML = 'Usted está registrado como <b>Transportista</b>';
-                    fetch(`http://localhost:3000/getTrucksUser/${cod_usuario}`, {
+                    let p_camion = document.createElement('p');
+                    p_camion.innerHTML = `<h5>Transporte</h5> <hr>`
+                    let camion = await fetch(`http://localhost:3000/getTrucksUser/${cod_usuario}`, {
                             method: 'GET',
                         }).then(res => res.json())
                         .then(data => {
                             console.log(data);
-                            let p_camion = document.createElement('p');
-                            p_camion.innerHTML = `<h5>Transporte</h5> <hr>
-                        <b>Cantidad de Camiones: </b> ${data.length}`;
-                            div_card_info_usuario.appendChild(p_camion)
+                            return data
                         })
                         .catch(err => { console.log(err); })
+                    console.log(camion);
+                    p_camion.innerHTML = p_camion.innerHTML + `<b>Cantidad: </b> ${camion.length} </br>`
+                    camion.forEach(res => {
+                        p_camion.innerHTML = p_camion.innerHTML + `<i>Patente: </i>${res.patente_camion}</br>
+                                                                   <i>Camión: </i>${res.marca} ${res.modelo} ${res.anio}</br>`
+
+                    })
+
+                    div_card_info_usuario.appendChild(p_camion)
 
                     fetch(`http://localhost:3000/getCarroceriasUser/${cod_usuario}`, {
                             method: 'GET',
@@ -83,7 +86,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             let p_solicitudes = document.createElement('p'),
                                 cant_aceptadas = 0,
                                 cant_rechazadas = 0,
-                                cant_solicitadas = 0;
+                                cant_solicitadas = 0,
+                                cant_finalizadas = 0;
                             data.forEach(res => {
                                 if (res.cod_estado_solicitud == '1') {
                                     cant_solicitadas = cant_solicitadas + 1;
@@ -94,13 +98,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 if (res.cod_estado_solicitud == '3') {
                                     cant_rechazadas = cant_rechazadas + 1;
                                 }
+                                if (res.cod_estado_solicitud == '4') {
+                                    cant_finalizadas = cant_finalizadas + 1;
+                                }
                             })
 
                             p_solicitudes.innerHTML = `<h5>Solicitudes</h5> <hr>
                                                    <b>Cantidad de Solicitudes: </b> ${data.length} </br>
                                                    <b>Cantidad Solicitadas: </b>${cant_solicitadas}</br>
                                                    <b>Cantidad Aceptadas: </b>${cant_aceptadas}</br>
-                                                   <b>Cantidad Rechazadas: </b>${cant_rechazadas}`;
+                                                   <b>Cantidad Rechazadas: </b>${cant_rechazadas} </br>
+                                                   <b>Cantidad Finalizadas: </b>${cant_finalizadas}`;
                             div_card_info_usuario.appendChild(p_solicitudes)
                         })
                         .catch(err => { console.log(err); })
@@ -125,7 +133,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 cant_cargas_solicitadas = 0,
                                 cant_cargas_aceptadas = 0,
                                 cant_cargas_retiradas = 0,
-                                cant_cargas_entregadas = 0;
+                                cant_cargas_entregadas = 0,
+                                cant_cargas_finalizadas = 0;;
 
                             data.forEach(res => {
                                 switch (res.cod_estado_carga) {
@@ -144,6 +153,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     case 5:
                                         cant_cargas_entregadas = cant_cargas_entregadas + 1;
                                         break;
+                                    case 6:
+                                        cant_cargas_finalizadas = cant_cargas_finalizadas + 1;
+                                        break;
                                 }
                             })
                             p_cargas.innerHTML = `<h5>Cargas</h5> <hr>
@@ -152,7 +164,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                               <b>Cantidad de Cargas Solicitadas: </b> ${cant_cargas_solicitadas} </br>
                                               <b>Cantidad de Cargas Aceptadas: </b> ${cant_cargas_aceptadas} </br>
                                               <b>Cantidad de Cargas Retiradas: </b> ${cant_cargas_retiradas} </br>
-                                              <b>Cantidad de Cargas Entregadas: </b> ${cant_cargas_entregadas} </br>`;
+                                              <b>Cantidad de Cargas Entregadas: </b> ${cant_cargas_entregadas} </br>
+                                              <b>Cantidad de Cargas Finalizadas: </b>${cant_cargas_finalizadas}`;
                             div_card_info_usuario.appendChild(p_cargas);
                         })
                         .catch(err => { console.log(err); })
@@ -185,11 +198,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 //Mis Cargas - Dador de Carga
                 btn_mis_cargas.addEventListener('click', () => {
                     window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
-                });
-
-                //Documentos - Dador de carga
-                btn_documents.addEventListener('click', () => {
-                    window.location.href = `./my_documents.html?cod_usuario=${cod_usuario}&tpo_usuario=${data[0].tipo_usuario}`;
                 });
 
                 //Cerrar Sesión

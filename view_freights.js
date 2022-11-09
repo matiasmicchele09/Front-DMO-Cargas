@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         //Validación de que Fecha de Retiro NO puede ser menor al Día de hoy
         document.getElementById("fec_retiro").addEventListener('blur', (event) => {
             event.preventDefault();
-            console.log(document.getElementById("fec_retiro").value);
+            // console.log(document.getElementById("fec_retiro").value);
             if (date > document.getElementById("fec_retiro").value) {
                 alert("¡No puede ingresar una Fecha de Retiro menor al Día de hoy!")
             }
@@ -144,12 +144,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-                console.log("carga", data);
-                console.log(data[0].fec_publicacion);
-
+                const nuevo_retiro = new Date(data[0].fec_retiro),
+                    nuevo_destino = new Date(data[0].fec_destino);
                 document.getElementById("parr_cod_carga").innerHTML = `<b>Cod. Carga: </b>${cod_carga} - <b> Fecha Publicación de la Carga: </b>${data[0].fec_publicacion.substring(0, 10)}`
-
-
                 btnSave.disabled = true;
                 btnCalculaValor.disabled = true;
 
@@ -162,7 +159,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         method: 'GET',
                     }).then(res => res.json())
                     .then(data => {
-                        console.log(data);
+                        //console.log(data);
                         document.getElementById('rs_dador_carga').innerHTML = data[0].razon_social;
                     })
                     .catch(err => { console.log(err); })
@@ -304,6 +301,42 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         let valor_reducido = data[0].valor_carga * 0.97;
                         document.getElementById('valor_carga_en_pesos').value = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor_reducido);
                     }
+
+
+
+                    //Validación para ver si el Transportista no tiene viajes que le coincidan con la fecha de salida de esta nueva carga
+                    fetch(`http://localhost:3000/getUserRequest/${cod_usuario}`, {
+                            method: 'GET',
+                        }).then(res => res.json())
+                        .then(data => {
+                            /*Recorre solicitudes, ésta cuenta si tiene estado Solicitada o Aceptada, caso contrario se le permite al Transportista solicitar. 
+                            Sino, se fija si la fecha de retiro de la carga que quiere solicitar coincide con alguna fecha de llegada de alguna de las solicitudes que tiene en estado 1 o 2.*/
+                            data.forEach(async res => {
+                                if (res.cod_estado_solicitud == 1 || res.cod_estado_solicitud == 2) {
+                                    for (let i = 0, tieneViaje = false; i < data.length && tieneViaje === false; i++) {
+                                        //console.log("i", i, "tieneViaje", tieneViaje);
+                                        await fetch(`http://localhost:3000/getOneCargaUser/${data[i].cod_carga}`, {
+                                                method: 'GET',
+                                            }).then(res => res.json())
+                                            .then(data => {
+                                                console.log(data);
+                                                let date_destino = new Date(data[0].fec_destino),
+                                                    date_origen = new Date(data[0].fec_retiro);
+                                                if ((nuevo_retiro < date_origen && nuevo_destino > date_origen) || (nuevo_retiro < date_destino && nuevo_destino > date_destino)) {
+                                                    tieneViaje = true;
+                                                    btnRequest.classList.add("btn_request_carga_oculto");
+                                                    let h5 = document.createElement('h5');
+                                                    h5.setAttribute("style", "color:#dc3545")
+                                                    h5.innerHTML = `Usted no puede solicitar esta carga debido a que ya tiene un viaje programado desde el ${date_origen.toLocaleDateString()} hasta ${date_destino.toLocaleDateString()} cargas solicitadas para esta fecha salida`
+                                                    document.querySelector(".form__grupo-btn-agregar-carga").appendChild(h5);
+                                                }
+                                            })
+                                            .catch(err => { console.log(err); })
+                                    }
+                                }
+                            })
+                        })
+                        .catch(err => { console.log(err); })
 
                     //Botón Solicitar
                     btnRequest.addEventListener('click', (event) => {
@@ -452,7 +485,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                 })
                                 .then(res => res.json())
                                 .then(data => {
-                                    console.log(data[0])
+                                    //console.log(data[0])
                                     let datos_transpor = Object.values(data[0]);
 
                                     //Si no incluye nulos saca el cartel. 
@@ -688,16 +721,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                                 })
                                 .then((result) => {
-                                    fetch(`http://localhost:3000/delete_carga/${data[0].cod_carga}`, {
-                                            method: 'DELETE',
-                                            headers: {
-                                                "Content-Type": "application/json"
-                                            },
-                                            body: JSON.stringify(data[0])
-                                        })
-                                        .catch(err => { console.log(err); })
 
                                     if (result.isConfirmed) {
+                                        fetch(`http://localhost:3000/delete_carga/${data[0].cod_carga}`, {
+                                                method: 'DELETE',
+                                                headers: {
+                                                    "Content-Type": "application/json"
+                                                },
+                                                body: JSON.stringify(data[0])
+                                            })
+                                            .catch(err => { console.log(err); })
                                         Swal.fire({
                                             title: 'La Carga ha sido eliminado',
                                             icon: 'success',
