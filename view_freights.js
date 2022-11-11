@@ -388,12 +388,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                 let select = document.getElementById('selectCamion_modal');
 
                                 for (let i in data) {
-
-                                    let option = document.createElement('option');
-                                    option.setAttribute('id', `option_camion_${i}`);
-                                    option.setAttribute('value', `${data[i].patente_camion}`)
-                                    option.innerHTML = `${data[i].patente_camion}`;
-                                    select.appendChild(option);
+                                    if (data[i].eliminado != true) {
+                                        let option = document.createElement('option');
+                                        option.setAttribute('id', `option_camion_${i}`);
+                                        option.setAttribute('value', `${data[i].patente_camion}`)
+                                        option.innerHTML = `${data[i].patente_camion}`;
+                                        select.appendChild(option);
+                                    }
                                 }
 
                                 select.addEventListener("change", (event) => {
@@ -439,12 +440,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                 let select = document.getElementById('selectCarroceria_modal');
 
                                 for (let i in data) {
-
-                                    let option = document.createElement('option');
-                                    option.setAttribute('id', `option_carroceria_${i}`);
-                                    option.setAttribute('value', `${data[i].patente_carroceria}`)
-                                    option.innerHTML = `${data[i].patente_carroceria}`;
-                                    select.appendChild(option);
+                                    if (data[i].eliminado != true) {
+                                        let option = document.createElement('option');
+                                        option.setAttribute('id', `option_carroceria_${i}`);
+                                        option.setAttribute('value', `${data[i].patente_carroceria}`)
+                                        option.innerHTML = `${data[i].patente_carroceria}`;
+                                        select.appendChild(option);
+                                    }
                                 }
 
                                 select.addEventListener("change", () => {

@@ -92,9 +92,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         formularioCamion.addEventListener('submit', (event) => {
             event.preventDefault();
+            let tipo_cam = document.getElementById('selectCamion');
 
-
-            if (campos.patente_camion && campos.marca && campos.modelo && campos.anio) {
+            if (campos.patente_camion && campos.marca && campos.modelo && campos.anio && tipo_cam.value != 0) {
 
                 let registroFormData = new FormData(formularioCamion);
 

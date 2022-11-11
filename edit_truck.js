@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         method: 'GET',
                     }).then(res => res.json())
                     .then(data => {
-                        for (i in data) {
+                        for (let i in data) {
                             let select = document.getElementById('selectCamion');
                             let option = document.createElement('option');
                             option.setAttribute('value', `${data[i].cod_tipo_camion}`)

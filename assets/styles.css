@@ -801,10 +801,6 @@ div .cardText {
     display: none;
 }
 
-.perfil_prof_transportista_none {
-    display: none;
-}
-
 .img-doc-frente,
 .img-doc-dorso,
 .img-doc-curso {
@@ -814,11 +810,21 @@ div .cardText {
     margin: 10px 0 10px 0;
 }
 
+.img-doc-frente:hover,
+.img-doc-dorso:hover,
+.img-doc-curso:hover {
+    width: 400px;
+    height: 300px;
+    border: solid;
+    margin: 10px 0 10px 0;
+}
+
 .img-docs-perfil {
     display: none;
 }
 
 .btn_editar_cuenta,
+.btn_editar_profesion,
 .btn_generar_pdf {
     margin-top: 15px;
     background: #241F74;
@@ -829,7 +835,12 @@ div .cardText {
     width: 150px;
 }
 
-.btn_editar_cuenta:hover {
+.btn_editar_profesion {
+    width: 200px;
+}
+
+.btn_editar_cuenta:hover,
+.btn_editar_profesion:hover {
     background: #FAFAFA;
     color: #241F74;
 }

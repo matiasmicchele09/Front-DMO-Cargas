@@ -81,7 +81,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         formularioCarroceria.addEventListener('submit', (event) => {
             event.preventDefault();
-            if (campos.patente_carroceria && campos.cant_ejes && campos.anio) {
+            let tipo_carr = document.getElementById('selectCarroceria');
+            if (campos.patente_carroceria && campos.cant_ejes && campos.anio && tipo_carr.value != 0) {
 
                 let registroFormData = new FormData(formularioCarroceria);
 

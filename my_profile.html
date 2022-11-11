@@ -42,6 +42,7 @@
     <div class="container my_profile">
 
         <button class="btn_editar_cuenta" id="btn_editar_cuenta" data-bs-toggle="modal" data-bs-target="#editarCuenta">Editar Cuenta</button>
+        <button class="btn_editar_profesion" id="btn_editar_profesion" data-bs-toggle="modal" data-bs-target="#editarPerfilProf">Editar Perfil Profesional</button>
         <div class="modal fade" id="editarCuenta" tabindex="-1" data-bs-backdrop="static" aria-labelledby="editarCuentaLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -50,8 +51,8 @@
                         <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body modal_cuenta_perfil">
+                        <!-- Formulario Cuenta -->
                         <form class="form_cuenta_perfil" id="form_cuenta_perfil">
-
                             <!-- Grupo: Usuario -->
                             <div class="formulario_grupo d-none" id="grupo__cod_usuario_cuenta">
                                 <label for="cod_usuario_cuenta" class="form__label">Usuario</label>
@@ -105,11 +106,83 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editarPerfilProf" tabindex="-1" data-bs-backdrop="static" aria-labelledby="editarPerfilProfLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarPerfilProfLabel" style="color: #241F74;">Editar Perfil Profesional</h5>
+                        <button type="button" class="btn-close btn-cerrar-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal_cuenta_perfil">
+                        <!-- Formulario Profesional  -->
+                        <form class="perfil_prof_transportista" id="perfil_prof_transportista">
+                            <p><b>Licencia de Conducir</b></p>
+                            <div class="formulario_grupo d-flex d-none" id="grupo__nom_img_lic_frente">
+                                <label for="nom_img_lic_frente" class="form__label">Nombre img lic - frente</label>
+                                <div class="form_grupo_input">
+                                    <input type="text" class="form__input form-control" id="nom_img_lic_frente" name="nom_img_lic_frente">
+                                </div>
+                            </div>
+                            <div class="formulario_grupo d-flex d-none" id="grupo__nom_img_lic_dorso">
+                                <label for="nom_img_lic_dorso" class="form__label">Nombre img lic - dorso</label>
+                                <div class="form_grupo_input">
+                                    <input type="text" class="form__input form-control" id="nom_img_lic_dorso" name="nom_img_lic_dorso">
+                                </div>
+                            </div>
+
+                            <div class="drop-area-img-frente mb-4" id="add-photo-containe">
+                                <p><b>Licencia - Frente</b></p>
+                                <button>Sube una imagen</button>
+                                <div id="preview_frente">
+                                    <p id="nom_archivo_frente"></p>
+                                </div>
+                            </div>
+
+                            <div class="drop-area-img-dorso" id="add-photo-containe">
+                                <p><b>Licencia - Dorso</b></p>
+                                <button>Sube una imagen</button>
+                                <div id="preview_dorso">
+                                    <p id="nom_archivo_dorso"></p>
+                                </div>
+                            </div>
+
+                            <img class="img-doc-frente" alt="licencia_frente" id="img_lic_frente">
+                            <img class="img-doc-dorso" alt="licencia_dorso" id="img_lic_dorso">
+
+                            <p><b>Curso</b></p>
+                            <div class="formulario_grupo d-flex d-none" id="grupo__nom_img_curso">
+                                <label for="nom_img_curso" class="form__label">Nombre curso</label>
+                                <div class="form_grupo_input">
+                                    <input type="text" class="form__input form-control" id="nom_img_curso" name="nom_img_curso">
+                                </div>
+                            </div>
+
+                            <div class="drop-area-img-curso" id="add-photo-containe">
+                                <p><b>Curso</b></p>
+                                <button>Sube una imagen</button>
+                                <div id="preview_curso">
+                                    <p id="nom_archivo_curso"></p>
+                                </div>
+                            </div>
+
+                            <img class="img-doc-curso" alt="curso" id="img_curso">
+
+                            <div class="formulario_grupo form__grupo-btn-enviar">
+                                <button type="" name="" id="btn_edit_profesional" class="mt-3 mb-3 btn_edit_profile">Editar</button>
+                                <button type="" name="" id="btn_cancel_profesional" class="mt-3 mb-3 btn_cancel_profile">Cancelar</button>
+                                <button type="submit" name="" id="btn_save_profesional" class="mt-3 mb-3 btn_save_profile">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <hr>
 
         <h5 style="color: #241F74; margin-top: 15px;">Datos Personales</h5>
-        <form action="" autocomplete="off" id="form_profile">
 
+        <!-- Formulario Perfil  -->
+        <form action="" autocomplete="off" id="form_profile">
             <!-- Grupo: Usuario -->
             <div class="formulario_grupo d-none" id="grupo__cod_usuario">
                 <label for="cod_usuario" class="form__label">Usuario</label>
@@ -156,10 +229,11 @@
                     <input type="text" class="form__input form-control" id="nro_telefono" name="nro_telefono">
                     <i class="form__validacion_estado fa-solid fa-circle-xmark"></i>
                 </div>
-                <p class="form__input_error">Teléfono sin guiones</p>
+                <p class="form__input_error">Dato Inválido</p>
             </div>
             <hr>
-            <div id="perfil_prof_transportista">
+            <!-- -->
+            <!-- <div id="perfil_prof_transportista">
                 <h5 style="color: #241F74;">Perfil Profesional</h5>
                 <p><b>Licencia de Conducir</b></p>
                 <div class="formulario_grupo d-flex d-none" id="grupo__nom_img_lic_frente">
@@ -211,7 +285,8 @@
                 </div>
 
                 <img class="img-doc-curso" alt="curso" id="img_curso">
-            </div>
+            </div> -->
+            <!--  -->
             <div class="form__mensaje_error" id="form__mensaje_error">
                 <p><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> Datos Incorrectos</p>
             </div>

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         tpo_usuario = getURL.get('tpo_usuario'),
         formularioPerfil = document.getElementById("form_profile"),
         formularioCuenta = document.getElementById("form_cuenta_perfil"),
+        formularioProfesional = document.getElementById("perfil_prof_transportista"),
         inputs = document.querySelectorAll('#form_profile input'), //me devuelve un arreglo de todos los inputs dentro del formulario
         inputsCuenta = document.querySelectorAll('#form_cuenta_perfil input');
     var initialized_session = 'false';
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         cuit_cuil: /^\d{11,11}$/, // Supongo así valido que solo sean 11 números
         email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
         password: /^.{4,50}$/, // 4 a 50 digitos.
-        nro_telefono: /^[0-9]/ // Solo números        
+        nro_telefono: /[0-9]/ // Solo números        
     }
 
     const campos = {
@@ -77,6 +78,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     if (initialized_session == 'true') {
 
+        if (tpo_usuario == '2') {
+            document.getElementById('btn_editar_profesion').setAttribute("style", "display:none")
+        }
+
 
         fetch(`http://localhost:3000/my_profile/${cod_usuario}`, {
                 method: 'GET',
@@ -104,12 +109,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     btn_back = document.querySelector(".parr_volver"),
                     btn_edit = document.getElementById("btn_edit_profile"),
                     btn_cancel = document.getElementById("btn_cancel_profile"),
-                    btn_edit_cuenta = document.getElementById("btn_edit_cuenta"),
                     btn_save_profile = document.getElementById("btn_save_profile"),
-                    btn_save_cuenta = document.getElementById("btn_save_cuenta");
+                    btn_cancel_cuenta = document.getElementById("btn_cancel_cuenta"),
+                    btn_edit_cuenta = document.getElementById("btn_edit_cuenta"),
+                    btn_save_cuenta = document.getElementById("btn_save_cuenta"),
+                    btn_edit_profesional = document.getElementById("btn_edit_profesional"),
+                    btn_cancel_profesional = document.getElementById("btn_cancel_profesional"),
+                    btn_save_profesional = document.getElementById("btn_save_profesional"),
+                    nombre_img_lic_frente = data[0].nom_img_lic_frente;
 
                 btn_save_profile.disabled = true;
                 btn_save_cuenta.disabled = true;
+                btn_save_profesional.disabled = true;
 
                 inputs.forEach((input) => {
                     input.disabled = true;
@@ -143,13 +154,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     button_request_curso = drop_area_img_curso.querySelector("button"),
                     input_request_curso = document.getElementById("input-curso");
 
-                let filesUpload,
-                    divProfTransp = document.getElementById("perfil_prof_transportista");
-
-                if (tpo_usuario == 2) {
-                    divProfTransp.classList.add("perfil_prof_transportista_none");
-                    //divProfTransp.remove("perfil_prof_transportista");
-                }
+                let filesUpload;
 
                 if (data[0].nom_img_lic_frente != null && data[0].nom_img_lic_frente != "") {
                     drop_area_img_frente.classList.add("drop-area-imagenes-perfil");
@@ -219,7 +224,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 };
 
                 function processFileFrente(file) {
-                    archivo_frente = file;
+                    //archivo_frente = file;
                     const docType = file.type;
                     const validExtensions = ["image/jpeg", "image/png", "image/jpg"];
 
@@ -234,8 +239,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 //html.innerHTML = html.innerHTML + p;
                         })
                         fileReader.readAsDataURL(file);
-                        //uploadFileFrente(file, id)
-                        //uploadFile(file)
+                        uploadFileFrente(file)
+                            //uploadFile(file)
 
                     } else {
                         const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
@@ -272,7 +277,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 };
 
                 function processFileDorso(file) {
-                    archivo_dorso = file;
+                    // archivo_dorso = file;
                     const docType = file.type;
                     const validExtensions = ["image/jpeg", "image/png", "image/jpg"];
 
@@ -287,8 +292,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 //html.innerHTML = html.innerHTML + p;
                         })
                         fileReader.readAsDataURL(file);
-                        //uploadFileDorso(file, id)
-                        //uploadFile(file)
+                        uploadFileDorso(file)
+                            //uploadFile(file)
 
                     } else {
                         const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
@@ -325,7 +330,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 };
 
                 function processFileCurso(file) {
-                    archivo_curso = file;
+                    //archivo_curso = file;
                     const docType = file.type;
                     const validExtensions = ["image/jpeg", "image/png", "image/jpg"];
 
@@ -340,8 +345,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 //html.innerHTML = html.innerHTML + p;
                         })
                         fileReader.readAsDataURL(file);
-                        //uploadFileDorso(file, id)
-                        // uploadFile(file)
+                        uploadFileCurso(file)
+                            // uploadFile(file)
 
                     } else {
                         const p = `<p><span class="failure">¡${file.name} tiene un formato NO válido!</span></p>`
@@ -354,6 +359,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 async function uploadFileFrente(file) {
                     const formData = new FormData();
                     formData.append("file", file);
+                    let nombre_archivo = file.name;
+                    let nom_arch = { cod_usuario: cod_usuario, nom_img_lic_frente: nombre_archivo };
+                    fetch(`http://localhost:3000/uploadLicFrente`, {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(nom_arch),
+                        })
+                        .catch(err => { console.log(err); })
                     try {
                         const response = await fetch('http://localhost:3000/uploadImages', {
                             method: "POST",
@@ -365,6 +380,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         const html = document.getElementById('preview_frente');
                         html.innerHTML = html.innerHTML + p;
 
+
+
                     } catch (error) {
                         console.log(error);
                         const html = document.getElementById('preview_frente');
@@ -375,6 +392,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 async function uploadFileDorso(file) {
                     const formData = new FormData();
                     formData.append("file", file);
+                    let nombre_archivo = file.name;
+                    let nom_arch = { cod_usuario: cod_usuario, nom_img_lic_dorso: nombre_archivo };
+                    fetch(`http://localhost:3000/uploadLicDorso`, {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(nom_arch),
+                        })
+                        .catch(err => { console.log(err); })
                     try {
                         const response = await fetch('http://localhost:3000/uploadImages', {
                             method: "POST",
@@ -396,6 +423,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 async function uploadFileCurso(file) {
                     const formData = new FormData();
                     formData.append("file", file);
+                    let nombre_archivo = file.name;
+                    let nom_arch = { cod_usuario: cod_usuario, nom_img_curso: nombre_archivo };
+                    fetch(`http://localhost:3000/uploadImgCurso`, {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(nom_arch),
+                        })
+                        .catch(err => { console.log(err); })
                     try {
                         const response = await fetch('http://localhost:3000/uploadImages', {
                                 method: "POST",
@@ -408,11 +445,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         const html = document.getElementById('preview_curso');
                         html.innerHTML = html.innerHTML + p;
 
+                        return true;
+
                     } catch (error) {
                         console.log(error);
                         const html = document.getElementById('preview_curso');
                         html.innerHTML = html.innerHTML + p;
                     }
+
                 }
 
                 /* fin drag and drop */
@@ -475,7 +515,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 timer: 1500
                             })
                             setTimeout(() => {
-                                window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}`;
+                                window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
                             }, 1500);
                         }
                     } else {
@@ -486,51 +526,68 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     }
                 })
 
-                //Botón Editar
+                //Botón Editar Perfil
                 btn_edit.addEventListener('click', (event) => {
                     event.preventDefault();
                     inputs.forEach((input) => {
                         input.disabled = false;
-                    })
+                    });
+                    btn_save_profile.disabled = false;
+                });
+
+                //Botón Editar Profesional
+                btn_edit_profesional.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    console.log("nombre_img_lic_frente", nombre_img_lic_frente);
                     drop_area_img_frente.classList.remove("drop-area-imagenes-perfil");
                     drop_area_img_dorso.classList.remove("drop-area-imagenes-perfil");
                     drop_area_img_curso.classList.remove("drop-area-imagenes-perfil");
                     imagenFrente.classList.add("img-docs-perfil");
                     imagenDorso.classList.add("img-docs-perfil");
                     imagenCurso.classList.add("img-docs-perfil");
-                    btn_save_profile.disabled = false;
+                    let p = document.getElementById('nom_archivo_curso');
+                    //p.
                     button_request_frente.disabled = false;
                     button_request_dorso.disabled = false;
                     button_request_curso.disabled = false;
+                    btn_save_profesional.disabled = false;
                 });
 
-                //Botón Cancelar
+                //Botón Cancelar Perfil
                 btn_cancel.addEventListener('click', (event) => {
                     event.preventDefault();
-
                     inputs.forEach((input) => {
                         input.disabled = true;
-                    })
+                    });
+                })
 
+                //Botón Cancelar Profesional
+                btn_cancel_profesional.addEventListener('click', (event) => {
+                    event.preventDefault();
                     drop_area_img_frente.classList.add("drop-area-imagenes-perfil");
                     drop_area_img_dorso.classList.add("drop-area-imagenes-perfil");
                     drop_area_img_curso.classList.add("drop-area-imagenes-perfil");
                     imagenFrente.classList.remove("img-docs-perfil");
                     imagenDorso.classList.remove("img-docs-perfil");
                     imagenCurso.classList.remove("img-docs-perfil");
-                    btn_save_profile.disabled = true;
+                    btn_save_profesional.disabled = true;
                 })
 
 
                 //Botón Guardar Perfil
-                formularioPerfil.addEventListener('submit', async(event) => {
+                formularioPerfil.addEventListener('submit', (event) => {
                     event.preventDefault();
+                    let fecha = document.getElementById('fec_nacim')
 
-                    if (campos.razon_social && campos.cuit_cuil && campos.email && campos.password) {
+                    if (fecha.value == null || fecha.value == "") {
+                        fecha.value = "1900-01-01";
+                    }
 
-                        await uploadFileFrente(archivo_frente);
+                    if (campos.razon_social && campos.cuit_cuil && campos.nro_telefono) {
+
+                        /* await uploadFileFrente(archivo_frente);
                         await uploadFileDorso(archivo_dorso);
-                        await uploadFileCurso(archivo_curso);
+                        await uploadFileCurso(archivo_curso); */
                         /* let p_frente = document.getElementById('nom_archivo_frente'),
                             p_dorso = document.getElementById('nom_archivo_dorso'),
                             p_curso = document.getElementById('nom_archivo_curso');
@@ -577,6 +634,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             document.getElementById('form__mensaje_error').classList.remove('form__mensaje_error_activo')
                         }, 3500);
                     }
+
+                })
+
+                //Botón Guardar Profesional
+                formularioProfesional.addEventListener('submit', async(event) => {
+                    event.preventDefault();
+                    /* await uploadFileFrente(archivo_frente);
+                    await uploadFileDorso(archivo_dorso); */
+                    //let subioCurso = await uploadFileCurso(archivo_curso);
+
+                    //console.log("subioCurso", subioCurso);
+
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: '¡Guardando Cambios!',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                    setTimeout(() => {
+                        window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+                    }, 3000);
 
                 })
 
