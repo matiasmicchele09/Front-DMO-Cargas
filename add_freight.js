@@ -157,7 +157,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         method: 'GET',
                     }).then(res => res.json())
                     .then(data => {
-                        console.log(data);
                         let option = document.createElement('option');
                         option.setAttribute('id', `cod_estado_carga_${data[0].descripcion}`);
                         option.setAttribute('value', `${data[0].cod_estado_carga}`)
@@ -425,8 +424,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     timer: 2500
                 })
 
-                setTimeout(() => {
-                    window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+                setTimeout(() => { //Al tipo usuario le pongo 2. Si siempre va a ser 2 en esta pantalla
+                    window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=2`;
                 }, 2500);
             } else {
                 document.getElementById('form__mensaje_error').classList.add('form__mensaje_error_activo');

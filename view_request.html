@@ -43,23 +43,29 @@
         <hr>
         <div class="btns_request">
             <!-- <button class="btn btn_acept_request" data-bs-toggle="modal" data-bs-target="#aceptRequestModal" id="btn_acept_request">Aceptar Solicitud</button> -->
-            <button class="btn_avanzar_request" id="btn_avanzar_request">Avanzar con la Solicitud</button>
+            <!-- <button class="btn_avanzar_request" id="btn_avanzar_request">Avanzar con la Solicitud</button>
             <button class="btn_decline_request" id="btn_decline_request">Rechazar Solicitud</button>
             <button class="btn_cancelar_request" id="btn_cancelar_request">Cancelar Solicitud</button>
             <p class="p_btn_cancelar_request" id="p_btn_cancelar_request">¿Cuándo utilizar el botón "Cancelar Solicitud"?</p>
-            <hr>
+            <hr> -->
             <form id="form-conformidad-carga">
                 <h3>Formulario de Entrega de Carga</h3>
                 <p style="margin: 0;">Este es un documento usted (Dador de Carga) debe descargar e imprimir para dárselo en mano al Transportista a la hora que pase a retirar la Carga. </br>
                     Una vez entregada, dicho Transportista debe pedirle al Receptor de la Carga que firme el documento, para así luego subirlo a nuestra aplicación y enviárselo a Usted (Dador de Carga) como muestra de que la Carga ha sido entregada con éxito.</p>
-                <input type="text" name="asunto_retiro" id="asunto" value="Asunto: Entrega de Carga" style="width:100%; margin: 15px 0 15px 0;">
-                <textarea name="cuerpo" id="cuerpo_asunto" style="width:100%; min-height:150px;"></textarea>
-                <textarea name="observaciones" id="cuerpo_observaciones" style="width:100%; min-height:50px;">Observaciones:</textarea>
+                <input type="text" name="asunto_retiro" id="asunto" value="Asunto: Entrega de Carga" style="width:100%; margin: 15px 0 15px 0;" disabled>
+                <textarea name="cuerpo" id="cuerpo_asunto" style="width:100%; min-height:150px;" disabled></textarea>
+                <textarea name="observaciones" id="cuerpo_observaciones" style="width:100%; min-height:50px;" disabled>Observaciones:</textarea>
                 <textarea name="firma_receptor" id="cuerpo_firma_receptor" style="width:100%; min-height:50px;" hidden>Firma Receptor:</textarea>
 
                 <input type="text" name="firma_dmo" id="firma" value="" style="width:100%; margin: 15px 0 15px 0;" hidden>
                 <button class="btn_generar_pdf" id="generar_pdf">Generar PDF</button>
             </form>
+            <hr>
+            <button class="btn_avanzar_request" id="btn_avanzar_request">Avanzar con la Solicitud</button>
+            <button class="btn_decline_request" id="btn_decline_request">Rechazar Solicitud</button>
+            <button class="btn_cancelar_request" id="btn_cancelar_request">Cancelar Solicitud</button>
+            <p class="p_btn_cancelar_request" id="p_btn_cancelar_request">¿Cuándo utilizar el botón "Cancelar Solicitud"?</p>
+
         </div>
 
     </div>

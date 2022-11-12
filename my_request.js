@@ -127,6 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).then(res => res.json())
                 .then(data => {
                     console.log(data);
+                    if (data.length == 0) {
+                        document.getElementById('no_cargas').innerHTML = "<b>Usted no ha realizado ninguna Solicitud</b>"
+                    }
 
                     data.forEach(res => {
 
@@ -144,6 +147,46 @@ document.addEventListener('DOMContentLoaded', () => {
                             fecha_solicitud = new Date(res.fec_solicitud);
                         btnMas.classList.add("btn_mas_carga");
                         btnMas.innerHTML = 'Ver más';
+
+                        tableData3.innerHTML = `${fecha_solicitud.toLocaleDateString()}`;
+
+                        fetch(`http://localhost:3000/getTipoEstadoSolicitud/${res.cod_estado_solicitud}`, {
+                                method: 'GET',
+                            }).then(res => res.json())
+                            .then(data => {
+                                console.log(data);
+                                switch (data[0].cod_estado_solicitud) {
+                                    case 1:
+                                        tableData4.innerHTML = `<span class="badge text-bg-secondary">${data[0].descripcion}</span>`
+                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
+                                        btnCancelarRequest.classList.add("btn_cancel_request");
+                                        btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
+                                        tableData7.appendChild(btnCancelarRequest);
+                                        break;
+                                    case 2:
+                                        tableData4.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
+                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
+                                        btnCancelarRequest.classList.add("btn_cancel_request");
+                                        btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
+                                        tableData7.appendChild(btnCancelarRequest);
+
+                                        break;
+                                    case 3:
+                                        tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                        tableData7.remove(btnEntregada);
+                                        tableData7.remove(btnCancelarRequest);
+                                        break;
+                                    case 4:
+                                        tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
+                                        tableData7.remove(btnCancelarRequest);
+                                        break;
+                                    case 5:
+                                        tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
+                                        tableData7.remove(btnCancelarRequest);
+                                        break;
+                                }
+                            })
+                            .catch(err => { console.log(err); })
 
                         //tableData1.innerHTML = `${res.cod_solicitud} - ${data[0].descripcion}`;
                         fetch(`http://localhost:3000/getOneCargaUser/${res.cod_carga}`, {
@@ -170,52 +213,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                                 btnEntregada.setAttribute("data-bs-target", "#finalizarCarga");
                                                 btnEntregada.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}`);
                                                 tableData7.appendChild(btnEntregada);
+                                                tableData7.remove(btnCancelarRequest);
                                                 break;
-                                                /* case 5:
-                                                    tableData7.remove(btnEntregada);
-                                                    break; */
+                                            case 5:
+                                                tableData7.remove(btnCancelarRequest);
+                                                break;
                                         }
                                         console.log(data);
                                     }).catch(err => { console.log(err); })
 
 
 
-                            })
-                            .catch(err => { console.log(err); })
-
-                        tableData3.innerHTML = `${fecha_solicitud.toLocaleDateString()}`;
-
-                        fetch(`http://localhost:3000/getTipoEstadoSolicitud/${res.cod_estado_solicitud}`, {
-                                method: 'GET',
-                            }).then(res => res.json())
-                            .then(data => {
-                                console.log(data);
-                                switch (data[0].cod_estado_solicitud) {
-                                    case 1:
-                                        tableData4.innerHTML = `<span class="badge text-bg-secondary">${data[0].descripcion}</span>`
-                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
-                                        btnCancelarRequest.classList.add("btn_cancel_request");
-                                        btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
-                                        tableData7.appendChild(btnCancelarRequest);
-                                        break;
-                                    case 2:
-                                        tableData4.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
-                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
-                                        btnCancelarRequest.classList.add("btn_cancel_request");
-                                        btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
-                                        tableData7.appendChild(btnCancelarRequest);
-                                        break;
-                                    case 3:
-                                        tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
-                                        tableData7.remove(btnEntregada);
-                                        break;
-                                    case 4:
-                                        tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
-                                        break;
-                                    case 5:
-                                        tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
-                                        break;
-                                }
                             })
                             .catch(err => { console.log(err); })
 
@@ -269,14 +277,23 @@ document.addEventListener('DOMContentLoaded', () => {
                                             }).then(res => res.json())
                                             .then(data => {
                                                 console.log(data)
-                                                return data.length;
+                                                return data;
                                             })
-
 
                                         //Si esta en "Solicitada" puede tener mas de una solicitud. Por lo que el estado de la carga no debe modificarse. Caso contrario, sí.
                                         //Si esta "Aceptada" puede tener 1 o mas solicitudes, pero eso es indistinto ya que lo que marca la diferencia es el estado == 2
                                         //Si el estado es == 2 (Aceptada) si hubiera mas de una solicitud las demas estarian rechazadas
-                                        if (cant_solicitudes == 1 || id_request[2] == 2) {
+                                        //¿Pero que pasa si tiene mas de una, por ej. 3, y las 3 estan en solicitadas.
+                                        if (cant_solicitudes.length == 1 || id_request[2] == 2) {
+
+                                            fetch(`http://localhost:3000/updateEstadoSolicitud`, {
+                                                    method: 'PUT',
+                                                    headers: {
+                                                        "Content-Type": "application/json"
+                                                    },
+                                                    body: JSON.stringify(estadoSolicitud),
+                                                })
+                                                .catch(err => { console.log(err); })
                                             fetch(`http://localhost:3000/updateEstadoCarga/`, {
                                                     method: 'PUT',
                                                     headers: {
@@ -286,16 +303,41 @@ document.addEventListener('DOMContentLoaded', () => {
                                                 })
                                                 .catch(err => { console.log(err); })
 
-                                        }
+                                        } else if (cant_solicitudes.length > 1) {
+                                            let solActual = await fetch(`http://localhost:3000/updateEstadoSolicitud/`, {
+                                                    method: 'PUT',
+                                                    headers: {
+                                                        "Content-Type": "application/json"
+                                                    },
+                                                    body: JSON.stringify(estadoSolicitud),
+                                                })
+                                                .then(data => {
+                                                    return true;
+                                                })
+                                                .catch(err => { console.log(err); })
 
-                                        fetch(`http://localhost:3000/updateEstadoSolicitud`, {
-                                                method: 'PUT',
-                                                headers: {
-                                                    "Content-Type": "application/json"
-                                                },
-                                                body: JSON.stringify(estadoSolicitud),
-                                            })
-                                            .catch(err => { console.log(err); })
+                                            if (solActual == true) {
+                                                let cant = 1; //Está bien que arranque en uno porque cancelo una solic. arriba, pero no trabajo sobre la coleccion de solicitudes actualizada. Sino debería hacer otro fetch aca, y no es necesario, si ya se que la canceló.
+                                                for (let i = 0; i < cant_solicitudes.length; i++) {
+                                                    if (cant_solicitudes[i].cod_estado_solicitud == 5) {
+                                                        console.log("en el contador");
+                                                        cant = cant + 1;
+                                                    }
+                                                }
+                                                if (cant == cant_solicitudes.length) {
+                                                    fetch(`http://localhost:3000/updateEstadoCarga/`, {
+                                                            method: 'PUT',
+                                                            headers: {
+                                                                "Content-Type": "application/json"
+                                                            },
+                                                            body: JSON.stringify(estadoCarga),
+                                                        })
+                                                        .catch(err => { console.log(err); })
+                                                }
+                                            }
+
+
+                                        }
 
                                         Swal.fire({
                                             title: 'La Solicitud ha sido Cancelada',

@@ -56,9 +56,9 @@
 
             <!-- Grupo: Origen -->
             <div class="formulario_grupo" id="grupo__origen" style="display: block;">
-                <label for="origen" class="form__label">Origen</label>
+                <label for="origen" class="form__label">Ciudad Origen</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="Ubicación Origen" class="form__input form-control" id="origen" name="origen">
+                    <input type="text" placeholder="Elija un Origen" class="form__input form-control" id="origen" name="origen">
                 </div>
             </div>
 
@@ -89,15 +89,6 @@
                 </div>
             </div>
             <hr>
-
-            <!-- Grupo: Comentario -->
-            <div class="formulario_grupo" id="grupo__comentario" style="grid-column: span 3;">
-                <label for="comentario" class="form__label">Comentario</label>
-                <div class="form__grupo_input">
-                    <input type="text" placeholder="Opcional" class="form__input form-control" id="comentario" name="comentario">
-                </div>
-            </div>
-
             <!-- Grupo: Estado -->
             <div class="formulario_grupo d-none" id="" style="grid-column: span 3;">
                 <label for="selectEstadoCarga" class="form__label">Estado</label>
@@ -228,13 +219,22 @@
                 <p class="form__input_error">Dato inválido</p>
             </div>
 
+            <!-- Grupo: Comentario -->
+            <div class="formulario_grupo" id="grupo__comentario" style="grid-column: span 3;">
+                <label for="comentario" class="form__label">Comentario</label>
+                <div class="form__grupo_input">
+                    <input type="text" placeholder="Opcional" class="form__input form-control" id="comentario" name="comentario">
+                </div>
+            </div>
+
+
             <hr>
 
             <!-- Grupo: Destino -->
             <div class="formulario_grupo" id="grupo__destino" style="display: block;">
-                <label for="destino" class="form__label">Destino</label>
+                <label for="destino" class="form__label">Ciudad Destino</label>
                 <div class="form__grupo_input">
-                    <input type="text" placeholder="Ubicación Destino" class="form__input form-control" id="destino" name="destino">
+                    <input type="text" placeholder="Elija un destino" class="form__input form-control" id="destino" name="destino">
                 </div>
             </div>
 
@@ -416,7 +416,7 @@
                                 if (!distancia_tiempo.includes('min')) {
 
                                     if (distancia_tiempo.includes('día') || distancia_tiempo.includes('días')) {
-                                        dias = parseInt(distancia_tiempo[0]) * 2;
+                                        dias = (parseInt(distancia_tiempo[0]) * 2) + 1;
                                     } else {
                                         dias = parseInt(distancia_tiempo[0] / 12, 10) + 1;
                                     }

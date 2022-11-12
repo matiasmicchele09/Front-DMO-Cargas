@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
+                console.log("Carga: ", data);
                 const nuevo_retiro = new Date(data[0].fec_retiro),
                     nuevo_destino = new Date(data[0].fec_destino);
                 document.getElementById("parr_cod_carga").innerHTML = `<b>Cod. Carga: </b>${cod_carga} - <b> Fecha Publicación de la Carga: </b>${data[0].fec_publicacion.substring(0, 10)}`
@@ -211,21 +212,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     })
                     .catch(err => { console.log(err); })
 
-                document.getElementById("grupo__req_refrigeracion").classList.remove("form_req_refrigeracion");
-                document.getElementById("grupo__req_refrigeracion").classList.add("form_req_refrigeracion_disponible");
-                if (document.getElementById('req_refrigeracion').value != null) {
+                if (data[0].req_refrigeracion == true) {
+                    document.getElementById("grupo__req_refrigeracion").classList.add("form_req_refrigeracion_disponible");
                     document.getElementById('req_refrigeracion').checked = data[0].req_refrigeracion;
                 }
 
-                document.getElementById("grupo__es_carga_peligrosa").classList.remove("form_es_carga_peligrosa");
-                document.getElementById("grupo__es_carga_peligrosa").classList.add("form_es_carga_peligrosa_disponible");
-                if (document.getElementById('es_carga_peligrosa').value != null) {
+                if (data[0].es_carga_peligrosa == true) {
+                    document.getElementById("grupo__es_carga_peligrosa").classList.add("form_es_carga_peligrosa_disponible");
                     document.getElementById('es_carga_peligrosa').checked = data[0].es_carga_peligrosa;
                 }
 
-                document.getElementById("grupo__es_carga_apilable").classList.remove("form_es_carga_apilable");
-                document.getElementById("grupo__es_carga_apilable").classList.add("form_es_carga_apilable_disponible");
-                if (document.getElementById('es_carga_apilable').value != null) {
+                if (data[0].es_carga_apilable == true) {
+                    document.getElementById("grupo__es_carga_apilable").classList.add("form_es_carga_apilable_disponible");
                     document.getElementById('es_carga_apilable').checked = data[0].es_carga_apilable;
                 }
 
@@ -327,7 +325,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                                     btnRequest.classList.add("btn_request_carga_oculto");
                                                     let h5 = document.createElement('h5');
                                                     h5.setAttribute("style", "color:#dc3545")
-                                                    h5.innerHTML = `Usted no puede solicitar esta carga debido a que ya tiene un viaje programado desde el ${date_origen.toLocaleDateString()} hasta ${date_destino.toLocaleDateString()} cargas solicitadas para esta fecha salida`
+                                                    h5.innerHTML = `¡Usted no puede solicitar esta carga debido a que ya tiene un viaje programado para esa fecha!`; // ${date_origen.toLocaleDateString()} hasta ${date_destino.toLocaleDateString()} cargas solicitadas para esta fecha salida
                                                     document.querySelector(".form__grupo-btn-agregar-carga").appendChild(h5);
                                                 }
                                             })
@@ -575,7 +573,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         event.preventDefault();
                         if (data[0].cod_estado_carga != 1) {
                             Swal.fire({
-                                title: '¡Esta Carga ya se encuentra Solicitada y/o Asignada y NO puede editarla. Si sólo esta Solicitada elimínela y vuelva a crearla!',
+                                title: '¡Esta Carga ya se encuentra Solicitada y/o Asignada y NO puede editarla!',
                                 icon: 'error',
                                 allowOutsideClick: false,
 
@@ -585,6 +583,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                             const inputs = document.querySelectorAll('#form_freight input');
                             inputs.forEach((input) => {
+                                /*  if (input.type == "checkbox" && input.checked == true) {
+                                     input.disabled = false;
+
+                                 } */
                                 input.disabled = false;
                             });
                             /* document.getElementById('req_refrigeracion').value = false;

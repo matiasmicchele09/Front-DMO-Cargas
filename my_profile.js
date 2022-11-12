@@ -376,9 +376,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         })
                         const responseText = await response.text();
                         console.log("responseText", responseText);
-                        const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
+                        //const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
                         const html = document.getElementById('preview_frente');
-                        html.innerHTML = html.innerHTML + p;
+                        //html.innerHTML = html.innerHTML + p;
+                        html.innerHTML = html.innerHTML
 
 
 
@@ -409,9 +410,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         })
                         const responseText = await response.text();
                         console.log("responseText", responseText);
-                        const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
+                        //const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
                         const html = document.getElementById('preview_dorso');
-                        html.innerHTML = html.innerHTML + p;
+                        //html.innerHTML = html.innerHTML + p;
+                        html.innerHTML = html.innerHTML
 
                     } catch (error) {
                         console.log(error);
@@ -441,9 +443,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             .catch(err => { console.log(err); })
                         const responseText = await response.text();
                         console.log("responseText", responseText);
-                        const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
+                        // const p = `<h5><span class="success">¡Archivo subido correctamente!</span></h5>`
                         const html = document.getElementById('preview_curso');
-                        html.innerHTML = html.innerHTML + p;
+                        //html.innerHTML = html.innerHTML + p;
+                        html.innerHTML = html.innerHTML
 
                         return true;
 

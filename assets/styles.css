@@ -695,6 +695,13 @@ div .cardText {
     text-align: center;
 }
 
+.info_usuario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
 .card_body_info_usuario {
     padding: 25px;
     width: 400px;
@@ -706,9 +713,14 @@ div .cardText {
     display: none;
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:900px) {
     .card_body_info_usuario {
         width: 70%;
+        margin-bottom: 20px;
+    }
+    .info_usuario {
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -768,7 +780,7 @@ div .cardText {
 .drop-area-img-curso {
     border: 5px dashed #D0D3D4;
     height: 200px;
-    width: 50%;
+    width: 100%;
     border-radius: 5px;
     display: flex;
     align-items: center;

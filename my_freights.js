@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }).then(res => res.json())
             .then(data => {
                 console.log(data);
+                if (data.length == 0) {
+                    document.getElementById('no_cargas').innerHTML = "<b>Usted no ha realizado ningún alta de Cargas</b>"
+                }
                 data.forEach(res => {
                     let btnMas = document.createElement('button'),
                         btnSolicitudes = document.createElement('button');

@@ -250,16 +250,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                         method: 'GET',
                                     }).then(res => res.json())
                                     .then(data => {
+                                        console.log(data);
                                         let btnVerSolicitud = document.createElement('button');
                                         btnVerSolicitud.innerHTML = "Ver Solicitud";
                                         btnVerSolicitud.classList.add("btn_ver_solicitud");
 
                                         for (let i = 0; i < data.length; i++) {
-                                            // console.log(data[i]);
-                                            if (res.cod_carga == data[i].cod_carga) {
-                                                card.removeChild(btnVerDetalle);
-                                                btnVerSolicitud.setAttribute("id", data[i].cod_solicitud)
-                                                card.appendChild(btnVerSolicitud);
+                                            if (data[i].cod_estado_solicitud != 5) {
+                                                // console.log(data[i]);
+                                                if (res.cod_carga == data[i].cod_carga) {
+                                                    card.removeChild(btnVerDetalle);
+                                                    btnVerSolicitud.setAttribute("id", data[i].cod_solicitud)
+                                                    card.appendChild(btnVerSolicitud);
+                                                }
                                             }
                                         }
 

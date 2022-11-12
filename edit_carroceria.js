@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         method: 'GET',
                     }).then(res => res.json())
                     .then(data => {
-                        for (i in data) {
+                        for (let i in data) {
                             //console.log(data[i]);
                             let select = document.getElementById('selectCarroceria');
                             let option = document.createElement('option');

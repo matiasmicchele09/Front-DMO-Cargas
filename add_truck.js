@@ -111,9 +111,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                     })
                     .catch(err => { console.log(err); })
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: '¡Camión Agregado!',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
 
                 setTimeout(() => {
-                    javascript: history.back()
+                    window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}&tpo_usuario=1`;
                 }, 2500);
 
             } else {

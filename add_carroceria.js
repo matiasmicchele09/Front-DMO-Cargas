@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
-                let i;
-                for (i in data) {
+                //let i;
+                for (let i in data) {
                     //console.log(data[i]);
                     let select = document.getElementById('selectCarroceria');
                     let option = document.createElement('option');
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 })
 
                 setTimeout(() => {
-                    window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}`;
+                    window.location.href = `./my_trucks.html?cod_usuario=${cod_usuario}&tpo_usuario=1`;
                 }, 2500);
 
             } else {
