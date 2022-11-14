@@ -30,7 +30,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     h3 = document.createElement('h3'),
                     p = document.createElement('p');
 
-                if (tpo_usuario == 1) { btn_perfil.innerHTML = `${data[0].razon_social} <b>(Transportista)</b>`; } else { btn_perfil.innerHTML = `${data[0].razon_social} <b>(Dador Carga)</b>`; }
+                if (tpo_usuario == 1) {
+                    btn_perfil.innerHTML = `${data[0].razon_social} <b>(Transportista)</b>`;
+                    document.getElementById("body_dashboard").setAttribute("style", "background-image: linear-gradient(#aba9cd, #E6E6E6, #E6E6E6)")
+                } else {
+                    btn_perfil.innerHTML = `${data[0].razon_social} <b>(Dador Carga)</b>`;
+                    document.getElementById("body_dashboard").setAttribute("style", "background-image: linear-gradient(#E6E6E6, #E6E6E6, #aba9cd)")
+                }
 
                 h3.innerHTML = `Bienvenido <b>${data[0].razon_social}</b>`;
 
@@ -310,13 +316,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             info_usu.appendChild(cardFinal);
 
                             p_cargas.innerHTML = `<h5 style="color:#4136df">Totalizador de Cargas</h5> 
-                                              Cantidad <b>Total de Cargas: </b> ${data.length} </br>
-                                              Cantidad de Cargas <b>Publicadas: </b> ${cant_cargas_publicadas} </br>
-                                              Cantidad de Cargas <b>Solicitadas: </b> ${cant_cargas_solicitadas} </br>
-                                              Cantidad de Cargas <b>Aceptadas: </b> ${cant_cargas_aceptadas} </br>
-                                              Cantidad de Cargas <b>Retiradas: </b> ${cant_cargas_retiradas} </br>
-                                              Cantidad de Cargas <b>Entregadas: </b> ${cant_cargas_entregadas} </br>
-                                              Cantidad de Cargas <b>Finalizadas: </b>${cant_cargas_finalizadas}`;
+                                              <b>Total de Cargas: </b> ${data.length} </br>
+                                              Cantidad <b>Publicadas: </b> ${cant_cargas_publicadas} </br>
+                                              Cantidad <b>Solicitadas: </b> ${cant_cargas_solicitadas} </br>
+                                              Cantidad <b>Aceptadas: </b> ${cant_cargas_aceptadas} </br>
+                                              Cantidad <b>Retiradas: </b> ${cant_cargas_retiradas} </br>
+                                              Cantidad <b>Entregadas: </b> ${cant_cargas_entregadas} </br>
+                                              Cantidad <b>Finalizadas: </b>${cant_cargas_finalizadas}`;
                             div_card_info_usuario.appendChild(p_cargas);
 
                             if (cant_cargas_publicadas == 0) {

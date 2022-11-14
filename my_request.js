@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             //  tableData5 = document.createElement('td'),
                             tableData6 = document.createElement('td'),
                             tableData7 = document.createElement('td'),
+                            tableData8 = document.createElement('td'),
                             btnEntregada = document.createElement('button'),
                             btnCancelarRequest = document.createElement('button'),
                             btnMas = document.createElement('button'),
@@ -158,31 +159,31 @@ document.addEventListener('DOMContentLoaded', () => {
                                 switch (data[0].cod_estado_solicitud) {
                                     case 1:
                                         tableData4.innerHTML = `<span class="badge text-bg-secondary">${data[0].descripcion}</span>`
-                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
+                                        btnCancelarRequest.innerHTML = 'Cancelar';
                                         btnCancelarRequest.classList.add("btn_cancel_request");
                                         btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
-                                        tableData7.appendChild(btnCancelarRequest);
+                                        tableData8.appendChild(btnCancelarRequest);
                                         break;
                                     case 2:
                                         tableData4.innerHTML = `<span class="badge text-bg-success">${data[0].descripcion}</span>`
-                                        btnCancelarRequest.innerHTML = 'Cancelar Solicitud';
+                                        btnCancelarRequest.innerHTML = 'Cancelar';
                                         btnCancelarRequest.classList.add("btn_cancel_request");
                                         btnCancelarRequest.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}-${data[0].cod_estado_solicitud}`);
-                                        tableData7.appendChild(btnCancelarRequest);
+                                        tableData8.appendChild(btnCancelarRequest);
 
                                         break;
                                     case 3:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
                                         tableData7.remove(btnEntregada);
-                                        tableData7.remove(btnCancelarRequest);
+                                        tableData8.remove(btnCancelarRequest);
                                         break;
                                     case 4:
                                         tableData4.innerHTML = `<span class="badge text-bg-dark">${data[0].descripcion}</span>`
-                                        tableData7.remove(btnCancelarRequest);
+                                        tableData8.remove(btnCancelarRequest);
                                         break;
                                     case 5:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
-                                        tableData7.remove(btnCancelarRequest);
+                                        tableData78.remove(btnCancelarRequest);
                                         break;
                                 }
                             })
@@ -197,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         method: 'GET',
                                     }).then(res => res.json())
                                     .then(data => {
-                                        tableData1.innerHTML = `${res.cod_solicitud} - ${data[0].descripcion}`;
+                                        tableData1.innerHTML = `${res.cod_solicitud} - ${data[0].descripcion} (Cod.${res.cod_carga})`;
                                         //tableData2.innerHTML = data[0].descripcion;
                                     })
                                     .catch(err => { console.log(err); })
@@ -213,10 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                                 btnEntregada.setAttribute("data-bs-target", "#finalizarCarga");
                                                 btnEntregada.setAttribute("id", `${res.cod_solicitud}-${res.cod_carga}`);
                                                 tableData7.appendChild(btnEntregada);
-                                                tableData7.remove(btnCancelarRequest);
+                                                tableData8.remove(btnCancelarRequest);
                                                 break;
                                             case 5:
-                                                tableData7.remove(btnCancelarRequest);
+                                                tableData8.remove(btnCancelarRequest);
                                                 break;
                                         }
                                         console.log(data);
@@ -229,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         tableData6.appendChild(btnMas);
                         tableData6.classList.add('btn_vermas');
-                        tableData7.classList.add('btn_cancel');
+                        tableData8.classList.add('btn_cancel');
 
 
                         tableRow.appendChild(tableData1);
@@ -239,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         // tableRow.appendChild(tableData5);
                         tableRow.appendChild(tableData6);
                         tableRow.appendChild(tableData7);
+                        tableRow.appendChild(tableData8);
                         tableBodyRequest.appendChild(tableRow);
 
                         //Botón Ver Más
@@ -688,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //Botón Mi Perfil
         btn_mi_perfil.addEventListener('click', (event) => {
             event.preventDefault();
-            window.location.href = `./my_freights.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
+            window.location.href = `./my_profile.html?cod_usuario=${cod_usuario}&tpo_usuario=${tpo_usuario}`;
         });
 
         //Botón Salir

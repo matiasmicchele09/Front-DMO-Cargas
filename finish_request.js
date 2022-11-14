@@ -2,23 +2,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault();
     const getURL = new URLSearchParams(window.location.search),
         cod_solicitud = getURL.get('request'),
-        cod_carga = getURL.get('cod_carga');
+        cod_carga = getURL.get('cod_carga'),
+        cod_op = getURL.get('payment');
 
     //var initialized_session = 'false';
     sessionStorage.setItem("initialized_session", "true");
     initialized_session = sessionStorage.getItem("initialized_session");
     console.log("initialized_session", initialized_session);
     if (initialized_session == 'true') {
-        fetch(`http://localhost:3000/getPay/${cod_solicitud}`, {
+
+        fetch(`http://localhost:3000/getPay/${cod_solicitud}/${cod_op}`, {
                 method: 'GET',
             }).then(res => res.json())
             .then(data => {
                 let mjs_confirmacion = document.getElementById('mensaje_confirmacion');
                 console.log(data[0]);
-
+                console.log("cod_op", cod_op);
                 switch (data[0].estado) {
                     case "approved":
-                        mjs_confirmacion.innerHTML = "¡Solicitud Aceptada Exitosamente! </br> El Pago ha sido APROBADO. </br>La Carga ha sido Asignada."
+                        mjs_confirmacion.innerHTML = "¡Solicitud Aceptada Exitosamente! </br> El Pago ha sido APROBADO y la Carga ha sido Asignada."
                         mjs_confirmacion.setAttribute("style", "color:#29b905;")
                         var fecha_today = new Date(),
                             today = new Date(),

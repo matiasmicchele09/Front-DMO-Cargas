@@ -10,6 +10,10 @@
 
 /* Set the size of the div element that contains the map */
 
+body {
+    /* background-color: #e8ea6b; */
+}
+
 #map {
     height: 400px;
     /* The height is 400 pixels */
@@ -173,7 +177,7 @@
    ---------------------------------------------------------------------------------- */
 
 .navbar-navigation {
-    background-color: #E6E6E6;
+    background-color: #dadce3;
 }
 
 .nav-mis-camiones-none,
@@ -692,7 +696,10 @@ div .cardText {
     place-content: center;
     padding-top: 10px;
     background-color: #A9E2F3;
+    border: solid;
+    /* background-image: linear-gradient(#9cf7fa, #b0e3fd, #ffffff); */
     text-align: center;
+    /* background-image: linear-gradient(#241F74, #241F74, #E6E6E6) */
 }
 
 .info_usuario {
@@ -1190,14 +1197,14 @@ div .cardText {
     margin: 20px 0 0 0;
     width: 100%;
     height: 40px;
-    background-color: #56e939;
+    background-color: #2fae15;
     color: #000000;
     border-radius: 5px;
 }
 
 .btn_actualizar_retiro:hover,
 .btn_finalizar_viaje:hover {
-    background-color: #358b24;
+    background-color: #64f747;
 }
 
 @media screen and (max-width:500px) {
@@ -1353,7 +1360,7 @@ div .cardText {
 }
 
 .my_request {
-    background-color: #c7c7c7;
+    background-color: #aba9cd;
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding-bottom: 10px;
@@ -1436,7 +1443,7 @@ div .cardText {
 .drop-area-request,
 .drop-area-fin-viaje {
     margin: auto;
-    border: 5px dashed #D0D3D4;
+    border: 5px dashed #000000;
     height: 200px;
     width: 50%;
     border-radius: 5px;

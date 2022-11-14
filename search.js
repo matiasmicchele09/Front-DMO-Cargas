@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                         btnVerSolicitud.classList.add("btn_ver_solicitud");
 
                                         for (let i = 0; i < data.length; i++) {
-                                            if (data[i].cod_estado_solicitud != 5) {
+                                            if (data[i].cod_estado_solicitud != 5 && data[i].cod_estado_solicitud != 3) {
                                                 // console.log(data[i]);
                                                 if (res.cod_carga == data[i].cod_carga) {
                                                     card.removeChild(btnVerDetalle);

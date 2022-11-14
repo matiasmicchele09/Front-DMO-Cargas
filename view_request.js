@@ -134,6 +134,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                 download_conformidad.href = URL.createObjectURL(data)
                                                 download_conformidad.target = '_blank';
                                                 //download_files.download = `${data[0].form_retiro}`
+                                                document.getElementById('btn_cancelar_request').classList.add("btn_cancelar_request_none")
+                                                document.getElementById('p_btn_cancelar_request').classList.add("p_btn_cancelar_request_none")
                                             })
                                             .catch(err => { console.log(err); })
                                     })
@@ -195,7 +197,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 p_es_peligrosa = document.createElement('p'),
                                 p_es_apilable = document.createElement('p');
 
-                            h5.innerHTML = '<u>Datos de la Carga</u>';
+                            h5.innerHTML = `<u>Datos de la Carga - Cod. ${data[0].cod_carga}</u>`;
                             let valor_en_pesos = 0;
 
                             p_origen_destino.innerHTML = `<b>Origen: </b>${loc_origen} - <b>Fecha: </b> ${fecha_retiro.toLocaleDateString()} - ${data[0].hora_retiro} Hs</br>
