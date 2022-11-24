@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         break;
                                     case 5:
                                         tableData4.innerHTML = `<span class="badge text-bg-danger">${data[0].descripcion}</span>`
-                                        tableData78.remove(btnCancelarRequest);
+                                        tableData8.remove(btnCancelarRequest);
                                         break;
                                 }
                             })
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             Swal.fire({
                                     title: 'Cancelar Solicitud',
-                                    text: '¿Está seguro que desea cancelar esta solicitud? !Luego no podrá volver a solicitarla!',
+                                    text: '¿Está seguro que desea cancelar esta solicitud?',
                                     icon: 'warning',
                                     showDenyButton: false,
                                     showConfirmButton: true,
